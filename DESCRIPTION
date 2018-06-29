@@ -1,0 +1,15 @@
+Package: PAutilities
+Type: Package
+Title: Utility functions for physical activity research
+Version: 0.1.0
+Authors@R: person(c("Paul", "R."), "Hibbing", email = "paulhibbing@gmail.com",
+    role = c("aut","cre"))
+Depends: R (>= 2.10)
+Description: A collection of utilities that are useful for a broad range of
+    tasks that are common in physical activity research.
+License: GPL-3 + file LICENSE
+Encoding: UTF-8
+LazyData: true
+URL: https://github.com/paulhibbing/PAutilities
+BugReports: https://github.com/paulhibbing/PAutilities/issues
+RoxygenNote: 6.0.1
