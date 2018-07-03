@@ -10,13 +10,54 @@
 #'   minutes
 #' @param termination numeric scalar: consecutive minutes of non-MVPA required
 #'   to terminate the bout
-#' @param MoreArgs required arguments to pass to \code{cut}
+#' @param MoreArgs required arguments passed to \code{cut}
 #' @param ... optional arguments passed to \code{cut} for converting METs to
 #'   intensity classification
+#' @param timestamps optional vector of POSIX-formatted timestamps. Must have
+#'   same length as \code{intensity}
+#' @param output_var the output variable(s) to give
+#'
+#' @note \code{output_var} gives one or both of \code{is_MVPA} and
+#'   \code{bout_tracker}, the former being a vector of indicators (1 or 0)
+#'   specifying whether a minute is part of a valid MVPA bout, and the latter
+#'   being a collapsed data frame giving only the valid bouts of MVPA and the
+#'   relevant information (i.e., duration of the bout, minutes of MVPA, and
+#'   percentage of time spent in MVPA within the bout). If both are selected,
+#'   they are returned in a list.
 #'
 #' @examples
 #' data(ex_data, package = "PAutilities")
-#' bout_mvpa(intensity = ex_data$METs, var_type = "METs")
+#' ex_data$DateTime <- as.POSIXct(ex_data$DateTime, "UTC")
+#'
+#' \dontrun{
+#' # Runs with a warning
+#'
+#' bout_mvpa(ex_data$METs, "METs")
+#'
+#' bout_mvpa(ex_data$METs, "METs", timestamps = ex_data$DateTime)
+#' }
+#'
+#' # Recommended usage
+#' lapply(split(ex_data, strftime(ex_data$DateTime, "%Y-%m-%d", "UTC")),
+#' function(x) {
+#' bout_mvpa(x$METs, "METs", timestamps = x$DateTime)
+#' })
+#'
+#' lapply(split(ex_data, strftime(ex_data$DateTime, "%Y-%m-%d", "UTC")),
+#' function(x) {
+#' bout_mvpa(x$METs,
+#' "METs",
+#' timestamps = x$DateTime,
+#' output_var = "is_MVPA")
+#' })
+#'
+#' lapply(split(ex_data, strftime(ex_data$DateTime, "%Y-%m-%d", "UTC")),
+#' function(x) {
+#' bout_mvpa(x$METs,
+#' "METs",
+#' timestamps = x$DateTime,
+#' output_var = "bout_tracker")
+#' })
 #'
 #' @export
 #'
@@ -25,9 +66,30 @@ bout_mvpa <-
     min_duration = 10, termination = 3, MoreArgs =
       list(breaks = c(-Inf, 1.51, 3, Inf),
            labels = c("SB", "LPA", "MVPA"),
-           right = FALSE), ...) {
+           right = FALSE), ..., timestamps = NULL,
+    output_var = c("is_MVPA", "bout_tracker")) {
 
-  # Set up ####
+  # Set up
+    if (is.null(timestamps)) {
+      warning(paste("`bout_mvpa` is designed to",
+                    "process one day of data at a time.",
+                    "\n  Providing a value for the `timestamps`",
+                    "argument will allow `bout_mvpa`\n  to test if it",
+                    "is being used as intended."))
+    } else {
+      stopifnot(any(grepl("POSIX", class(timestamps))),
+                length(timestamps) == length(intensity))
+
+      dates <- unique(strftime(timestamps, "%Y-%m-%d", "UTC"))
+      if (length(dates) > 1) {
+        warning(paste("`bout_mvpa` is designed to",
+                      "process one day of data at a time.",
+                      "\n  Use a split-apply-combine command",
+                      "to use `bout_mvpa` as intended."))
+      }
+    }
+
+    output_var <- match.arg(output_var, several.ok = TRUE)
     var_type <- match.arg(var_type, c("METs", "Intensity", "Error"))
     if (var_type == "METs") {
       # intensity <-
@@ -60,6 +122,11 @@ bout_mvpa <-
       })
     )
 
+    # Add last minute of day as a stopping index, if necessary
+    if (!length(intensity) %in% stop_indices) {
+      stop_indices <- c(stop_indices, length(intensity))
+    }
+
   # Get starting indices of all `MVPA` bouts
     start_indices <- unlist(
       sapply(unique(bout_label), function(x) {
@@ -78,6 +145,26 @@ bout_mvpa <-
         if (length(index) == 0) return(NA)
         return(index)
     })
+
+  # Quit if there is no MVPA
+    if (is.null(start_indices)) {
+      if (all(c("is_MVPA", "bout_tracker") %in% output_var)) {
+
+        return(list(is_MVPA = rep(0, length(intensity)),
+                    bout_tracker = data.frame()))
+
+      } else {
+
+        output <- switch(
+          output_var,
+          "is_MVPA" = rep(0, length(intensity)),
+          "bout_tracker" = data.frame()
+        )
+
+        return(output)
+
+      }
+    }
 
   # Assemble a data frame and use it to track bouts and determine if they meet
   # the criteria
@@ -112,14 +199,34 @@ bout_mvpa <-
     bout_tracker$bout_MVPA_proportion <-
       with(bout_tracker, MVPA_mins / (bout_terminates - mvpa_start))
 
-    # Reduce the data frame to only cases where there are at least
-    # `min_duration` minutes of MVPA in the bout
+  # Reduce the data frame to only cases where there are at least `min_duration`
+  # minutes of MVPA in the bout
     bout_tracker <-
       bout_tracker[bout_tracker$MVPA_mins >= min_duration, ]
 
-    # Now prepare a vector to return, which indicates numerically (0 for no, 1
-    # for yes) whether the minute-by-minute values are part of a valid bout of
-    # MVPA
+  # Quit if there are no valid bouts of MVPA
+    if (nrow(bout_tracker) == 0) {
+      if (all(c("is_MVPA", "bout_tracker") %in% output_var)) {
+
+        return(list(is_MVPA = rep(0, length(intensity)),
+                    bout_tracker = data.frame()))
+
+      } else {
+
+        output <- switch(
+          output_var,
+          "is_MVPA" = rep(0, length(intensity)),
+          "bout_tracker" = data.frame()
+        )
+
+        return(output)
+
+      }
+    }
+
+  # Now prepare a vector to return, which indicates numerically (0 for no, 1
+  # for yes) whether the minute-by-minute values are part of a valid bout of
+  # MVPA
     valid_indices <- unlist(apply(
       bout_tracker, 1,
       function(x)
@@ -135,6 +242,28 @@ bout_mvpa <-
         if (all(intensity[x] == "MVPA", x %in% valid_indices)) 1 else 0
     })
 
-    # View(data.frame(intensity, bout_label, is_MVPA))
-    return(is_MVPA)
+  # Return the variables specified by `output_var`
+  # View(data.frame(intensity, bout_label, is_MVPA))
+    bout_tracker$bout_duration_mins <-
+      with(bout_tracker, bout_terminates - mvpa_start)
+    bout_vars <-
+      c("bout_duration_mins", "MVPA_mins", "bout_MVPA_proportion")
+    bout_tracker <- bout_tracker[ ,bout_vars]
+
+    if (all(c("is_MVPA", "bout_tracker") %in% output_var)) {
+
+      return(list(is_MVPA = is_MVPA, bout_tracker = bout_tracker))
+
+    } else {
+
+      output <- switch(
+        output_var,
+        "is_MVPA" = is_MVPA,
+        "bout_tracker" = bout_tracker
+      )
+
+      return(output)
+
+    }
+
   }
