@@ -6,3 +6,6 @@
 #' @docType package
 #' @name PAutilities
 NULL
+
+#' @import ggplot2
+NULL

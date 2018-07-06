@@ -13,4 +13,6 @@ LazyData: true
 URL: https://github.com/paulhibbing/PAutilities
 BugReports: https://github.com/paulhibbing/PAutilities/issues
 RoxygenNote: 6.0.1
-Imports: AGread
+Imports: AGread,
+    ggplot2,
+    lazyeval
