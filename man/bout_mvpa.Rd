@@ -7,7 +7,8 @@ minimum length}
 \usage{
 bout_mvpa(intensity, var_type = c("METs", "Intensity"), min_duration = 10,
   termination = 3, MoreArgs = list(breaks = c(-Inf, 1.51, 3, Inf), labels =
-  c("SB", "LPA", "MVPA"), right = FALSE), ...)
+  c("SB", "LPA", "MVPA"), right = FALSE), ..., timestamps = NULL,
+  output_var = c("is_MVPA", "bout_tracker"))
 }
 \arguments{
 \item{intensity}{a vector of intensity classifications to be re-classified
@@ -23,17 +24,61 @@ minutes}
 \item{termination}{numeric scalar: consecutive minutes of non-MVPA required
 to terminate the bout}
 
-\item{MoreArgs}{required arguments to pass to \code{cut}}
+\item{MoreArgs}{required arguments passed to \code{cut}}
 
 \item{...}{optional arguments passed to \code{cut} for converting METs to
 intensity classification}
+
+\item{timestamps}{optional vector of POSIX-formatted timestamps. Must have
+same length as \code{intensity}}
+
+\item{output_var}{the output variable(s) to give}
 }
 \description{
 Classify moderate-to-vigorous physical activity in bouts of a specific
 minimum length
 }
+\note{
+\code{output_var} gives one or both of \code{is_MVPA} and
+  \code{bout_tracker}, the former being a vector of indicators (1 or 0)
+  specifying whether a minute is part of a valid MVPA bout, and the latter
+  being a collapsed data frame giving only the valid bouts of MVPA and the
+  relevant information (i.e., duration of the bout, minutes of MVPA, and
+  percentage of time spent in MVPA within the bout). If both are selected,
+  they are returned in a list.
+}
 \examples{
 data(ex_data, package = "PAutilities")
-bout_mvpa(intensity = ex_data$METs, var_type = "METs")
+ex_data$DateTime <- as.POSIXct(ex_data$DateTime, "UTC")
+
+\dontrun{
+# Runs with a warning
+
+bout_mvpa(ex_data$METs, "METs")
+
+bout_mvpa(ex_data$METs, "METs", timestamps = ex_data$DateTime)
+}
+
+# Recommended usage
+lapply(split(ex_data, strftime(ex_data$DateTime, "\%Y-\%m-\%d", "UTC")),
+function(x) {
+bout_mvpa(x$METs, "METs", timestamps = x$DateTime)
+})
+
+lapply(split(ex_data, strftime(ex_data$DateTime, "\%Y-\%m-\%d", "UTC")),
+function(x) {
+bout_mvpa(x$METs,
+"METs",
+timestamps = x$DateTime,
+output_var = "is_MVPA")
+})
+
+lapply(split(ex_data, strftime(ex_data$DateTime, "\%Y-\%m-\%d", "UTC")),
+function(x) {
+bout_mvpa(x$METs,
+"METs",
+timestamps = x$DateTime,
+output_var = "bout_tracker")
+})
 
 }
