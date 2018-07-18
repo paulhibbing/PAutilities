@@ -89,7 +89,7 @@ bout_mvpa <-
       }
     }
 
-    output_var <- match.arg(output_var, several.ok = TRUE)
+    output_var <- match.arg(output_var, c("is_MVPA", "bout_tracker", "Error"), several.ok = TRUE)
     var_type <- match.arg(var_type, c("METs", "Intensity", "Error"))
     if (var_type == "METs") {
       # intensity <-
@@ -122,7 +122,7 @@ bout_mvpa <-
       })
     )
 
-    # Add last minute of day as a stopping index, if necessary
+  # Add last minute of day as a stopping index, if necessary
     if (!length(intensity) %in% stop_indices) {
       stop_indices <- c(stop_indices, length(intensity))
     }
@@ -137,6 +137,9 @@ bout_mvpa <-
       })
     )
 
+  # Remove last minute of day as a starting index, if necessary
+    start_indices <- start_indices[start_indices != length(intensity)]
+
   # Match each `MVPA` bout's starting index to the next termination bout's
   # starting index
     matched_stops <- sapply(
@@ -147,7 +150,7 @@ bout_mvpa <-
     })
 
   # Quit if there is no MVPA
-    if (is.null(start_indices)) {
+    if (is.null(start_indices) | (!length(start_indices))) {
       if (all(c("is_MVPA", "bout_tracker") %in% output_var)) {
 
         return(list(is_MVPA = rep(0, length(intensity)),
