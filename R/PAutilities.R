@@ -7,5 +7,11 @@
 #' @name PAutilities
 NULL
 
-#' @import ggplot2
+#' @import ggplot2 dplyr
+NULL
+
+#' @importFrom magrittr %>%
+NULL
+
+#' @importFrom stats sd median quantile
 NULL

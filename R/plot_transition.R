@@ -17,7 +17,7 @@ plot.transition <- function(x, ...) {
     unname(sapply(as.character(x$college_prediction), function(x)
       switch(x, "0" = 3, "1" = 2)))
 
-  plot(seq(length(x$student_reference)),
+  graphics::plot(seq(length(x$student_reference)),
     x$student_reference,
     # "l",
     pch = 16,
@@ -28,14 +28,17 @@ plot.transition <- function(x, ...) {
     ylim = c(0.5,2.5)
   )
 
-  mtext("Reference", 1, 3)
+  graphics::mtext("Reference", 1, 3)
 
-  axis(3)
-  mtext("Prediction", line = 3)
+  graphics::axis(3)
+  graphics::mtext("Prediction", line = 3)
 
-  points(seq(length(x$college_prediction)), x$college_prediction)
+  graphics::points(
+    seq(length(x$college_prediction)), x$college_prediction
+  )
+
   sapply(seq(nrow(x$matchings)), function(i) {
-    lines(
+    graphics::lines(
       c(x$matchings$Reference_Index[i], x$matchings$Prediction_Index[i]),
       c(1,2),
       col = "blue"

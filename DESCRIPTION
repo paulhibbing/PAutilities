@@ -15,4 +15,10 @@ BugReports: https://github.com/paulhibbing/PAutilities/issues
 RoxygenNote: 6.0.1
 Imports: AGread,
     ggplot2 (>= 2.2),
-    lazyeval (>= 0.2)
+    lazyeval (>= 0.2),
+    matchingMarkets,
+    graphics,
+    stats,
+    dplyr (>= 0.7),
+    magrittr (>= 1.5)
+    
