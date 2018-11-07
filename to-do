@@ -1,3 +1,4 @@
 * Add examples to documentation (specifically mean_sd and descriptives)
 * Create a FAO function for getting BMR
 * Resolve issues with q1, 13, NAs, and := in R CMD Check
+* Add mean_sd_plot function from Rcomps
