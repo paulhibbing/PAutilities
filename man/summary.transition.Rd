@@ -7,16 +7,12 @@
 \title{Evaluate the effectiveness of predicted transitions for an object of class
 \code{transition}}
 \usage{
-\method{summary}{transition}(object, window_size, ...)
+\method{summary}{transition}(object, ...)
 
 get_preferences(predictions, references, window_size)
 }
 \arguments{
 \item{object}{a \code{transition} object to analyze}
-
-\item{window_size}{The maximum number of indices that are allowed to separate
-a predicted and reference transition, before the two are considered
-incompatible}
 
 \item{...}{further arguments passed to or from methods, currently unused}
 
@@ -25,6 +21,10 @@ with non-transitions (0)}
 
 \item{references}{A binary vector of actual (i.e., reference) transitions (1)
 interspersed with non-transitions (0)}
+
+\item{window_size}{The maximum number of indices that are allowed to separate
+a predicted and reference transition, before the two are considered
+incompatible}
 }
 \value{
 a data frame containing indicators that reflect, in different ways,

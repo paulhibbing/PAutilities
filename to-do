@@ -2,3 +2,4 @@
 * Create a FAO function for getting BMR
 * Resolve issues with q1, 13, NAs, and := in R CMD Check
 * Add mean_sd_plot function from Rcomps
+* Figure out how to import dplyr operators and remove dplyr from depends: in DESCRIPTION

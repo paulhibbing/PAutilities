@@ -27,5 +27,6 @@ Compute the mean and standard deviation of a vector, returning a formatted
 string containing the values as `M +/- SD`
 }
 \examples{
+mean_sd(rnorm(1:100, 50))
 
 }

@@ -21,4 +21,3 @@ Imports: AGread,
     stats,
     dplyr (>= 0.7),
     magrittr (>= 1.5)
-    

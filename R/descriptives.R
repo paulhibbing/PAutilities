@@ -7,6 +7,12 @@
 #'
 #' @export
 #' @examples
+#' data(ex_data, package = "PAutilities")
+#' ex_data$group_var <- rep(
+#'  c("One", "Two", "Three"),
+#'  each = ceiling(nrow(ex_data)/3)
+#' )[seq(nrow(ex_data))]
+#' descriptives(ex_data, "Axis1", "group_var")
 #'
 descriptives <- function(dataset, variable, group = NULL) {
   # dataset <- total_metabolic
@@ -47,6 +53,7 @@ descriptives <- function(dataset, variable, group = NULL) {
 #'
 #' @export
 #' @examples
+#' mean_sd(rnorm(1:100, 50))
 #'
 mean_sd <- function(x = NULL, MoreArgs = NULL, give_df = TRUE, ...,
   mean_x = NULL, sd_x = NULL) {
