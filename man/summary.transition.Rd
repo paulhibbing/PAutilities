@@ -16,11 +16,11 @@ get_preferences(predictions, references, window_size)
 
 \item{...}{further arguments passed to or from methods, currently unused}
 
-\item{predictions}{A binary vector of predicted transitions (1) interspersed
-with non-transitions (0)}
-
-\item{references}{A binary vector of actual (i.e., reference) transitions (1)
+\item{predictions}{A dummy-coded vector of predicted transitions (1)
 interspersed with non-transitions (0)}
+
+\item{references}{A dummy-coded vector of actual (i.e., reference)
+transitions (1) interspersed with non-transitions (0)}
 
 \item{window_size}{The maximum number of indices that are allowed to separate
 a predicted and reference transition, before the two are considered
@@ -36,20 +36,17 @@ A list of matrices giving distance-based preferences for both the
   \code{\link[matchingMarkets]{hri}}
 }
 \description{
-Evaluate the effectiveness of predicted transitions for an object of class
-\code{transition}
-
 When predicting activity transitions, the behavior of the predictor is not
 known a priori. It may predict too many or too few transitions, and its
 "intent" is also unknown. Therefore, some method is necessary in order to
 determine which predictions (if any) should be taken to correspond to a
 reference transition. There should also be a record of false positives and
-false negatives. The problem is treated as an instance of the
-Residents/Hospitals problem, wherein both parties give their preferences for
-who they would like to be matched with, and a stable arrangement is sought.
-This function supports the overall goal by assigning the preferences based on
-the temporal proximity of predicted and actual transitions. Preferences
-beyond a specified \code{window_size} are not allowed.
+false negatives. The problem is treated as an instance of the college
+admissions problem, wherein both parties give their preferences for who they
+would like to be matched with, and a stable arrangement is sought. This
+function supports the overall goal by assigning the preferences based on the
+temporal proximity of predicted and actual transitions. Preferences beyond a
+specified \code{window_size} are not allowed.
 }
 \examples{
 predictions <- sample(c(0,1), 100, TRUE, c(3, 1))

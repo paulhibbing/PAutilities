@@ -1,10 +1,10 @@
 #' Convert a set of predicted and actual activity transitions to an object that
 #' can be analyzed
 #'
-#' @param predictions A binary vector of predicted transitions (1) interspersed
-#'   with non-transitions (0)
-#' @param references A binary vector of actual (i.e., reference) transitions (1)
+#' @param predictions A dummy-coded vector of predicted transitions (1)
 #'   interspersed with non-transitions (0)
+#' @param references A dummy-coded vector of actual (i.e., reference)
+#'   transitions (1) interspersed with non-transitions (0)
 #' @param window_size The maximum number of indices that are allowed to separate
 #'   a predicted and reference transition, before the two are considered
 #'   incompatible

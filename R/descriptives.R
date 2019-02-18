@@ -28,14 +28,14 @@ descriptives <- function(dataset, variable, group = NULL) {
     dataset %>%
       dplyr::summarise(
       min := min(!! as.name(variable), na.rm = TRUE),
-      q1 := quantile(!! as.name(variable), probs = .25, na.rm = TRUE),
+      !!as.name("q1") := quantile(!! as.name(variable), probs = .25, na.rm = TRUE),
       median := median(!! as.name(variable), na.rm = TRUE),
       mean := mean(!! as.name(variable), na.rm = TRUE),
-      q3 := quantile(!! as.name(variable), probs = .75, na.rm = TRUE),
+      !!as.name("q3") := quantile(!! as.name(variable), probs = .75, na.rm = TRUE),
       max := max(!! as.name(variable), na.rm = TRUE),
       sd := sd(!! as.name(variable), na.rm = TRUE),
       n = n(),
-      NAs := sum(is.na(!! as.name(variable)))
+      !!as.name("NAs") := sum(is.na(!! as.name(variable)))
     )
   )
 }

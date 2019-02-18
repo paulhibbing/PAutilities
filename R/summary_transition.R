@@ -41,25 +41,25 @@ summary.transition <- function(object, ...) {
     window_size = object$window_size,
 
     reference_positives = reference_positives,
-    reference_negatives = reference_negatives,
+    # reference_negatives = reference_negatives,
     predicted_positives = predicted_positives,
-    predicted_negatives = predicted_negatives,
+    # predicted_negatives = predicted_negatives,
 
     true_positives = true_positives,
-    false_positives = false_positives,
-    true_negatives = true_negatives,
+    # false_positives = false_positives,
+    # true_negatives = true_negatives,
     false_negatives = false_negatives,
 
     true_positive_rate = true_positives / reference_positives,
-    false_positive_rate = false_positives / reference_negatives,
-    true_negative_rate = true_negatives / reference_negatives,
+    # false_positive_rate = false_positives / reference_negatives,
+    # true_negative_rate = true_negatives / reference_negatives,
     false_negative_rate = false_negatives / reference_positives,
     positive_predictive_value = true_positives / predicted_positives,
-    negative_predictive_value = true_negatives / predicted_negatives,
-    accuracy_percent = (
-      sum(true_positives, true_negatives) /
-        sum(true_positives, false_positives, true_negatives, false_negatives)
-    ) * 100,
+    # negative_predictive_value = true_negatives / predicted_negatives,
+    # accuracy_percent = (
+    #   sum(true_positives, true_negatives) /
+    #     sum(true_positives, false_positives, true_negatives, false_negatives)
+    # ) * 100,
 
     mean_lag_indices = lags$mean,
     sd_lag_indices = lags$sd,

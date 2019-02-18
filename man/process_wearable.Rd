@@ -6,9 +6,10 @@
 \alias{process_wearable}
 \title{Process data from ActiGraph monitors}
 \usage{
-\method{process_wearable}{ActiGraph}(file = NULL, RAW = NULL, IMU = NULL,
-  TwoRegression = NULL, CutPoint = NULL, Sojourn = NULL,
-  Count_Args = NULL, RAW_Args = NULL, IMU_Args = NULL, ...)
+\method{process_wearable}{ActiGraph}(file = NULL, RAW = NULL,
+  IMU = NULL, TwoRegression = NULL, CutPoint = NULL,
+  Sojourn = NULL, Count_Args = NULL, RAW_Args = NULL,
+  IMU_Args = NULL, ...)
 
 process_wearable(file = NULL, RAW = NULL, IMU = NULL,
   TwoRegression = NULL, CutPoint = NULL, Sojourn = NULL, ...,

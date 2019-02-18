@@ -8,11 +8,11 @@ can be analyzed}
 get_transition_info(predictions, references, window_size = 1, ...)
 }
 \arguments{
-\item{predictions}{A binary vector of predicted transitions (1) interspersed
-with non-transitions (0)}
-
-\item{references}{A binary vector of actual (i.e., reference) transitions (1)
+\item{predictions}{A dummy-coded vector of predicted transitions (1)
 interspersed with non-transitions (0)}
+
+\item{references}{A dummy-coded vector of actual (i.e., reference)
+transitions (1) interspersed with non-transitions (0)}
 
 \item{window_size}{The maximum number of indices that are allowed to separate
 a predicted and reference transition, before the two are considered

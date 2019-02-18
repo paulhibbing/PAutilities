@@ -12,12 +12,15 @@ Encoding: UTF-8
 LazyData: true
 URL: https://github.com/paulhibbing/PAutilities
 BugReports: https://github.com/paulhibbing/PAutilities/issues
-RoxygenNote: 6.0.1
-Imports: AGread,
-    ggplot2 (>= 2.2),
-    lazyeval (>= 0.2),
-    matchingMarkets,
-    graphics,
-    stats,
+RoxygenNote: 6.1.1
+Imports:
+    AGread,
     dplyr (>= 0.7),
-    magrittr (>= 1.5)
+    ggplot2 (>= 2.2),
+    graphics,
+    lazyeval (>= 0.2),
+    magrittr (>= 1.5),
+    matchingMarkets,
+    rlang,
+    stats
+    
