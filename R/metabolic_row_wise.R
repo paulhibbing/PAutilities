@@ -54,9 +54,10 @@ assemble_wt_ht <- function(calculation, weights) {
     kcal_table = calculation$kcal_table,
     kcal_conversion = calculation$kcal_conversion,
     basal_value = basal_value,
-    basal_units = "MJ",
+    basal_units = "MJ/day",
     basal_VO2_mlkgmin = basal_VO2_mlkgmin,
-    row.names = NULL
+    row.names = NULL,
+    stringsAsFactors = FALSE
   )
 
 }
@@ -82,9 +83,10 @@ assemble_wt <- function(calculation, weights) {
       kcal_table = calculation$kcal_table,
       kcal_conversion = calculation$kcal_conversion,
       basal_value = basal_value,
-      basal_units = "MJ",
+      basal_units = "MJ/day",
       basal_VO2_mlkgmin = basal_VO2_mlkgmin,
-      row.names = NULL
+      row.names = NULL,
+      stringsAsFactors = FALSE
     )
 
 }
@@ -104,15 +106,16 @@ assemble_fao <- function(calculation, weights) {
 
   data.frame(
     method = calculation$method,
-    equation = "FAO_Weight_Only",
+    equation = "FAO",
     MJ_conversion_char = calculation$MJ_conversion_char,
     MJ_conversion = calculation$MJ_conversion,
     kcal_table = calculation$kcal_table,
     kcal_conversion = calculation$kcal_conversion,
     basal_value = basal_value,
-    basal_units = "kcal",
+    basal_units = "kcal/day",
     basal_VO2_mlkgmin = basal_VO2_mlkgmin,
-    row.names = NULL
+    row.names = NULL,
+    stringsAsFactors = FALSE
   )
 
 }
