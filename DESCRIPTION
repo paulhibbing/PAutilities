@@ -20,7 +20,7 @@ Imports:
     graphics,
     lazyeval (>= 0.2),
     magrittr (>= 1.5),
-    matchingMarkets,
+    matchingMarkets (<= 0.3-6),
     rlang,
     stats
     
