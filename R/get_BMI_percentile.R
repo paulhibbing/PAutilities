@@ -15,6 +15,11 @@
 #'   occur. Thus, use of the \code{\link{get_age}} function is recommended. If
 #'   \code{age_mos} *is* provided, \code{age_yrs} can be passed as \code{NULL}.
 #'
+#' @references
+#' https://www.cdc.gov/obesity/childhood/defining.html
+#'
+#' https://www.cdc.gov/healthyweight/downloads/BMI_group_calculator_English.xls
+#'
 #' @examples
 #' get_BMI_percentile(39.4, 144.5, 12.35, sex = "M")
 get_BMI_percentile <- function(

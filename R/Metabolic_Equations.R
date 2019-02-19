@@ -1,41 +1,116 @@
-#' Retrieve Schofield basal metabolic rate for an individual
+#' Retrieve estimated basal metabolic rate for an individual
 #'
-#' @param Sex The participant's sex, either \code{M} or \code{F}
-#' @param Ht The participant's height, in meters
-#' @param Wt The participant's weight, in kilograms
-#' @param Age The participant's age, in years
+#' @param Sex The individual's sex
+#' @param Ht The individual's height, in meters
+#' @param Wt The individual's weight, in kilograms
+#' @param Age The individual's age, in years
 #' @param verbose Logical. Should processing updates be printed?
+#' @param RER numeric. The respiratory exchange ratio
 #' @param equation The equation to apply
-#' @param MJ_conversion The value to use for kcals per megajoule
-#' @param kcal_conversion The value to use for kcals per L of oxygen consumption
+#' @param kcal_table The table to reference for converting kilocalories to
+#'   oxygen consumption. See \code{\link{get_kcal_vo2_conversion}}
+#' @param method The calculation method to use
+#' @param MJ_conversion The value to use for converting megajoules to
+#'   kilocalories. Defaults to thermochemical.
+#' @param kcal_conversion numeric. If RER is NULL (default), the factor to use
+#'   for converting kilocalories to oxygen consumption
+#'
+#' @references
+#' Schofield, W. N. (1985). Predicting basal metabolic rate, new standards and
+#' review of previous work. \emph{Human nutrition. Clinical nutrition}, 39,
+#' 5-41.
 #'
 #' @export
+#' @examples
+#' get_bmr(
+#'   Sex = "F", Ht = 1.58, Wt = 55.8, Age = 22, equation = "both",
+#'   method = "both", RER = 0.865, kcal_table = "both",
+#'   MJ_conversion = c("thermochemical", "dry", "convenience")
+#' )
 #'
-get_schofield <-
-  function(Sex, Ht = NULL, Wt, Age,
-           verbose = TRUE, equation = c("both", "ht_wt", "wt"),
-           MJ_conversion = 239.006, kcal_conversion = 4.86){
+#' get_bmr(
+#'   Sex = "F", Ht = 1.58, Wt = 55.8, Age = 22, verbose = TRUE,
+#'   equation = "both", method = "both", kcal_table = "both",
+#'   MJ_conversion = c("thermochemical", "dry", "convenience"),
+#'   kcal_conversion = 4.86
+#' )
+#'
+#' get_bmr(
+#'   Sex = "F", Ht = 1.58, Wt = 55.8, Age = 22, verbose = TRUE,
+#'   method = "FAO", kcal_conversion = 4.86
+#' )
+#'
+get_bmr <- function(
+  Sex = c("M", "F"), Ht = NULL, Wt, Age,
+  verbose = FALSE, RER = NULL,
+  equation = c("ht_wt", "wt", "both"),
+  kcal_table = c("Lusk", "Peronnet", "both"),
+  method = c("Schofield", "FAO", "both"),
+  MJ_conversion = c("thermochemical", "dry", "convenience", "all"),
+  kcal_conversion = 4.86
+){
 
-  # Sex <- "M"
-  # Ht <- 173
-  # Wt <- 55
-  # Age <- 29
-  # verbose <- TRUE
-  # equation <- "both"
+  if (verbose) cat(
+    "\nCalculating Schofield predicted",
+    "basal metabolic rate"
+  )
 
-  ## Get set up
-    if (verbose) cat('\nCalculating Schofield predicted",
-          "basal metabolic rate.\n')
+  ## Set up arguments
+  Sex <- match.arg(Sex, c("M", "F", "ERROR"))
 
-    if (!is.null(Ht)) {
-      if (Ht > 3){
-        message("Detected height in cm. Converting to M.")
-        Ht <- Ht / 100
-      }
+  if (!is.null(Ht)) {
+    if (Ht > 3){
+      message("Detected height in cm. Converting to M.")
+      Ht <- Ht / 100
     }
+  }
 
-    equation <- match.arg(equation)
-    if (equation == "both") equation <- c("wt", "ht_wt")
+  equation <- match.arg(
+    equation, c("both", "ht_wt", "wt", "ERROR"), TRUE
+  )
+  if ("both" %in% equation) equation <- c("wt", "ht_wt")
+
+  method <- match.arg(
+    method, c("Schofield", "FAO", "both", "ERROR"), TRUE
+  )
+  if ("both" %in% method) method <- c("Schofield", "FAO")
+
+  if (!is.null(RER)) {
+    kcal_table <- match.arg(
+      kcal_table, c("Lusk", "Peronnet", "both", "ERROR"), TRUE
+    )
+    if ("both" %in% kcal_table) kcal_table <- c("Lusk", "Peronnet")
+    kcal_conversion <- get_kcal_vo2_conversion(RER, kcal_table)
+  } else {
+    kcal_table <- "NA"
+  }
+
+  MJ_conversion <- match.arg(
+    MJ_conversion,
+    c("thermochemical", "dry", "convenience", "all", "ERROR"),
+    TRUE
+  )
+
+  if (identical(
+    c("thermochemical", "dry", "convenience", "all"),
+    MJ_conversion
+  )) MJ_conversion <- "thermochemical"
+
+  if ("all" %in% MJ_conversion) MJ_conversion <- c(
+    "thermochemical", "dry", "convenience"
+  )
+
+  MJ_conversion <- sapply(
+    MJ_conversion,
+    function(x) {
+      switch(
+        x,
+        "thermochemical" = 239.006,
+        "dry" = 238.846,
+        "convenience" = 239
+      )
+    }
+  )
 
   ## Match participant to proper equation
 
@@ -45,70 +120,65 @@ get_schofield <-
       right = FALSE
     ))
     agegroup <-
-      gsub(',', 'to', gsub("[\\[)]", "", agegroup))
+      gsub(",", "to", gsub("[\\[)]", "", agegroup))
 
     Sex <- c("male", "female")[pmatch(tolower(Sex), c("male", "female"))]
 
-    weights <- lapply(schofield_weights, function(x) {
-      x[grepl(paste('', Sex, agegroup, sep = '_'), rownames(x)), ]
-    })
+    weights_schofield <- lapply(
+      schofield_weights,
+      function(x) {
+        x[grepl(paste("", Sex, agegroup, sep = "_"), rownames(x)), ]
+      }
+    )
 
-  ## Perform calculations
+    weights_fao <- fao[rownames(weights_schofield[[1]]), ]
 
-    ht_wt <- data.frame()
-    wt_only <- data.frame()
+    all_weights <- c(
+      weights_schofield,
+      list(FAO = weights_fao)
+    )
 
-    # ht_wt equation
-    if ("ht_wt" %in% equation) {
+  ## Determine and dispatch calculations
 
-      schofield_basal_mj <-
-        (weights$weight_height$weight * Wt) +
-        (weights$weight_height$height * Ht) +
-        (weights$weight_height$intercept)
+    calculations <- stats::setNames(
+      expand.grid(
+        equation, kcal_table, method,
+        MJ_conversion, stringsAsFactors = FALSE
+      ),
+      c("equation", "kcal_table", "method", "MJ_conversion")
+    )
+    calculations$Wt <- Wt
+    calculations$Ht <- Ht
+    calculations$MJ_conversion_char <- names(MJ_conversion)[match(
+      calculations$MJ_conversion,
+      MJ_conversion
+    )]
 
-      schofield_basal_VO2_mlkgmin <-
-        schofield_basal_mj * MJ_conversion / 24 / 60 /
-        kcal_conversion / Wt * 1000
+    if (!is.null(RER)) {
+      calculations$kcal_conversion <- kcal_conversion[
+        match(calculations$kcal_table, names(kcal_conversion))
+      ]
+    } else {
+      calculations$kcal_conversion <- kcal_conversion
+    }
 
-      ht_wt <- data.frame(
-        equation = "Weight_and_Height",
-        MJ_conversion = MJ_conversion,
-        kcal_conversion = kcal_conversion,
-        schofield_basal_mj = schofield_basal_mj,
-        schofield_basal_VO2_mlkgmin = schofield_basal_VO2_mlkgmin
+    values <- do.call(
+      rbind,
+      lapply(
+        split(calculations, seq(nrow(calculations))),
+        metabolic_row_wise,
+        weights = all_weights
       )
+    )
+    values <- values[!duplicated(values), ]
 
-    } # End ht_wt equation
+    if (verbose) cat(
+      "... Done.\n"
+    )
 
-    ###
+    return(values)
 
-    # wt equation
-    if ("wt" %in% equation) {
-
-      schofield_basal_mj <-
-        (weights$weight_only$weight * Wt) +
-        (weights$weight_only$intercept)
-
-      schofield_basal_VO2_mlkgmin <-
-        schofield_basal_mj * MJ_conversion / 24 / 60 /
-        kcal_conversion / Wt * 1000
-
-      wt_only <- data.frame(
-        equation = "Weight_Only",
-        MJ_conversion = MJ_conversion,
-        kcal_conversion = kcal_conversion,
-        schofield_basal_mj = schofield_basal_mj,
-        schofield_basal_VO2_mlkgmin = schofield_basal_VO2_mlkgmin
-      )
-    } # End wt equation
-
-  return(
-    rbind(ht_wt, wt_only)
-  )
 }
-
-
-
 
 #' Calculate energy expenditure using the Weir equation
 #'
@@ -117,6 +187,9 @@ get_schofield <-
 #' @param epochSecs The averaging window of the metabolic data, in seconds
 #'
 #' @export
+#'
+#' @examples
+#' weir_equation(3.5, 3.1, 60)
 #'
 weir_equation <- function(VO2, VCO2, epochSecs){
   kcal <- 1.44*(3.94*VO2 + 1.11*VCO2)

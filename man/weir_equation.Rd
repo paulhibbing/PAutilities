@@ -16,3 +16,7 @@ weir_equation(VO2, VCO2, epochSecs)
 \description{
 Calculate energy expenditure using the Weir equation
 }
+\examples{
+weir_equation(3.5, 3.1, 60)
+
+}
