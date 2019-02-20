@@ -23,4 +23,4 @@ Imports:
     matchingMarkets (>= 1.0.1),
     rlang (>= 0.3.1),
     stats
-    
+Suggests: testthat
