@@ -5,7 +5,7 @@
 \title{Calculate youth BMI percentile from CDC 2000 standards}
 \usage{
 get_BMI_percentile(weight_kg, height_cm, age_yrs, age_mos = NULL,
-  sex = c("M", "F"))
+  sex = c("M", "F"), output = c("percentile", "classification", "both"))
 }
 \arguments{
 \item{weight_kg}{Weight in kilograms}
@@ -17,6 +17,9 @@ get_BMI_percentile(weight_kg, height_cm, age_yrs, age_mos = NULL,
 \item{age_mos}{age in months (optional)}
 
 \item{sex}{Character scalar indicating participant's sex}
+
+\item{output}{What should be returned: raw percentile, weight status
+classification, or both?}
 }
 \value{
 A numeric scalar giving the BMI percentile
@@ -25,11 +28,12 @@ A numeric scalar giving the BMI percentile
 Calculate youth BMI percentile from CDC 2000 standards
 }
 \details{
-If \code{age_mos} is *not* provided, it will be calculated based on
-  \code{age_yrs}, assuming 365.2425 days per year and 30.4375 days per month.
-  Depending on how the initial age calculation was made, rounding error will
-  occur. Thus, use of the \code{\link{get_age}} function is recommended. If
-  \code{age_mos} *is* provided, \code{age_yrs} can be passed as \code{NULL}.
+If \code{age_mos} is \emph{not} provided, it will be calculated
+  based on \code{age_yrs}, assuming 365.2425 days per year and 30.4375 days
+  per month. Depending on how the initial age calculation was made, rounding
+  error will occur. Thus, use of the \code{\link{get_age}} function is
+  recommended. If \code{age_mos} \emph{is} provided, \code{age_yrs} can be
+  passed as \code{NULL}.
 }
 \examples{
 get_BMI_percentile(39.4, 144.5, 12.35, sex = "M")

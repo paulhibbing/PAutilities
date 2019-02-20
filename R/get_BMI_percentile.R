@@ -5,15 +5,18 @@
 #' @param age_yrs age in years
 #' @param age_mos age in months (optional)
 #' @param sex Character scalar indicating participant's sex
+#' @param output What should be returned: raw percentile, weight status
+#'   classification, or both?
 #'
 #' @return A numeric scalar giving the BMI percentile
 #' @export
 #'
-#' @details If \code{age_mos} is *not* provided, it will be calculated based on
-#'   \code{age_yrs}, assuming 365.2425 days per year and 30.4375 days per month.
-#'   Depending on how the initial age calculation was made, rounding error will
-#'   occur. Thus, use of the \code{\link{get_age}} function is recommended. If
-#'   \code{age_mos} *is* provided, \code{age_yrs} can be passed as \code{NULL}.
+#' @details If \code{age_mos} is \emph{not} provided, it will be calculated
+#'   based on \code{age_yrs}, assuming 365.2425 days per year and 30.4375 days
+#'   per month. Depending on how the initial age calculation was made, rounding
+#'   error will occur. Thus, use of the \code{\link{get_age}} function is
+#'   recommended. If \code{age_mos} \emph{is} provided, \code{age_yrs} can be
+#'   passed as \code{NULL}.
 #'
 #' @references
 #' https://www.cdc.gov/obesity/childhood/defining.html
@@ -24,7 +27,8 @@
 #' get_BMI_percentile(39.4, 144.5, 12.35, sex = "M")
 get_BMI_percentile <- function(
   weight_kg, height_cm, age_yrs,
-  age_mos = NULL, sex = c("M", "F")
+  age_mos = NULL, sex = c("M", "F"),
+  output = c("percentile", "classification", "both")
 ) {
 
   sex <- match.arg(sex, c("M", "F", "Error"), several.ok = FALSE)
@@ -62,6 +66,24 @@ get_BMI_percentile <- function(
 
   Z_score <- (((BMI/M)^L)-1)/(L*S)
 
-  floor(stats::pnorm(Z_score) * 1000) / 10
+  percentile <- floor(stats::pnorm(Z_score) * 1000) / 10
+  classification <- cut(
+    percentile,
+    c(-Inf, 5, 85, 95, Inf),
+    c("Underweight", "Normal Weight", "Overweight", "Obese"),
+    right = FALSE
+  )
+
+  output <- match.arg(output)
+
+  switch(
+    output,
+    "percentile" = percentile,
+    "classification" = classification,
+    "both" = stats::setNames(
+      list(percentile, classification),
+      c("percentile", "classification")
+    )
+  )
 
 }

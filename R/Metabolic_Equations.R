@@ -22,20 +22,25 @@
 #'
 #' @export
 #' @examples
+#'
+#' # Get BMR for an imaginary 900-year-old person (Age is only
+#' # used to determine which equations to use, in this case the
+#' # equations for someone older than 60)
+#'
 #' get_bmr(
-#'   Sex = "M", Ht = 1.5, Wt = 80, Age = 65, equation = "both",
+#'   Sex = "M", Ht = 1.5, Wt = 80, Age = 900, equation = "both",
 #'   method = "both", RER = 0.865, kcal_table = "both",
 #'   MJ_conversion = c("all")
 #' )
 #'
 #' get_bmr(
-#'   Sex = "M", Ht = 1.5, Wt = 80, Age = 65, verbose = TRUE,
-#'   MJ_conversion = "all", kcal_conversion = 4.86
+#'   Sex = "M", Ht = 1.5, Wt = 80, Age = 900, MJ_conversion = "all",
+#'   kcal_conversion = 4.86
 #' )
 #'
 #' get_bmr(
-#'   Sex = "M", Ht = 1.5, Wt = 80, Age = 65, verbose = TRUE,
-#'   method = "FAO", kcal_conversion = 4.86
+#'   Sex = "M", Ht = 1.5, Wt = 80, Age = 900, method = "FAO",
+#'   kcal_conversion = 4.86
 #' )
 #'
 get_bmr <- function(
@@ -54,78 +59,84 @@ get_bmr <- function(
   )
 
   ## Set up arguments
-  Sex <- match.arg(Sex, c("M", "F", "ERROR"))
 
-  if (!is.null(Ht)) {
-    if (Ht > 3){
-      message("Detected height in cm. Converting to M.")
-      Ht <- Ht / 100
+    Sex <- match.arg(Sex, c("M", "F", "ERROR"))
+    Sex <- switch(Sex, "M" = "male", "F" = "female")
+
+    if (!is.null(Ht)) {
+      if (Ht > 3){
+        message("Detected height in cm. Converting to M.")
+        Ht <- Ht / 100
+      }
     }
-  }
 
-  equation <- match.arg(
-    equation, c("both", "ht_wt", "wt", "ERROR"), TRUE
-  )
-  if ("both" %in% equation) equation <- c("wt", "ht_wt")
-
-  method <- match.arg(
-    method, c("Schofield", "FAO", "both", "ERROR"), TRUE
-  )
-  if ("both" %in% method) method <- c("Schofield", "FAO")
-
-  if (!is.null(RER)) {
-    kcal_table <- match.arg(
-      kcal_table, c("Lusk", "Peronnet", "both", "ERROR"), TRUE
+    equation <- match.arg(
+      equation, c("both", "ht_wt", "wt", "ERROR"), TRUE
     )
-    if ("both" %in% kcal_table) kcal_table <- c("Lusk", "Peronnet")
-    kcal_conversion <- get_kcal_vo2_conversion(RER, kcal_table)
-  } else {
-    kcal_table <- "NA"
-  }
+    if ("both" %in% equation) equation <- c("wt", "ht_wt")
 
-  MJ_conversion <- match.arg(
-    MJ_conversion,
-    c("thermochemical", "dry", "convenience", "all", "ERROR"),
-    TRUE
-  )
+    method <- match.arg(
+      method, c("Schofield", "FAO", "both", "ERROR"), TRUE
+    )
+    if ("both" %in% method) method <- c("Schofield", "FAO")
 
-  if (identical(
-    c("thermochemical", "dry", "convenience", "all"),
-    MJ_conversion
-  )) MJ_conversion <- "thermochemical"
-
-  if ("all" %in% MJ_conversion) MJ_conversion <- c(
-    "thermochemical", "dry", "convenience"
-  )
-
-  MJ_conversion <- sapply(
-    MJ_conversion,
-    function(x) {
-      switch(
-        x,
-        "thermochemical" = 239.006,
-        "dry" = 238.846,
-        "convenience" = 239
+    if (!is.null(RER)) {
+      kcal_table <- match.arg(
+        kcal_table, c("Lusk", "Peronnet", "both", "ERROR"), TRUE
       )
+      if ("both" %in% kcal_table) kcal_table <- c("Lusk", "Peronnet")
+      kcal_conversion <- get_kcal_vo2_conversion(RER, kcal_table)
+    } else {
+      kcal_table <- "NA"
     }
-  )
+
+    MJ_conversion <- match.arg(
+      MJ_conversion,
+      c("thermochemical", "dry", "convenience", "all", "ERROR"),
+      TRUE
+    )
+
+    if (identical(
+      c("thermochemical", "dry", "convenience", "all"),
+      MJ_conversion
+    )) MJ_conversion <- "thermochemical"
+
+    if ("all" %in% MJ_conversion) MJ_conversion <- c(
+      "thermochemical", "dry", "convenience"
+    )
+
+    MJ_conversion <- sapply(
+      MJ_conversion,
+      function(x) {
+        switch(
+          x,
+          "thermochemical" = 239.006,
+          "dry" = 238.846,
+          "convenience" = 239
+        )
+      }
+    )
 
   ## Match participant to proper equation
 
+    labels <- c(
+      "less3", "3to10", "10to18",
+      "18to30", "30to60", "over60"
+    )
+
     agegroup <- as.character(cut(
       Age,
-      breaks = c(-Inf, 3, 10, 18, 30, 60, Inf),
+      c(-Inf, 3, 10, 18, 30, 60, Inf),
+      labels,
       right = FALSE
     ))
-    agegroup <-
-      gsub(",", "to", gsub("[\\[)]", "", agegroup))
 
-    Sex <- c("male", "female")[pmatch(tolower(Sex), c("male", "female"))]
+    name_test <- paste("", Sex, agegroup, sep = "_")
 
     weights_schofield <- lapply(
       schofield_weights,
       function(x) {
-        x[grepl(paste("", Sex, agegroup, sep = "_"), rownames(x)), ]
+        x[grepl(name_test, rownames(x)), ]
       }
     )
 
@@ -135,6 +146,8 @@ get_bmr <- function(
       weights_schofield,
       list(FAO = weights_fao)
     )
+
+    stopifnot(all(sapply(all_weights, nrow) == 1))
 
   ## Determine and dispatch calculations
 

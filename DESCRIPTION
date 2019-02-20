@@ -1,6 +1,6 @@
 Package: PAutilities
 Type: Package
-Title: Utility functions for physical activity research
+Title: Utility Functions for Physical Activity Research
 Version: 0.1.0
 Authors@R: person(c("Paul", "R."), "Hibbing", email = "paulhibbing@gmail.com",
     role = c("aut","cre"))

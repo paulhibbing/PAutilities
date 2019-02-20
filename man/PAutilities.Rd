@@ -4,7 +4,7 @@
 \name{PAutilities}
 \alias{PAutilities}
 \alias{PAutilities-package}
-\title{PAutilities: Utility functions for physical activity research}
+\title{PAutilities: Utility Functions for Physical Activity Research}
 \description{
 A collection of utilities that are useful for a broad range of tasks that are
 common in physical activity research.
