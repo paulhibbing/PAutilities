@@ -26,6 +26,9 @@ get_matchings <- function(prefs) {
 
   names(matchings) <- c("Prediction", "Reference")
 
+  ## Use of characters (in newer matchingMarkets versions) causes problems with
+  ## indexing, so need to test for presence of characters
+
   if (is.character(matchings$Prediction)) {
     matchings$Prediction <- as.numeric(matchings$Prediction)
   }
@@ -39,6 +42,14 @@ get_matchings <- function(prefs) {
   matchings$Reference_Index <-
     prefs$student_reference_colnames[matchings$Reference]
 
-  return(matchings)
+  ## Newer versions of matchingMarkets use characters instead of integers, which
+  ## messes up the ordering of `matchings`. It doesn't affect functionality, but
+  ## reordering (i.e., the next step that also returns `matchings`) is good for
+  ## assuaging paranoia
+
+  data.frame(
+    matchings[order(matchings$Prediction), ],
+    row.names = NULL
+  )
 
 }

@@ -19,21 +19,25 @@
 prune_prefs <- function(prefs) {
 
   # Initialize the preferences
-    ref_prefs <-
-      get_proposer_rank(prefs$student_reference_i,
-        prefs$college_prediction_i,
-        prefs$window_size)
+    ref_prefs <- get_proposer_rank(
+      prefs$student_reference_i,
+      prefs$college_prediction_i,
+      prefs$window_size
+    )
 
-    pred_prefs <-
-      get_proposer_rank(prefs$college_prediction_i,
-        prefs$student_reference_i,
-        prefs$window_size)
+    pred_prefs <- get_proposer_rank(
+      prefs$college_prediction_i,
+      prefs$student_reference_i,
+      prefs$window_size
+    )
 
   # Test for cases to remove
-    ref_test <-
-      apply(ref_prefs, 2, function(x) all(is.na(x)))
-    pred_test <-
-      apply(pred_prefs, 2, function(x) all(is.na(x)))
+    ref_test <- apply(
+      ref_prefs, 2, function(x) all(is.na(x))
+    )
+    pred_test <- apply(
+      pred_prefs, 2, function(x) all(is.na(x))
+    )
 
   # Perform the pruning
     if (any(ref_test)) {
@@ -51,17 +55,20 @@ prune_prefs <- function(prefs) {
     }
 
   # Get the final preferences
-    prefs$student_reference_prefs <-
-      get_proposer_rank(prefs$student_reference_colnames,
-        prefs$college_prediction_colnames,
-        prefs$window_size)
+    prefs$student_reference_prefs <- get_proposer_rank(
+      prefs$student_reference_colnames,
+      prefs$college_prediction_colnames,
+      prefs$window_size
+    )
 
-    prefs$college_prediction_prefs <-
-      get_proposer_rank(prefs$college_prediction_colnames,
-        prefs$student_reference_colnames,
-        prefs$window_size)
+    prefs$college_prediction_prefs <- get_proposer_rank(
+      prefs$college_prediction_colnames,
+      prefs$student_reference_colnames,
+      prefs$window_size
+    )
 
     return(prefs)
+
 }
 
 #' Rank preferences for an arbitrary proposer and rejecter, based on distance
@@ -81,35 +88,39 @@ prune_prefs <- function(prefs) {
 #' @keywords internal
 #'
 get_proposer_rank <- function(proposer, rejecter, window_size) {
-  ranks <-
-    do.call(
-      cbind,
-      sapply(proposer,
-        function(y) {
-          rejecter[order(abs(y - rejecter))]
-        },
-        simplify = FALSE
-      )
-    )
 
-  distances <-
-    do.call(
-      cbind,
-      sapply(proposer,
-        function(y) {
-          abs(y - rejecter)[order(abs(y - rejecter))]
-        },
-        simplify = FALSE
-      )
+  ranks <- do.call(
+    cbind,
+    sapply(
+      proposer,
+      function(y) {
+        rejecter[order(abs(y - rejecter))]
+      },
+      simplify = FALSE
     )
+  )
+
+  distances <- do.call(
+    cbind,
+    sapply(
+      proposer,
+      function(y) {
+        abs(y - rejecter)[order(abs(y - rejecter))]
+      },
+      simplify = FALSE
+    )
+  )
 
   ranks[distances > window_size] <- NA
 
   # Convert to relative ranks
-  ranks <-
-    apply(ranks, 2, function(y)
-      ifelse(y %in% rejecter, match(y, rejecter), y))
+  ranks <- apply(
+    ranks, 2, function(y)
+      ifelse(y %in% rejecter, match(y, rejecter), y)
+  )
+
   return(ranks)
+
 }
 
 #' Obtain preference lists for predicted and actual (reference) activity
@@ -143,22 +154,20 @@ get_preferences <- function(predictions, references, window_size) {
     pred_i <- which(predictions == 1)
 
   # Initialize
-    prefs <-
-      list(
-        window_size = window_size,
-        student_reference = references,
-        college_prediction = predictions,
-        student_reference_i = ref_i,
-        college_prediction_i = pred_i,
-        student_reference_colnames = ref_i,
-        college_prediction_colnames = pred_i,
-        false_negative_indices = c(),
-        false_positive_indices = c()
-      )
+    prefs <- list(
+      window_size = window_size,
+      student_reference = references,
+      college_prediction = predictions,
+      student_reference_i = ref_i,
+      college_prediction_i = pred_i,
+      student_reference_colnames = ref_i,
+      college_prediction_colnames = pred_i,
+      false_negative_indices = c(),
+      false_positive_indices = c()
+    )
 
   # Prune
-  prefs <-
-    prune_prefs(prefs)
+  prefs <- prune_prefs(prefs)
 
   return(prefs)
 }
