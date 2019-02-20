@@ -32,15 +32,13 @@ get_transition_info <- function(predictions, references, window_size = 1, ...) {
 
   # Clean up the object
 
-  prefs$false_negative_indices <-
-    prefs$student_reference_i[
-      !prefs$student_reference_i %in% prefs$matchings$Reference_Index
-    ]
+  prefs$false_negative_indices <- prefs$student_reference_i[
+    !prefs$student_reference_i %in% prefs$matchings$Reference_Index
+  ]
 
-  prefs$false_positive_indices <-
-    prefs$college_prediction_i[
-      !prefs$college_prediction_i %in% prefs$matchings$Prediction_Index
-    ]
+  prefs$false_positive_indices <- prefs$college_prediction_i[
+    !prefs$college_prediction_i %in% prefs$matchings$Prediction_Index
+  ]
 
   stopifnot(
     nrow(prefs$matchings) + length(prefs$false_negative_indices) ==

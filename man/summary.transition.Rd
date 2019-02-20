@@ -36,6 +36,9 @@ A list of matrices giving distance-based preferences for both the
   \code{\link[matchingMarkets]{hri}}
 }
 \description{
+Evaluate the effectiveness of predicted transitions for an object of class
+\code{transition}
+
 When predicting activity transitions, the behavior of the predictor is not
 known a priori. It may predict too many or too few transitions, and its
 "intent" is also unknown. Therefore, some method is necessary in order to
