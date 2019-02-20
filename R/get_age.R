@@ -24,16 +24,22 @@ get_age <- function(
 
   units <- match.arg(
     units, c("years", "months", "Error"),
-    several.ok = FALSE
+    several.ok = TRUE
   )
 
   age_days <- as.numeric(
     difftime(current_date, birthdate, units = "days")
   )
 
-  switch(
+  sapply(
     units,
-    "years" = age_days / 365.2425,
-    "months" = age_days / 30.4375
+    function(x) {
+      switch(
+        x,
+        "years" = age_days / 365.2425,
+        "months" = age_days / 30.4375
+      )
+    }
   )
+
 }

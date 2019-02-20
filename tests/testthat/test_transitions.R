@@ -1,4 +1,4 @@
-context("Transition Analyses")
+context("Transition analyses")
 library(PAutilities)
 
 testthat::test_that("Transition analyses produce expected output", {

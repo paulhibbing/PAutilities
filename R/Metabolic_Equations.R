@@ -23,20 +23,18 @@
 #' @export
 #' @examples
 #' get_bmr(
-#'   Sex = "F", Ht = 1.58, Wt = 55.8, Age = 22, equation = "both",
+#'   Sex = "M", Ht = 1.5, Wt = 80, Age = 65, equation = "both",
 #'   method = "both", RER = 0.865, kcal_table = "both",
-#'   MJ_conversion = c("thermochemical", "dry", "convenience")
+#'   MJ_conversion = c("all")
 #' )
 #'
 #' get_bmr(
-#'   Sex = "F", Ht = 1.58, Wt = 55.8, Age = 22, verbose = TRUE,
-#'   equation = "both", method = "both", kcal_table = "both",
-#'   MJ_conversion = c("thermochemical", "dry", "convenience"),
-#'   kcal_conversion = 4.86
+#'   Sex = "M", Ht = 1.5, Wt = 80, Age = 65, verbose = TRUE,
+#'   MJ_conversion = "all", kcal_conversion = 4.86
 #' )
 #'
 #' get_bmr(
-#'   Sex = "F", Ht = 1.58, Wt = 55.8, Age = 22, verbose = TRUE,
+#'   Sex = "M", Ht = 1.5, Wt = 80, Age = 65, verbose = TRUE,
 #'   method = "FAO", kcal_conversion = 4.86
 #' )
 #'
@@ -47,7 +45,7 @@ get_bmr <- function(
   kcal_table = c("Lusk", "Peronnet", "both"),
   method = c("Schofield", "FAO", "both"),
   MJ_conversion = c("thermochemical", "dry", "convenience", "all"),
-  kcal_conversion = 4.86
+  kcal_conversion = 5
 ){
 
   if (verbose) cat(
