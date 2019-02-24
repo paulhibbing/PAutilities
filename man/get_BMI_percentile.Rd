@@ -2,7 +2,7 @@
 % Please edit documentation in R/get_BMI_percentile.R
 \name{get_BMI_percentile}
 \alias{get_BMI_percentile}
-\title{Calculate youth BMI percentile from CDC 2000 standards}
+\title{Calculate youth BMI percentile from CDC standards}
 \usage{
 get_BMI_percentile(weight_kg, height_cm, age_yrs, age_mos = NULL,
   sex = c("M", "F"), output = c("percentile", "classification", "both"))
@@ -22,10 +22,13 @@ get_BMI_percentile(weight_kg, height_cm, age_yrs, age_mos = NULL,
 classification, or both?}
 }
 \value{
-A numeric scalar giving the BMI percentile
+One of: A numeric scalar giving the BMI percentile (for \code{output
+  = "percentile"}); a factor scalar giving the weight status (for
+  \code{output = "classification"}); or a list with the percentile and
+  classification (for \code{output = "both"}).
 }
 \description{
-Calculate youth BMI percentile from CDC 2000 standards
+Calculate youth BMI percentile from CDC standards
 }
 \details{
 If \code{age_mos} is \emph{not} provided, it will be calculated

@@ -1,4 +1,4 @@
-#' Calculate youth BMI percentile from CDC 2000 standards
+#' Calculate youth BMI percentile from CDC standards
 #'
 #' @param weight_kg Weight in kilograms
 #' @param height_cm height in centimeters
@@ -8,7 +8,10 @@
 #' @param output What should be returned: raw percentile, weight status
 #'   classification, or both?
 #'
-#' @return A numeric scalar giving the BMI percentile
+#' @return One of: A numeric scalar giving the BMI percentile (for \code{output
+#'   = "percentile"}); a factor scalar giving the weight status (for
+#'   \code{output = "classification"}); or a list with the percentile and
+#'   classification (for \code{output = "both"}).
 #' @export
 #'
 #' @details If \code{age_mos} is \emph{not} provided, it will be calculated
@@ -70,7 +73,9 @@ get_BMI_percentile <- function(
 
   Z_score <- (((BMI/M)^L)-1)/(L*S)
 
-  percentile <- floor(stats::pnorm(Z_score) * 1000) / 10
+  percentile <- unname(
+    floor(stats::pnorm(Z_score) * 1000) / 10
+  )
   classification <- cut(
     percentile,
     c(-Inf, 5, 85, 95, Inf),
