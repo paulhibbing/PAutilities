@@ -39,7 +39,11 @@ If \code{age_mos} is \emph{not} provided, it will be calculated
 get_BMI_percentile(39.4, 144.5, 12.35, sex = "M")
 }
 \references{
-https://www.cdc.gov/obesity/childhood/defining.html
+This function was developed with reference to public domain resources
+provided by the Centers for Disease Control and Prevention. For more
+information, see:
 
-https://www.cdc.gov/healthyweight/downloads/BMI_group_calculator_English.xls
+\url{https://www.cdc.gov/obesity/childhood/defining.html}
+
+\url{https://www.cdc.gov/healthyweight/assessing/bmi/childrens_bmi/tool_for_schools.html}
 }

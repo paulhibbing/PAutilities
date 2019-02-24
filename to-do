@@ -1,5 +1,6 @@
 *** NOW
-* BMI Calculator needs (better?) reference
+* BMI Calculator needs (better?) reference AND update/code
+  documentation based on bmi-group-calculator-us-062018-508.xlsm
 
 *** LATER
 * Add mean_sd_plot function from Rcomps
