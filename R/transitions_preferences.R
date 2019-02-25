@@ -3,10 +3,10 @@
 #' To run the college admissions algorithm, it is assumed that each
 #' student/college has at least one possible match. In the activity transition
 #' application, possible matches are restricted to "nearby" cases, i.e. within
-#' some specified \code{window_size}. Thus, if there are no matches closeby,
+#' some specified \code{window_size}. Thus, if there are no matches close by,
 #' there are no possible matches, and the case needs to be removed from the
 #' analysis in the college admissions algorithm. It needs to be re-inserted
-#' afterwards and labelled as a false positive or false negative, depending on
+#' afterwards and labeled as a false positive or false negative, depending on
 #' whether it was a college (i.e., a predicted transition) or a student (i.e.,
 #' an actual transition), respectively.
 #'

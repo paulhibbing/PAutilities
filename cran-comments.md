@@ -7,7 +7,20 @@
 
 0 ERRORs | 0 WARNINGs | 1 NOTE
 
-* This is a new release.
+* checking CRAN incoming feasibility ... NOTE
+    Maintainer: 'Paul R. Hibbing <paulhibbing@gmail.com>'
+
+    New submission
+
+    License components with restrictions and base license
+    permitting such:
+    GPL-3 + file LICENSE
+    File 'LICENSE':
+    GNU General Public License
+    ==========================
+    [...]
+    
+This is a new release.
 
 ## Reverse dependencies
 
