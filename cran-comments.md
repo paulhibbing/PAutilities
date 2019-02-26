@@ -1,4 +1,10 @@
+
+## Resubmission
+This is a resubmission of version 0.1.0. The extraneous
+    LICENSE file has been removed.
+
 ## Test environments
+
 * local Windows 10 install, R 3.5.0
 * ubuntu 14.04.5 (on travis-ci), R 3.5.2
 * win-builder (devel and release)
@@ -12,14 +18,6 @@
 
     New submission
 
-    License components with restrictions and base license
-    permitting such:
-    GPL-3 + file LICENSE
-    File 'LICENSE':
-    GNU General Public License
-    ==========================
-    [...]
-    
 This is a new release.
 
 ## Reverse dependencies

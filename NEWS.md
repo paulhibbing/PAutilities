@@ -1,6 +1,13 @@
+# PAutilities 0.1.1
+
+## Summary
+
+This is a resubmission of version 0.1.0. The extraneous LICENSE file
+    has been removed.
+
 # PAutilities 0.1.0
 
-##Summary
+## Summary
 
 This is the intial release of PAutilities. Current features include:
 
