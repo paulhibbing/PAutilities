@@ -18,7 +18,7 @@ This is a second resubmission of version 0.1.0. The following changes
 
 ## R CMD check results
 
-0 ERRORs | 0 WARNINGs | 2 NOTEs
+0 ERRORs | 0 WARNINGs | 1 NOTE
 
 * checking CRAN incoming feasibility ... NOTE
     Maintainer: 'Paul R. Hibbing <paulhibbing@gmail.com>'
@@ -26,15 +26,6 @@ This is a second resubmission of version 0.1.0. The following changes
     New submission
 
 This is a new release.
-
-* checking top-level files ... NOTE
-    File
-        LICENSE
-    is not mentioned in the DESCRIPTION file.
-
-This note only occurs on win-builder. The package is licensed
-    under GPL-3, with no additional restrictions. Per instructions
-    from the CRAN manual check, the LICENSE file was therefore removed.
 
 ## Reverse dependencies
 

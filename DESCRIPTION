@@ -13,9 +13,9 @@ Description: A collection of utilities that are useful for a broad range of
     tasks that are common in physical activity research, including the
     following: creation of Bland-Altman plots, formatted descriptive
     statistics, metabolic calculations (e.g. basal metabolic rate predictions)
-    and conversions, demographic calculations (age and age-for-BMI percentile),
-    bouted analysis of moderate-to-vigorous intensity physical activity, and
-    analysis of bout detection algorithm performance.
+    and conversions, demographic calculations (age and age-for-body-mass-index
+    percentile), bout analysis of moderate-to-vigorous intensity physical
+    activity, and analysis of bout detection algorithm performance.
 License: GPL-3
 Encoding: UTF-8
 LazyData: true

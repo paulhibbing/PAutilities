@@ -5,7 +5,7 @@
 #' functions in parentheses) are:
 #'
 #' * Bland-Altman plots (\code{\link{ba_plot}})
-#' * Bouted moderate-to-vigorous physical activity analysis (\code{\link{bout_mvpa}})
+#' * Bout analysis for moderate-to-vigorous physical activity (\code{\link{bout_mvpa}})
 #' * Formatted descriptive statistics \code{\link{descriptives}}
 #' * Demographic calculations (\code{\link{get_age}} and \code{\link{get_BMI_percentile}})
 #' * Metabolic calculations (\code{\link{get_bmr}}, \code{\link{weir_equation}}, and \code{\link{get_kcal_vo2_conversion}})
