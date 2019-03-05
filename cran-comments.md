@@ -7,7 +7,7 @@ This is a second resubmission of version 0.1.0. The following changes
 * Changed title to eliminate redundancy
 * Expanded the `description` field in DESCRIPTION to provide more
     detail about what the package does.
-* Swapped donttest{} in for dontrun{} in documentation where appropriate
+* Swapped donttest{} in for dontrun{} in examples
 * Added detail to package documentation
 
 ## Test environments
