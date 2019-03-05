@@ -1,7 +1,7 @@
 Package: PAutilities
 Type: Package
-Title: Utility Functions for Physical Activity Research
-Version: 0.1.1
+Title: Streamline Physical Activity Research
+Version: 0.1.2
 Authors@R: c(
     person(
       c("Paul", "R."), "Hibbing", email = "paulhibbing@gmail.com",
@@ -10,7 +10,12 @@ Authors@R: c(
       "Centers for Disease Control and Prevention", role = "ctb"))
 Depends: R (>= 2.10)
 Description: A collection of utilities that are useful for a broad range of
-    tasks that are common in physical activity research.
+    tasks that are common in physical activity research, including the
+    following: creation of Bland-Altman plots, formatted descriptive
+    statistics, metabolic calculations (e.g. basal metabolic rate predictions)
+    and conversions, demographic calculations (age and age-for-BMI percentile),
+    bouted analysis of moderate-to-vigorous intensity physical activity, and
+    analysis of bout detection algorithm performance.
 License: GPL-3
 Encoding: UTF-8
 LazyData: true

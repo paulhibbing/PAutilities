@@ -46,7 +46,7 @@ my_ba <- ba_plot(
 
 my_ba
 
-\dontrun{
+\donttest{
 # You can add to the plot as you would a normal ggplot object
     my_ba +
       ggplot2::geom_text(

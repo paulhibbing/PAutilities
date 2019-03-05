@@ -1,7 +1,15 @@
-#' PAutilities: Utility Functions for Physical Activity Research
+#' PAutilities: Streamline Physical Activity Research
 #'
 #' A collection of utilities that are useful for a broad range of tasks that are
-#' common in physical activity research.
+#' common in physical activity research. The main features (with associated
+#' functions in parentheses) are:
+#'
+#' * Bland-Altman plots (\code{\link{ba_plot}})
+#' * Bouted moderate-to-vigorous physical activity analysis (\code{\link{bout_mvpa}})
+#' * Formatted descriptive statistics \code{\link{descriptives}}
+#' * Demographic calculations (\code{\link{get_age}} and \code{\link{get_BMI_percentile}})
+#' * Metabolic calculations (\code{\link{get_bmr}}, \code{\link{weir_equation}}, and \code{\link{get_kcal_vo2_conversion}})
+#' * Analysis of bout detection algorithm performance (\code{\link{get_transition_info}} and associated methods, e.g. \code{summary} and \code{plot})
 #'
 #' @docType package
 #' @name PAutilities

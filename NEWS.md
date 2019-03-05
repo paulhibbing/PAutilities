@@ -1,3 +1,16 @@
+# PAutilities 0.1.2
+
+## Summary
+
+This is a second resubmission of version 0.1.0. The following changes
+    have been made:
+    
+* Changed title to eliminate redundancy
+* Expanded the `description` field in DESCRIPTION to provide more
+    detail about what the package does.
+* Swapped donttest{} in for dontrun{} in documentation where appropriate
+* Added detail to package documentation
+
 # PAutilities 0.1.1
 
 ## Summary

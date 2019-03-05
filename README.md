@@ -7,6 +7,10 @@ activity research. These include the items in the list below, which is
 expected to grow and mature over time. Thus, feature/pull requests are
 encouraged.
 
-  - Plotting (e.g. Bland-Altman plots, equivalence plots, etc.)
-  - Common data management tasks (e.g. Identifying bouts of continuous
-    activity)
+  - Bland-Altman plots
+  - Bouted moderate-to-vigorous physical activity analysis
+  - Formatted descriptive statistics
+  - Demographic calculations (age, BMI-for-age percentile)
+  - Metabolic calculations (energy expenditure conversions, basal
+    metabolic rate predictions)
+  - Analysis of bout detection algorithm performance

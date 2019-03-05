@@ -51,7 +51,7 @@ minimum length
 data(ex_data, package = "PAutilities")
 ex_data$DateTime <- as.POSIXct(ex_data$DateTime, "UTC")
 
-\dontrun{
+\donttest{
 # Runs with a warning
 
 bout_mvpa(ex_data$METs, "METs")
