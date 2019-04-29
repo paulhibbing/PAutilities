@@ -12,10 +12,32 @@
 #' @export
 #'
 #' @examples
+#' set.seed(144)
+#' fake_start_time <- Sys.time()
+#' fake_stop_time <- fake_start_time + 1800
+#' fake_timestamps <- fake_start_time + cumsum(sample(1:3, 500, TRUE))
+#' fake_timestamps <- fake_timestamps[fake_timestamps <= fake_stop_time]
+#' fake_breaths <- rnorm(length(fake_timestamps), 450, 0.5)
+#' window_size <- 5
+#'
+#' rmr_sliding(
+#'   fake_breaths, fake_timestamps,
+#'   fake_start_time, fake_stop_time,
+#'   window_size
+#' )
 rmr_sliding <- function(vo2_values, vo2_timestamps, start_time, stop_time, window_size_minutes = 5) {
 
   stopifnot(length(vo2_values) == length(vo2_timestamps))
   window_size_sec <- window_size_minutes * 60
+
+  upper_85 <- quantile(vo2_values, probs = 0.85)
+  if (upper_85 < 100) warning(paste(
+    "`rmr_sliding` expects VO2 values in ml/min;",
+    "85th percentile of\n  `vo2_values` is", upper_85,
+    "-- have you passed data in\n  ml/kg/min?",
+    "If so, process will run correctly, but variable",
+    "names\n  will reflect the wrong units."
+  ))
 
   ## Identify sliding window end times
   Time <- vo2_timestamps[
