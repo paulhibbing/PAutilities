@@ -36,7 +36,7 @@ manage_procedure("Start", "String will not be printed", verbose = FALSE)
 manage_procedure(
   "End",
   "Processing complete. Elapsed time",
-  AGread::get_duration(timer),
+  get_duration(timer),
   "minutes."
 )
 }

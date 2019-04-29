@@ -19,7 +19,7 @@
 #' manage_procedure(
 #'   "End",
 #'   "Processing complete. Elapsed time",
-#'   AGread::get_duration(timer),
+#'   get_duration(timer),
 #'   "minutes."
 #' )
 manage_procedure <- function(
