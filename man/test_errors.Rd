@@ -4,7 +4,8 @@
 \alias{test_errors}
 \title{Compare numeric variables in a data frame based on root-squared differences}
 \usage{
-test_errors(reference, target, vars, tolerance = 0.001005)
+test_errors(reference, target, vars, tolerance = 0.001005,
+  return_logical = TRUE)
 }
 \arguments{
 \item{reference}{a data frame giving reference data}
@@ -14,18 +15,24 @@ test_errors(reference, target, vars, tolerance = 0.001005)
 \item{vars}{character vector of variable names to compare in each data frame}
 
 \item{tolerance}{allowable difference between numeric values}
+
+\item{return_logical}{logical. Should result be given as a logical vector
+(indicating TRUE/FALSE equality within tolerance) or a data frame of error
+summary values?}
 }
 \value{
-Named logical vector with one element per variable compared,
-  indicating whether the maximum and mean squared differences fall within the
-  tolerance.
+If \code{return_logical = TRUE}, a named logical vector with one
+  element per variable compared, indicating whether the maximum and
+  root-mean-squared differences fall within the tolerance. If
+  \code{return_logical = FALSE}, a data frame indicating the variables
+  compared and the maximum and root-mean-squared differences.
 }
 \description{
 Compare numeric variables in a data frame based on root-squared differences
 }
 \note{
 It is assumed that \code{reference} and \code{target} have equal
-  numbers of rows
+  numbers of rows.
 }
 \examples{
 reference <- data.frame(
@@ -38,4 +45,5 @@ target <- data.frame(
 )
 
 test_errors(reference, target, c("a", "b"))
+test_errors(reference, target, c("a", "b"), return_logical = FALSE)
 }

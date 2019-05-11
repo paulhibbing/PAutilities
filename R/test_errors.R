@@ -4,12 +4,17 @@
 #' @param target a data frame giving target data
 #' @param vars character vector of variable names to compare in each data frame
 #' @param tolerance allowable difference between numeric values
+#' @param return_logical logical. Should result be given as a logical vector
+#'   (indicating TRUE/FALSE equality within tolerance) or a data frame of error
+#'   summary values?
 #'
-#' @return Named logical vector with one element per variable compared,
-#'   indicating whether the maximum and mean squared differences fall within the
-#'   tolerance.
+#' @return If \code{return_logical = TRUE}, a named logical vector with one
+#'   element per variable compared, indicating whether the maximum and
+#'   root-mean-squared differences fall within the tolerance. If
+#'   \code{return_logical = FALSE}, a data frame indicating the variables
+#'   compared and the maximum and root-mean-squared differences.
 #' @note It is assumed that \code{reference} and \code{target} have equal
-#'   numbers of rows
+#'   numbers of rows.
 #' @export
 #'
 #' @examples
@@ -23,9 +28,10 @@
 #' )
 #'
 #' test_errors(reference, target, c("a", "b"))
+#' test_errors(reference, target, c("a", "b"), return_logical = FALSE)
 test_errors <- function(
   reference, target, vars,
-  tolerance = 0.001005
+  tolerance = 0.001005, return_logical = TRUE
 ) {
 
   stopifnot(
@@ -42,20 +48,53 @@ test_errors <- function(
     all(sapply(target[ ,vars], is.numeric))
   )
 
-  sapply(
+
+  results <- sapply(
     vars,
     function(variable) {
 
       e <- reference[ ,variable] -
         target[ ,variable]
-      rse <- sqrt(e^2)
+      se <- e^2
 
-      all(
-        mean(rse) <= tolerance,
-        max(rse) <= tolerance
-      )
+      if (anyNA(e)) {
+        warning(paste(
+          sum(is.na(e)), "missing error values",
+          "will be ignored"
+        ))
+      }
 
-    }
+      rmse <- sqrt(mean(se, na.rm = TRUE))
+      max_e <- max(e, na.rm = TRUE)
+
+      if (return_logical) {
+
+        results <- all(
+          rmse <= tolerance,
+          max_e <= tolerance
+        )
+
+      } else {
+
+        results <- data.frame(
+          variable = variable,
+          max_error = max_e,
+          rmse = rmse,
+          stringsAsFactors = FALSE,
+          row.names = NULL
+        )
+
+      }
+
+      results
+
+    },
+    simplify = FALSE
   )
+
+  if (return_logical) results <- do.call(c, results)
+  if (!return_logical) results <- do.call(rbind, results)
+
+  results
 
 }
