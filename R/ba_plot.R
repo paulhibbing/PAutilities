@@ -63,20 +63,21 @@ ba_plot <- function(plotdata, x_var, y_var, x_name, y_name, ...) {
   geom_hline(
     yintercept =
       lazyeval::f_eval(
-        ~mean(eval(parse(text = y_var))),
+        ~mean(eval(parse(text = y_var)), na.rm = TRUE),
         data = plotdata
       ),
     size = 1.2
   ) +
   geom_smooth(
-    method = 'lm', se = F, colour = 'black'
+    method = 'lm', se = FALSE,
+    colour = 'black'
   ) +
   geom_hline(
     aes(
       yintercept =
         lazyeval::f_eval(
-          ~mean(eval(parse(text = y_var)), na.rm = T) +
-            (1.96*stats::sd(eval(parse(text = y_var)), na.rm = T)),
+          ~mean(eval(parse(text = y_var)), na.rm = TRUE) +
+            (1.96*stats::sd(eval(parse(text = y_var)), na.rm = TRUE)),
           data = plotdata)
     ), size = 1.3, linetype = 'dashed'
   ) +
@@ -84,8 +85,8 @@ ba_plot <- function(plotdata, x_var, y_var, x_name, y_name, ...) {
     aes(
       yintercept =
         lazyeval::f_eval(
-          ~mean(eval(parse(text = y_var)), na.rm = T) -
-            (1.96*stats::sd(eval(parse(text = y_var)), na.rm = T)),
+          ~mean(eval(parse(text = y_var)), na.rm = TRUE) -
+            (1.96*stats::sd(eval(parse(text = y_var)), na.rm = TRUE)),
           data = plotdata
         )
     ), size = 1.3, linetype = 'dashed'
