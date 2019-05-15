@@ -4,7 +4,7 @@
 \alias{ba_plot}
 \title{Create a Bland-Altman plot}
 \usage{
-ba_plot(plotdata, x_var, y_var, x_name, y_name, ...)
+ba_plot(plotdata, x_var, y_var, x_name, y_name, shape = 16, ...)
 }
 \arguments{
 \item{plotdata}{dataframe from which to build the plot}
@@ -16,6 +16,8 @@ ba_plot(plotdata, x_var, y_var, x_name, y_name, ...)
 \item{x_name}{axis label for the x-axis}
 
 \item{y_name}{axis label for the y-axis}
+
+\item{shape}{numeric. The point shape to display.}
 
 \item{...}{further arguments passed to \code{theme}}
 }

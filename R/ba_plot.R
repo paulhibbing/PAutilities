@@ -5,6 +5,7 @@
 #' @param y_var character expression to evaluate for the y-axis
 #' @param x_name axis label for the x-axis
 #' @param y_name axis label for the y-axis
+#' @param shape numeric. The point shape to display.
 #' @param ... further arguments passed to \code{theme}
 #'
 #' @return a Bland-Altman plot
@@ -49,10 +50,12 @@
 #'     my_ba + ggplot2::geom_smooth(method = "lm", se = FALSE, colour = "blue")
 #'
 #' }
-ba_plot <- function(plotdata, x_var, y_var, x_name, y_name, ...) {
+ba_plot <- function(
+  plotdata, x_var, y_var, x_name, y_name, shape = 16, ...
+) {
 
   ggplot(plotdata, aes_string(x = x_var, y = y_var)) +
-  geom_point() + theme_classic() +
+  geom_point(shape = shape) + theme_classic() +
   theme(axis.line = element_line(size = .5)) +
   scale_y_continuous(
     name = y_name
