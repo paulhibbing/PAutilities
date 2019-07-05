@@ -29,7 +29,9 @@ Convert a set of predicted and actual activity transitions to an object that
 can be analyzed
 }
 \examples{
-predictions <- sample(c(0,1), 100, TRUE, c(3, 1))
-references  <- sample(c(0,1), 100, TRUE, c(4,1))
-get_transition_info(predictions, references, 10)
+set.seed(100)
+predictions <- (sample(1:100)\%\%2)
+references  <- (sample(1:100)\%\%2)
+window_size <- 7
+get_transition_info(predictions, references, window_size)
 }

@@ -19,8 +19,9 @@ A plot of the predicted and actual transitions in a \code{transition}
 Plot the transitions and matchings from a \code{transition} object
 }
 \examples{
-predictions <- sample(c(0,1), 100, TRUE, c(3, 1))
-references  <- sample(c(0,1), 100, TRUE, c(4,1))
-transitions <- get_transition_info(predictions, references, 10)
+predictions <- (sample(1:100)\%\%2)
+references  <- (sample(1:100)\%\%2)
+window_size <- 7
+transitions <- get_transition_info(predictions, references, window_size)
 plot(transitions)
 }

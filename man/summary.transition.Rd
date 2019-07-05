@@ -36,9 +36,6 @@ A list of matrices giving distance-based preferences for both the
   \code{\link[matchingMarkets]{hri}}
 }
 \description{
-Evaluate the effectiveness of predicted transitions for an object of class
-\code{transition}
-
 When predicting activity transitions, the behavior of the predictor is not
 known a priori. It may predict too many or too few transitions, and its
 "intent" is also unknown. Therefore, some method is necessary in order to
@@ -52,9 +49,10 @@ temporal proximity of predicted and actual transitions. Preferences beyond a
 specified \code{window_size} are not allowed.
 }
 \examples{
-predictions <- sample(c(0,1), 100, TRUE, c(3, 1))
-references  <- sample(c(0,1), 100, TRUE, c(4,1))
-transitions <- get_transition_info(predictions, references, 10)
+predictions <- (sample(1:100)\%\%2)
+references  <- (sample(1:100)\%\%2)
+window_size <- 7
+transitions <- get_transition_info(predictions, references, window_size)
 summary(transitions)
 }
 \keyword{internal}
