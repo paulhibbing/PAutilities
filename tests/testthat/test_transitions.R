@@ -23,6 +23,12 @@ library(PAutilities)
 # all.equal(info, info_old)
 # all.equal(summary(info), summary(info_old))
 
+
+# Manual legacy test (verified 07/05/2019) --------------------------------
+## After adding non-sequential pair rejection, the code in
+## "data-raw/rejection_update_compare/compare_new_method_to_old.R" was used to
+## verify that the core metrics stayed the same
+
 testthat::test_that("Transition analyses produce expected output", {
   set.seed(8)
   predictions <- sample(c(0,1), 100, TRUE, c(3, 1))
