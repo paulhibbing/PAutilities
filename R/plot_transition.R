@@ -8,11 +8,13 @@
 #' @export
 #'
 #' @examples
-#' predictions <- sample(c(0,1), 100, TRUE, c(3, 1))
-#' references  <- sample(c(0,1), 100, TRUE, c(4,1))
-#' transitions <- get_transition_info(predictions, references, 10)
+#' predictions <- (sample(1:100)%%2)
+#' references  <- (sample(1:100)%%2)
+#' window_size <- 7
+#' transitions <- get_transition_info(predictions, references, window_size)
 #' plot(transitions)
 plot.transition <- function(x, ...) {
+
   x$college_prediction <-
     unname(sapply(as.character(x$college_prediction), function(x)
       switch(x, "0" = 3, "1" = 2)))
@@ -38,12 +40,14 @@ plot.transition <- function(x, ...) {
   )
 
   sapply(seq(nrow(x$matchings)), function(i) {
+    if (x$matchings$rejected[i]) line_col <- "red" else line_col <- "blue"
     graphics::lines(
       c(x$matchings$Reference_Index[i], x$matchings$Prediction_Index[i]),
       c(1,2),
-      col = "blue"
+      col = line_col
     )}
   )
 
   invisible()
+
 }

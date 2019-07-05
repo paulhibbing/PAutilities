@@ -15,9 +15,11 @@
 #' @export
 #'
 #' @examples
-#' predictions <- sample(c(0,1), 100, TRUE, c(3, 1))
-#' references  <- sample(c(0,1), 100, TRUE, c(4,1))
-#' get_transition_info(predictions, references, 10)
+#' set.seed(100)
+#' predictions <- (sample(1:100)%%2)
+#' references  <- (sample(1:100)%%2)
+#' window_size <- 7
+#' get_transition_info(predictions, references, window_size)
 get_transition_info <- function(predictions, references, window_size = 1, ...) {
 
   stopifnot(
@@ -32,18 +34,22 @@ get_transition_info <- function(predictions, references, window_size = 1, ...) {
 
   # Clean up the object
 
+  rejects <- prefs$matchings$rejected
+
   prefs$false_negative_indices <- prefs$student_reference_i[
-    !prefs$student_reference_i %in% prefs$matchings$Reference_Index
+    !prefs$student_reference_i %in%
+      prefs$matchings$Reference_Index[!rejects]
   ]
 
   prefs$false_positive_indices <- prefs$college_prediction_i[
-    !prefs$college_prediction_i %in% prefs$matchings$Prediction_Index
+    !prefs$college_prediction_i %in%
+      prefs$matchings$Prediction_Index[!rejects]
   ]
 
   stopifnot(
-    nrow(prefs$matchings) + length(prefs$false_negative_indices) ==
+    nrow(prefs$matchings[!rejects, ]) + length(prefs$false_negative_indices) ==
       length(prefs$student_reference_i),
-    nrow(prefs$matchings) + length(prefs$false_positive_indices) ==
+    nrow(prefs$matchings[!rejects, ]) + length(prefs$false_positive_indices) ==
       length(prefs$college_prediction_i)
   )
 
