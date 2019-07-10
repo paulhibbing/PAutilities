@@ -1,3 +1,16 @@
+# PAutilities 0.2.0
+
+## What's new:
+
+* Removed unused dependency on package `AGread`
+* Added support for calculation of RMR via sliding window analysis
+* Added process management utility for easy messaging and timekeeping
+* Added tools to compare objects more specifically than via `all.equal`
+* Added `na.rm = TRUE` to the mean bias line on Bland-Altman plots
+* Added shape control as an option for Bland-Altman plots
+* Cleaned up TPM summary method
+* Added rejection of non-consecutive pairings to the TPM
+
 # PAutilities 0.1.2
 
 ## Summary
