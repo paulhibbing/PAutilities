@@ -5,38 +5,45 @@
 \alias{get_duration}
 \title{Printing and timing utility for managing processes}
 \usage{
-manage_procedure(part = c("Start", "End"), ..., verbose = TRUE)
+manage_procedure(part = c("Start", "End"), ..., timer = NULL,
+  verbose = TRUE)
 
 get_duration(timer)
 }
 \arguments{
 \item{part}{character scalar, either \code{Start} or \code{End}.}
 
-\item{...}{character strings to print}
+\item{...}{character strings to print. Default messages will print if no
+arguments are provided.}
+
+\item{timer}{a proc_time object. Required for \code{manage_procedure} only if
+using the default message for \code{part = "End"} default message.}
 
 \item{verbose}{logical. Print to console?}
-
-\item{timer}{a proc_time object}
 }
 \value{
-For \code{part = "Start"}, a proc_time object; for \code{pard =
-  "End"}, invisible
+For \code{part = "Start"}, a proc_time object (i.e., a timer passable
+  to an eventual \code{part = "End"} command); for \code{part = "End"},
+  invisible
 }
 \description{
 Printing and timing utility for managing processes
 }
 \examples{
 
-timer <- manage_procedure("Start", "String will be printed")
-get_duration(timer)
-
-manage_procedure("Start")
-manage_procedure("Start", "String will not be printed", verbose = FALSE)
-
-manage_procedure(
-  "End",
-  "Processing complete. Elapsed time",
-  get_duration(timer),
-  "minutes."
+manage_procedure("Start", "String will be printed\\n")
+timer <- manage_procedure(
+"Start", "Printing a string is optional", verbose = FALSE
 )
+
+## Default starting message
+manage_procedure("Start")
+
+## Default ending message
+manage_procedure("End", timer = timer)
+
+## Other examples
+get_duration(timer)
+manage_procedure("End", "Custom ending message")
+
 }

@@ -5,8 +5,8 @@
 \title{Compute the mean and standard deviation of a vector, returning a formatted
 string containing the values as `M +/- SD`}
 \usage{
-mean_sd(x = NULL, MoreArgs = NULL, give_df = TRUE, ...,
-  mean_x = NULL, sd_x = NULL)
+mean_sd(x = NULL, MoreArgs = NULL, give_df = TRUE, ..., mean_x = NULL,
+  sd_x = NULL)
 }
 \arguments{
 \item{x}{numeric vector of values to summarize}
