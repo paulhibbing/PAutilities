@@ -42,9 +42,11 @@ get_matchings <- function(prefs) {
   matchings$Reference_Index <-
     prefs$student_reference_colnames[matchings$Reference]
 
-  matchings$lag <- abs(
+  matchings$abs_lag <- abs(
     matchings$Prediction_Index - matchings$Reference_Index
   )
+  matchings$signed_lag <- matchings$Prediction_Index -
+    matchings$Reference_Index
 
   prefs <- data.frame(
     matchings[order(matchings$Prediction), ],
@@ -72,13 +74,15 @@ sequence_check <- function(prefs) {
 
   matchings <- prefs
   matchings$n_crosses <- n_crossings(matchings)
+  matchings$rowname <- seq(nrow(matchings))
   # prefs$matchings$rejected <- FALSE
 
   while (sum(matchings$n_crosses) != 0) {
 
     drop_index <- order(
       matchings$n_crosses,
-      matchings$lag,
+      matchings$abs_lag,
+      rev(matchings$rowname),
       decreasing = TRUE
     )[1]
 
@@ -112,7 +116,6 @@ n_crossings <- function(matchings) {
 
   for (i in seq(len)) {
 
-    # current_index <- matchings$Prediction_Index[i]
     current_index <- matchings$Reference_Index[i]
 
     prev_indices <- 1:i

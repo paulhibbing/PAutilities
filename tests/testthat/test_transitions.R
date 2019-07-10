@@ -29,6 +29,9 @@ library(PAutilities)
 ## "data-raw/rejection_update_compare/compare_new_method_to_old.R" was used to
 ## verify that the core metrics stayed the same
 
+## Same was true on 07/09/2019 after tweaking some things with lag time and
+## summary output (especially adding signed lag indicators)
+
 testthat::test_that("Transition analyses produce expected output", {
   set.seed(8)
   predictions <- sample(c(0,1), 100, TRUE, c(3, 1))
