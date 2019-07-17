@@ -1,7 +1,7 @@
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-“[![Build
-Status](https://travis-ci.org/paulhibbing/PAutilities.svg?branch=master)](https://travis-ci.org/paulhibbing/PAutilities)”
+[![Build
+Status](https://travis-ci.org/paulhibbing/PAutilities.svg?branch=master)](https://travis-ci.org/paulhibbing/PAutilities)
 [![Licence](https://img.shields.io/badge/licence-GPL--3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0.en.html)
 [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/PAutilities)](https://cran.r-project.org/package=PAutilities)
 
