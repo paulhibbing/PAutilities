@@ -9,20 +9,20 @@
 #'
 #' @keywords internal
 paired_equivalence_wrapper <- function(
-  x, y, width, epsilon, alpha, scale, na.rm,
+  x, y, y_type, width, epsilon, alpha, scale, na.rm,
   do_test = TRUE
 ) {
 
   result <- stats::setNames(
 
     data.frame(
-      matrix(ncol = 12),
+      matrix(ncol = 13),
       row.names = NULL,
       stringsAsFactors = FALSE
     ),
 
     c(
-      "mean_x", "mean_y", "mean_diff", "scale",
+      "mean_x", "mean_y", "y_type", "mean_diff", "scale",
       "region_width", "region_low", "region_high", "CI_low",
       "CI_high", "tost_p", "tost_sig", "CI_sig"
     )
@@ -31,6 +31,7 @@ paired_equivalence_wrapper <- function(
 
   result$mean_x <- mean(x, na.rm = na.rm)
   result$mean_y <- mean(y, na.rm = na.rm)
+  result$y_type <- y_type
   result$mean_diff <- mean(x - y, na.rm = na.rm)
   result$scale <- scale
   result$region_width <- width

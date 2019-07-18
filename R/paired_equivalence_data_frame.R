@@ -9,10 +9,18 @@ paired_equivalence_test.data.frame <- function(
   ...
 ) {
 
-  column_wise <- sapply(x, paired_equivalence_test,
-    y = y, y_type = "both", alpha = alpha, na.rm = na.rm,
-    scale = "relative", absolute_region_width = absolute_region_width,
-    relative_region_width = relative_region_width,
+  object <- new_paired_equivalence(
+    x, y, y_type, alpha, na.rm, scale,
+    absolute_region_width, relative_region_width
+  )
+
+  column_wise <- sapply(
+    object$x,
+    paired_equivalence_test,
+    y = object$y, y_type = object$y_type, alpha = object$alpha,
+    na.rm = object$na.rm, scale = object$scale,
+    absolute_region_width = object$absolute_region_width,
+    relative_region_width = object$relative_region_width,
     simplify = FALSE
   )
 
@@ -26,15 +34,7 @@ paired_equivalence_test.data.frame <- function(
 
   results <- do.call(rbind, column_wise)
 
-  object <- list(
-    x = x, y = y, alpha = alpha,
-    absolute_region_width = absolute_region_width,
-    relative_region_width = relative_region_width,
-    scale = unique(results$scale),
-    results = results
-  )
-
-  class(object) <- "paired_equivalence"
+  object$results <- results
 
   object
 

@@ -10,35 +10,54 @@ paired_equivalence_test.default <- function(
 ) {
 
   stopifnot(is.numeric(x))
+  keep <- stats::complete.cases(x, y)
 
-  if ("both" %in% y_type) {
-    y_type <- c("criterion", "comparison")
-  }
+  x <- x[keep]
+  y <- y[keep]
 
-  if ("criterion" %in% y_type && scale == "absolute") {
+  object <- new_paired_equivalence(
+    x, y, y_type, alpha, na.rm, scale,
+    absolute_region_width, relative_region_width
+  )
+
+  if (
+    "criterion" %in% object$y_type &&
+      object$scale == "absolute"
+  ) {
 
     criterion_results <- paired_equivalence_wrapper(
-      x, y, absolute_region_width,
-      absolute_region_width, alpha, scale, na.rm
+      object$x, object$y, "criterion",
+      object$absolute_region_width,
+      object$absolute_region_width,
+      object$alpha, object$scale, object$na.rm
     )
 
   }
 
-  if ("criterion" %in% y_type && scale == "relative") {
+  if (
+    "criterion" %in% object$y_type &&
+      object$scale == "relative"
+  ) {
 
     criterion_results <- paired_equivalence_wrapper(
-      x, y, relative_region_width,
-      relative_region_width * mean(y),
-      alpha, scale, na.rm
+      object$x, object$y, "criterion",
+      object$relative_region_width,
+      object$relative_region_width * mean(object$y, na.rm = na.rm),
+      object$alpha, object$scale, object$na.rm
     )
 
   }
 
-  if ("comparison" %in% y_type && scale == "absolute") {
+  if (
+    "comparison" %in% object$y_type &&
+      object$scale == "absolute"
+  ) {
 
     comparison_results <- paired_equivalence_wrapper(
-      x, y, absolute_region_width,
-      absolute_region_width, alpha, scale, na.rm
+      object$x, object$y, "comparison",
+      object$absolute_region_width,
+      object$absolute_region_width,
+      object$alpha, object$scale, object$na.rm
     )
 
   }
@@ -46,9 +65,10 @@ paired_equivalence_test.default <- function(
   if ("comparison" %in% y_type && scale == "relative") {
 
     comparison_results <- paired_equivalence_wrapper(
-      x, y, relative_region_width,
-      relative_region_width * mean(y),
-      alpha, scale, na.rm, FALSE
+      object$x, object$y, "comparison",
+      object$relative_region_width,
+      object$relative_region_width * mean(object$y, na.rm = na.rm),
+      object$alpha, object$scale, object$na.rm, FALSE
     )
 
     ## Do the lower bound test
@@ -86,15 +106,7 @@ paired_equivalence_test.default <- function(
     criterion_results, comparison_results
   )
 
-  object <- list(
-    x = x, y = y, alpha = alpha,
-    absolute_region_width = absolute_region_width,
-    relative_region_width = relative_region_width,
-    scale = unique(results$scale),
-    results = results
-  )
-
-  class(object) <- "paired_equivalence"
+  object$results <- results
 
   object
 

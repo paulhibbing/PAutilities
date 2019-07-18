@@ -43,7 +43,7 @@ absolute or relative scale}
 \item{relative_region_width}{the region width for use when \code{scale =
 "relative"}}
 
-\item{...}{further arguments passed to methods}
+\item{...}{further arguments passed to methods. Currently unused.}
 }
 \value{
 a `paired_equivalence` object summarizing the test input and results

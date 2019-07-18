@@ -13,7 +13,7 @@
 #'   "absolute"}
 #' @param relative_region_width the region width for use when \code{scale =
 #'   "relative"}
-#' @param ... further arguments passed to methods
+#' @param ... further arguments passed to methods. Currently unused.
 #'
 #' @return a `paired_equivalence` object summarizing the test input and results
 #' @note If a value is not specified for the region width that corresponds with
@@ -43,65 +43,6 @@ paired_equivalence_test <- function(
   relative_region_width = NULL,
   ...
 ) {
-
-  ## Setup for y_type and scale
-
-    y_type <- match.arg(
-      y_type,
-      c("both", "criterion", "comparison", "Error"),
-      TRUE
-    )
-
-    scale <- match.arg(scale)
-
-  ## Setup for absolute_region_width
-
-    if (is.null(absolute_region_width) && scale == "absolute") {
-      warning(paste(
-        "\nAssigning default value (5) for unspecified",
-        "width of equivalence region.\n  See `?paired_equivalence_test`."
-      ))
-      absolute_region_width <- 5
-    }
-
-  ## Setup for relative_region_width
-
-    if (is.null(relative_region_width) && scale == "relative") {
-      warning(paste(
-        "\nAssigning default value (0.1) for unspecified",
-        "width of equivalence region.\n  See `?paired_equivalence_test`."
-      ))
-      relative_region_width <- 0.1
-    }
-
-  ## Check for numeric input
-
-    stopifnot(
-      is.numeric(y),
-      (
-        is.numeric(absolute_region_width) |
-        is.null(absolute_region_width)
-      ),
-      (
-        is.numeric(relative_region_width) |
-        is.null(relative_region_width)
-      )
-    )
-
-  ## Check for potentially bad specification of relative region
-
-    if (is.numeric(relative_region_width)) {
-
-      stopifnot(relative_region_width >= 0)
-
-      if (relative_region_width > 1) warning(paste(
-        "Expecting a relative region width between 0 and 1.",
-        "\n  Have you passed a percentage instead of a proportion?"
-      ))
-
-    }
-
-  ## Wrap up and dispatch
 
     criterion_results <- NULL
     comparison_results <- NULL

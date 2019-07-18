@@ -4,7 +4,7 @@
 \alias{paired_equivalence_wrapper}
 \title{A template function for conducting a paired equivalence test}
 \usage{
-paired_equivalence_wrapper(x, y, width, epsilon, alpha, scale, na.rm,
+paired_equivalence_wrapper(x, y, y_type, width, epsilon, alpha, scale, na.rm,
   do_test = TRUE)
 }
 \arguments{
@@ -12,6 +12,9 @@ paired_equivalence_wrapper(x, y, width, epsilon, alpha, scale, na.rm,
 
 \item{y}{numeric vector representing the (possibly criterion) sample. Index
 paired with \code{x}}
+
+\item{y_type}{classification of \code{y} for the purpose of analysis. Can be
+\code{"criterion"}, \code{"comparison"}, or \code{"both"}.}
 
 \item{width}{the user-specified width of the equivalence region, possibly a
 proportion of an initially-uncalculated mean}
