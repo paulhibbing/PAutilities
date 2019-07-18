@@ -2,6 +2,7 @@
 
 S3method(paired_equivalence_test,data.frame)
 S3method(paired_equivalence_test,default)
+S3method(plot,paired_equivalence)
 S3method(plot,transition)
 S3method(summary,transition)
 export(ba_plot)

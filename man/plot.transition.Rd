@@ -7,7 +7,7 @@
 \method{plot}{transition}(x, ...)
 }
 \arguments{
-\item{x}{the object to print}
+\item{x}{the object to plot}
 
 \item{...}{further methods passed to or from methods, currently unused}
 }

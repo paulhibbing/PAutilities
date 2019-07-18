@@ -1,6 +1,6 @@
 #' Plot the transitions and matchings from a \code{transition} object
 #'
-#' @param x the object to print
+#' @param x the object to plot
 #' @param ... further methods passed to or from methods, currently unused
 #'
 #' @return A plot of the predicted and actual transitions in a \code{transition}

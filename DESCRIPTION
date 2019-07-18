@@ -24,13 +24,15 @@ BugReports: https://github.com/paulhibbing/PAutilities/issues
 RoxygenNote: 6.1.1
 Imports:
     dplyr (>= 0.7),
+    equivalence,
     ggplot2 (>= 2.2),
     graphics,
     lazyeval (>= 0.2),
     lubridate (>= 1.7.4),
     magrittr (>= 1.5),
     matchingMarkets (>= 1.0.1),
+    reshape2,
     rlang (>= 0.3.1),
     stats,
-    equivalence
+    utils
 Suggests: testthat
