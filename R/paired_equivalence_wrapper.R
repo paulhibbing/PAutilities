@@ -16,7 +16,7 @@ paired_equivalence_wrapper <- function(
   result <- stats::setNames(
 
     data.frame(
-      matrix(ncol = 13),
+      matrix(ncol = 14),
       row.names = NULL,
       stringsAsFactors = FALSE
     ),
@@ -24,7 +24,7 @@ paired_equivalence_wrapper <- function(
     c(
       "mean_x", "mean_y", "y_type", "mean_diff", "scale",
       "region_width", "region_low", "region_high", "CI_low",
-      "CI_high", "tost_p", "tost_sig", "CI_sig"
+      "CI_high", "tost_p", "tost_sig", "CI_sig", "equivalent_at"
     )
 
   )
@@ -65,6 +65,8 @@ paired_equivalence_wrapper <- function(
     tost_result$tost.p.value < alpha, "*", "NS"
   )
   result$CI_sig <- CI_sig
+
+  result <- equivalent_at(result)
 
   result
 
