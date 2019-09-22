@@ -78,7 +78,7 @@ get_intensity <- function(
   ## Make posture corrections, if applicable
 
     expected_postures <- c(
-      "lie", "sit", "stand", "other"
+      NA, "lie", "sit", "stand", "other"
     )
 
     posture_test <- posture %in% expected_postures
@@ -106,10 +106,14 @@ get_intensity <- function(
     for (i in seq(intensity)) {
 
       if (
-        !posture[i] %in% sb_postures &
-          intensity[i] == "SB"
-      ) intensity[i] <- "LPA"
-
+        !(is.na(posture[i]) |
+          is.na(intensity[i]))
+      ) {
+        if (
+          !posture[i] %in% sb_postures &
+            intensity[i] == "SB"
+        ) intensity[i] <- "LPA"
+      }
     }
 
     factor(intensity, levels = dots$labels)
