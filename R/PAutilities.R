@@ -29,5 +29,6 @@ NULL
 
 utils::globalVariables(c(
   "x_label", "CI_low", "CI_high",
-  "CI_sig", "low", "high", "vartype"
+  "CI_sig", "low", "high", "vartype",
+  "."
 ))

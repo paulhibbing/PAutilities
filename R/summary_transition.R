@@ -37,6 +37,7 @@ summary.transition <- function(object, ...) {
     sqrt(mean(object$matchings$abs_lag[!rejects]^2)),
     1
   )
+  rmse_prop <- 1 - rmse/object$window_size
 
   # Summarize
   data.frame(
@@ -62,10 +63,15 @@ summary.transition <- function(object, ...) {
     mean_sd_signed_lag_indices = signed_lags$sum_string,
 
     rmse_lag_indices = rmse,
+    rmse_prop = rmse_prop,
 
     row.names = NULL,
     stringsAsFactors = FALSE
 
+  ) %>% cbind(
+    ., aggregated_performance = rowMeans(
+      .[ ,c("recall", "precision", "rmse_prop")]
+    )
   )
 
 }
