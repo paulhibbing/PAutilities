@@ -30,6 +30,7 @@ Imports:
     lazyeval (>= 0.2),
     lubridate (>= 1.7.4),
     magrittr (>= 1.5),
+    methods,
     matchingMarkets (>= 1.0.1),
     reshape2,
     rlang (>= 0.3.1),

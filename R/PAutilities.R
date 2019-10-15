@@ -15,7 +15,7 @@
 #' @name PAutilities
 NULL
 
-#' @import ggplot2 dplyr
+#' @import ggplot2 dplyr methods
 NULL
 
 #' @importFrom magrittr %>%
