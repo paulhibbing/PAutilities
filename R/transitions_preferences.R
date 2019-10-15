@@ -89,37 +89,27 @@ prune_prefs <- function(prefs) {
 #'
 get_proposer_rank <- function(proposer, rejecter, window_size) {
 
-  ranks <- do.call(
-    cbind,
+  ranks <-
     sapply(
-      proposer,
-      function(y) {
-        rejecter[order(abs(y - rejecter))]
-      },
+      proposer, function(y) rejecter[order(abs(y - rejecter))],
       simplify = FALSE
-    )
-  )
+    ) %>%
+    do.call(cbind, .)
 
-  distances <- do.call(
-    cbind,
+  distances <-
     sapply(
-      proposer,
-      function(y) {
-        abs(y - rejecter)[order(abs(y - rejecter))]
-      },
+      proposer, function(y) abs(y - rejecter)[order(abs(y - rejecter))],
       simplify = FALSE
-    )
-  )
+    ) %>%
+    do.call(cbind, .)
 
   ranks[distances > window_size] <- NA
 
   # Convert to relative ranks
-  ranks <- apply(
+  apply(
     ranks, 2, function(y)
       ifelse(y %in% rejecter, match(y, rejecter), y)
   )
-
-  return(ranks)
 
 }
 
@@ -147,11 +137,19 @@ get_proposer_rank <- function(proposer, rejecter, window_size) {
 #' @keywords internal
 #'
 #' @rdname summary.transition
-get_preferences <- function(predictions, references, window_size) {
+get_preferences <- function(
+  predictions, references, window_size, missing_info
+) {
 
   # Indices of transitions
-    ref_i <- which(references == 1)
-    pred_i <- which(predictions == 1)
+    ref_i <-
+      which(references == 1) %>%
+      match(missing_info$new_index) %>%
+      {missing_info$old_index[.]}
+    pred_i <-
+      which(predictions == 1) %>%
+      match(missing_info$new_index) %>%
+      {missing_info$old_index[.]}
 
   # Initialize
     prefs <- list(
@@ -163,11 +161,10 @@ get_preferences <- function(predictions, references, window_size) {
       student_reference_colnames = ref_i,
       college_prediction_colnames = pred_i,
       false_negative_indices = c(),
-      false_positive_indices = c()
+      false_positive_indices = c(),
+      missing_info = missing_info
     )
 
-  # Prune
-  prefs <- prune_prefs(prefs)
+  prune_prefs(prefs)
 
-  return(prefs)
 }

@@ -33,5 +33,5 @@ NULL
 utils::globalVariables(c(
   "x_label", "CI_low", "CI_high",
   "CI_sig", "low", "high", "vartype",
-  "."
+  ".", "missing_info", "missing_cases"
 ))

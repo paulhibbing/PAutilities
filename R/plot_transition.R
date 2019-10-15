@@ -15,11 +15,17 @@
 #' plot(transitions)
 plot.transition <- function(x, ...) {
 
-  x$college_prediction <-
-    unname(sapply(as.character(x$college_prediction), function(x)
-      switch(x, "0" = 3, "1" = 2)))
+  x <- reconstruct_transitions(x)
 
-  graphics::plot(seq(length(x$student_reference)),
+  x$college_prediction <-
+    as.character(x$college_prediction) %>%
+    sapply(function(x) switch(
+      x, "0" = 3, "1" = 2
+    )) %>%
+    unname(.)
+
+  graphics::plot(
+    seq(length(x$student_reference)),
     x$student_reference,
     # "l",
     pch = 16,
@@ -36,16 +42,25 @@ plot.transition <- function(x, ...) {
   graphics::mtext("Prediction", line = 3)
 
   graphics::points(
-    seq(length(x$college_prediction)), x$college_prediction
+    seq(length(x$college_prediction)),
+    x$college_prediction
   )
 
-  sapply(seq(nrow(x$matchings)), function(i) {
-    if (x$matchings$rejected[i]) line_col <- "red" else line_col <- "blue"
-    graphics::lines(
-      c(x$matchings$Reference_Index[i], x$matchings$Prediction_Index[i]),
-      c(1,2),
-      col = line_col
-    )}
+  sapply(
+    seq(nrow(x$matchings)), function(i) {
+
+      if (x$matchings$rejected[i]) {
+        line_col <- "red"
+      } else {
+        line_col <- "blue"
+      }
+
+      graphics::lines(
+        c(x$matchings$Reference_Index[i], x$matchings$Prediction_Index[i]),
+        c(1,2),
+        col = line_col
+      )
+    }
   )
 
   invisible()

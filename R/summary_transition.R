@@ -31,7 +31,7 @@ summary.transition <- function(object, ...) {
 
   # Cell totals
   rejects <- object$matchings$rejected
-  true_positives <- nrow(object$matchings[!rejects, ])
+  true_positives <- sum(!rejects)
 
   # Lags & RMSE
   abs_lags <- mean_sd(

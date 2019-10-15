@@ -22,13 +22,11 @@
 #' get_transition_info(predictions, references, window_size)
 get_transition_info <- function(predictions, references, window_size = 1, ...) {
 
-  stopifnot(
-    length(predictions) == length(references),
-    all(predictions %in% c(0, 1)),
-    all(references %in% c(0,1))
-  )
+  validate_transition_info_input(predictions, references)
 
-  prefs <- get_preferences(predictions, references, window_size)
+  prefs <- get_preferences(
+    predictions, references, window_size, missing_info
+  )
 
   prefs$matchings <- get_matchings(prefs)
 
@@ -53,7 +51,48 @@ get_transition_info <- function(predictions, references, window_size = 1, ...) {
       length(prefs$college_prediction_i)
   )
 
-  class(prefs) <- "transition"
-  return(prefs)
+  prefs$missing_cases <- missing_cases
+
+  structure(prefs, class = "transition")
+
+}
+
+#' @rdname get_transition_info
+#' @keywords internal
+validate_transition_info_input <- function(predictions, references) {
+
+  stopifnot(
+    length(predictions) == length(references)
+  )
+
+  complete <- stats::complete.cases(predictions, references)
+  if (any(!complete)) {
+    warning(paste(
+      "Addressing", sum(!complete), "cases with",
+      "missing prediction and/or reference"
+    ))
+  }
+
+  missing_info <-
+    {!seq(predictions) %in% which(!complete)} %>%
+    {data.frame(
+      old_index = seq(predictions)[.],
+      new_index = seq(which(.))
+    )}
+
+  predictions <- predictions[complete]
+  references <- references[complete]
+
+  stopifnot(
+    all(predictions %in% c(0, 1)),
+    all(references %in% c(0,1))
+  )
+
+  assign("predictions", predictions, parent.frame())
+  assign("references", references, parent.frame())
+  assign("missing_info", missing_info, parent.frame())
+  assign("missing_cases", which(!complete), parent.frame())
+
+  invisible()
 
 }

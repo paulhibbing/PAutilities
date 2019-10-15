@@ -2,10 +2,13 @@
 % Please edit documentation in R/get_transition_info.R
 \name{get_transition_info}
 \alias{get_transition_info}
+\alias{validate_transition_info_input}
 \title{Convert a set of predicted and actual activity transitions to an object that
 can be analyzed}
 \usage{
 get_transition_info(predictions, references, window_size = 1, ...)
+
+validate_transition_info_input(predictions, references)
 }
 \arguments{
 \item{predictions}{A dummy-coded vector of predicted transitions (1)
@@ -35,3 +38,4 @@ references  <- (sample(1:100)\%\%2)
 window_size <- 7
 get_transition_info(predictions, references, window_size)
 }
+\keyword{internal}
