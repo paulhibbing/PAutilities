@@ -49,7 +49,11 @@ spurious_curve <- function(
   ## Run the tests
   as.list(thresholds) %>%
   lapply(function(x) {
-    try(summary(get_transition_info(predictions, references, x)))
+    x <- try(summary(
+      get_transition_info(predictions, references, x)
+    ))
+    if ("try-error" %in% class(x)) return(NULL)
+    x
   }) %>%
   structure(., class = append(class(.), "spurious_curve"))
 
