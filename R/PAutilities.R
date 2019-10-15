@@ -27,6 +27,9 @@ NULL
 #' @importFrom rlang :=
 NULL
 
+#' @importFrom graphics par plot title
+NULL
+
 utils::globalVariables(c(
   "x_label", "CI_low", "CI_high",
   "CI_sig", "low", "high", "vartype",
