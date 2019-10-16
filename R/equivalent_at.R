@@ -47,13 +47,8 @@ get_absolute_equivalent_at <- function(result) {
     abs(c(result$CI_low, result$CI_high))
   )
 
-  eq_at <- eq_at + 0.1
-  eq_at <- as.character(eq_at)
-
-  as.numeric(ifelse(
-    grepl("\\.", eq_at),
-    substring(eq_at, 1, regexpr("\\.", eq_at) + 1),
-    eq_at
-  ))
+  eq_at + (0.001 * eq_at) ## Equivalence zone needs to
+                          ## be slightly larger than `eq_at`
+                          ## in order to be equivalent
 
 }
