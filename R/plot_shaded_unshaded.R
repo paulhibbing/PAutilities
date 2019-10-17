@@ -20,11 +20,18 @@ shaded_equivalence_plot <- function(results, ...) {
     geom_errorbar(
       aes(
         ymin = CI_low, ymax = CI_high,
-        linetype = CI_sig
+        linetype = factor(
+          CI_sig, levels = c("*", "NS")
+        )
       ),
       width = 0.25,
       size = 1.1,
       show.legend = FALSE
+    ) +
+
+    scale_linetype_manual(
+      breaks = c("*", "NS"), guide = FALSE,
+      drop = FALSE, values = c("solid", "dotted")
     ) +
 
     coord_flip() +
@@ -34,6 +41,13 @@ shaded_equivalence_plot <- function(results, ...) {
       axis.line = element_line(size = 0.5),
       axis.title = element_text(size = 14),
       axis.text = element_text(size = 12)
+    ) +
+
+    expand_limits(
+      y = c(
+        min(0, results$region_low*1.1),
+        results$region_high*1.1
+      )
     )
 
 }
