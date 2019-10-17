@@ -10,6 +10,9 @@ summaryTransition <- setClass(
 #'
 #' @param object a \code{transition} object to analyze
 #' @inheritParams get_transition_info
+#' @param rand_index the (possibly adjusted) Rand indices to return from
+#'   \code{\link[clues]{adjustedRand}}. Any or all of \code{c("Rand", "HA",
+#'   "MA", "FM", "Jaccard")}
 #' @param ... further arguments passed to or from methods, currently unused
 #'
 #' @return a data frame containing indicators that reflect, in different ways,
@@ -23,7 +26,14 @@ summaryTransition <- setClass(
 #' window_size <- 7
 #' transitions <- get_transition_info(predictions, references, window_size)
 #' summary(transitions)
-summary.transition <- function(object, ...) {
+summary.transition <- function(
+  object, rand_index = c("Rand", "HA", "MA", "FM", "Jaccard"),
+  ...
+) {
+
+  rand_index <- match.arg(
+    rand_index, c("Rand", "HA", "MA", "FM", "Jaccard", "Error"), TRUE
+  )
 
   # Marginal totals
   reference_positives <- sum(object$student_reference)
@@ -45,6 +55,17 @@ summary.transition <- function(object, ...) {
     1
   )
   rmse_prop <- 1 - rmse/object$window_size
+
+  rand_index <-
+    reconstruct_transitions(object) %>%
+    .[c("student_reference", "college_prediction")] %>%
+    sapply(cumsum, simplify = FALSE) %>%
+    stats::setNames(c("cl1", "cl2")) %>%
+    do.call(clues::adjustedRand, .) %>%
+    .[rand_index] %>%
+    {stats::setNames(., paste0("Rand_Index_", names(.)))} %>%
+    as.list(.) %>%
+    data.frame(stringsAsFactors = FALSE, row.names = NULL)
 
   # Summarize
   data.frame(
@@ -71,6 +92,8 @@ summary.transition <- function(object, ...) {
 
     rmse_lag_indices = rmse,
     rmse_prop = rmse_prop,
+
+    rand_index,
 
     row.names = NULL,
     stringsAsFactors = FALSE

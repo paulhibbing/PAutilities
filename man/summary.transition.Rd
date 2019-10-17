@@ -7,12 +7,17 @@
 \title{Evaluate the effectiveness of predicted transitions for an object of class
 \code{transition}}
 \usage{
-\method{summary}{transition}(object, ...)
+\method{summary}{transition}(object, rand_index = c("Rand", "HA", "MA", "FM",
+  "Jaccard"), ...)
 
 get_preferences(predictions, references, window_size, missing_info)
 }
 \arguments{
 \item{object}{a \code{transition} object to analyze}
+
+\item{rand_index}{the (possibly adjusted) Rand indices to return from
+\code{\link[clues]{adjustedRand}}. Any or all of \code{c("Rand", "HA",
+"MA", "FM", "Jaccard")}}
 
 \item{...}{further arguments passed to or from methods, currently unused}
 
@@ -36,6 +41,9 @@ A list of matrices giving distance-based preferences for both the
   \code{\link[matchingMarkets]{hri}}
 }
 \description{
+Evaluate the effectiveness of predicted transitions for an object of class
+\code{transition}
+
 When predicting activity transitions, the behavior of the predictor is not
 known a priori. It may predict too many or too few transitions, and its
 "intent" is also unknown. Therefore, some method is necessary in order to
