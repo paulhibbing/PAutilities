@@ -39,12 +39,14 @@ get_proposer_rank <- function(proposer, rejecter, window_size) {
   ranks[distances > window_size] <- NA
 
   # Convert to relative ranks
+
   ranks %>%
-    apply(
-      2, function(y) ifelse(
-        y %in% rejecter, match(y, rejecter), y
-      )
+  apply(
+    2, function(y) ifelse(
+      y %in% rejecter, match(y, rejecter), y
     )
+  ) %>%
+  {if (is.vector(.)) matrix(.,nrow=1) else .}
 
 }
 
