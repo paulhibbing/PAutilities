@@ -15,19 +15,16 @@
 #' plot(transitions)
 plot.transition <- function(x, ...) {
 
-  x <- reconstruct_transitions(x)
-
-  x$college_prediction <-
-    as.character(x$college_prediction) %>%
+  x$predictions <-
+    as.character(x$predictions) %>%
     sapply(function(x) switch(
       x, "0" = 3, "1" = 2
     )) %>%
     unname(.)
 
   graphics::plot(
-    seq(length(x$student_reference)),
-    x$student_reference,
-    # "l",
+    seq(length(x$references)),
+    x$references,
     pch = 16,
     ylab = "",
     yaxt = "n",
@@ -42,8 +39,8 @@ plot.transition <- function(x, ...) {
   graphics::mtext("Prediction", line = 3)
 
   graphics::points(
-    seq(length(x$college_prediction)),
-    x$college_prediction
+    seq(length(x$predictions)),
+    x$predictions
   )
 
   sapply(
@@ -60,6 +57,7 @@ plot.transition <- function(x, ...) {
         c(1,2),
         col = line_col
       )
+
     }
   )
 

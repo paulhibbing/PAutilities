@@ -40,75 +40,84 @@ summary.transition <- function(
   )
 
   # Marginal totals
-  reference_positives <- sum(object$student_reference)
-  predicted_positives <- sum(object$college_prediction)
+
+    reference_positives <- sum(object$references)
+    predicted_positives <- sum(object$predictions)
 
   # Cell totals
-  rejects <- object$matchings$rejected
-  true_positives <- sum(!rejects)
+
+    rejects <- object$matchings$rejected
+    true_positives <- sum(!rejects)
 
   # Lags & RMSE
-  abs_lags <- mean_sd(
-    object$matchings$abs_lag[!rejects], digits = 1, nsmall = 1
-  )
-  signed_lags <- mean_sd(
-    object$matchings$signed_lag[!rejects], digits = 1, nsmall = 1
-  )
-  rmse <- round(
-    sqrt(mean(object$matchings$abs_lag[!rejects]^2)),
-    1
-  )
-  rmse_prop <- 1 - rmse/object$window_size
 
-  rand_index <-
-    reconstruct_transitions(object) %>%
-    .[c("student_reference", "college_prediction")] %>%
-    sapply(cumsum, simplify = FALSE) %>%
-    stats::setNames(c("cl1", "cl2")) %>%
-    do.call(clues::adjustedRand, .) %>%
-    .[rand_index] %>%
-    {stats::setNames(., paste0("Rand_Index_", names(.)))} %>%
-    as.list(.) %>%
-    data.frame(stringsAsFactors = FALSE, row.names = NULL)
+    abs_lags <-
+      object$matchings$abs_lag[!rejects] %>%
+      mean_sd(digits = 1, nsmall = 1)
+
+    signed_lags <-
+      object$matchings$signed_lag[!rejects] %>%
+      mean_sd(digits = 1, nsmall = 1)
+
+    rmse <-
+      object$matchings$abs_lag[!rejects]^2 %>%
+      mean() %>%
+      sqrt() %>%
+      round(1)
+
+    rmse_prop <- 1 - rmse/object$window_size
+
+  # Rand
+
+    rand_index <-
+      object[c("references", "predictions")] %>%
+      sapply(cumsum, simplify = FALSE) %>%
+      stats::setNames(c("cl1", "cl2")) %>%
+      do.call(clues::adjustedRand, .) %>%
+      .[rand_index] %>%
+      {stats::setNames(., paste0("Rand_Index_", names(.)))} %>%
+      as.list(.) %>%
+      data.frame(stringsAsFactors = FALSE, row.names = NULL)
 
   # Summarize
-  class(object) <- "list"
-  data.frame(
 
-    window_size = object$window_size,
+    class(object) <- "list"
+    data.frame(
 
-    reference_positives = reference_positives,
-    predicted_positives = predicted_positives,
+      window_size = object$window_size,
 
-    true_positives = true_positives,
+      reference_positives = reference_positives,
+      predicted_positives = predicted_positives,
 
-    n_rejected_pairs = sum(rejects),
+      true_positives = true_positives,
 
-    mean_abs_lag_indices = abs_lags$mean,
-    sd_abs_lag_indices = abs_lags$sd,
-    mean_sd_abs_lag_indices = abs_lags$sum_string,
+      n_rejected_pairs = sum(rejects),
 
-    mean_signed_lag_indices = signed_lags$mean,
-    sd_signed_lag_indices = signed_lags$sd,
-    mean_sd_signed_lag_indices = signed_lags$sum_string,
+      mean_abs_lag_indices = abs_lags$mean,
+      sd_abs_lag_indices = abs_lags$sd,
+      mean_sd_abs_lag_indices = abs_lags$sum_string,
 
-    recall = true_positives / reference_positives,
-    precision = true_positives / predicted_positives,
+      mean_signed_lag_indices = signed_lags$mean,
+      sd_signed_lag_indices = signed_lags$sd,
+      mean_sd_signed_lag_indices = signed_lags$sum_string,
 
-    rmse_lag_indices = rmse,
-    rmse_prop = rmse_prop,
+      recall = true_positives / reference_positives,
+      precision = true_positives / predicted_positives,
 
-    row.names = NULL,
-    stringsAsFactors = FALSE
+      rmse_lag_indices = rmse,
+      rmse_prop = rmse_prop,
 
-  ) %>% cbind(
-    ., aggregated_performance = rowMeans(
-      .[ ,c("recall", "precision", "rmse_prop")]
-    )
-  ) %>% cbind(
-    rand_index, stringsAsFactors = FALSE
-  ) %>%
-  new("summaryTransition", result = ., trans_object = object)
+      row.names = NULL,
+      stringsAsFactors = FALSE
+
+    ) %>% cbind(
+      ., aggregated_performance = rowMeans(
+        .[ ,c("recall", "precision", "rmse_prop")]
+      )
+    ) %>% cbind(
+      rand_index, stringsAsFactors = FALSE
+    ) %>%
+    new("summaryTransition", result = ., trans_object = object)
 
 }
 
