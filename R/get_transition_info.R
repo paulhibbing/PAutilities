@@ -1,10 +1,11 @@
-#' Convert a set of predicted and actual activity transitions to an object that
-#' can be analyzed
+#' Invoke the Transition Pairing Method
 #'
 #' @param predictions A dummy-coded vector of predicted transitions (1)
-#'   interspersed with non-transitions (0)
+#'   interspersed with non-transitions (0). Logical vectors are coerced to
+#'   numeric.
 #' @param references A dummy-coded vector of actual (i.e., reference)
-#'   transitions (1) interspersed with non-transitions (0)
+#'   transitions (1) interspersed with non-transitions (0). Logical vectors are
+#'   coerced to numeric.
 #' @param window_size The maximum number of indices that are allowed to separate
 #'   a predicted and reference transition, before the two are considered
 #'   incompatible
@@ -13,6 +14,19 @@
 #' @return an object of class \code{transition} that contains necessary
 #'   information for evaluating the effectiveness of the predictions.
 #' @export
+#'
+#' @note The TPM uses a Gale-Shapley algorithm to pair predictions and
+#'   references together based on how close they are to one another in time,
+#'   which is defined operationally based on relative indexing. For example, the
+#'   vector \code{0, 1, 1, 0, 1} would indicate transitions at "time" 0.4, 0.6,
+#'   and 1. As long as \code{predictions} and \code{references} have the same
+#'   length, the relative indexing shouldn't warrant any special concern. If
+#'   they don't have the same length, the method runs on the assumption that
+#'   both \code{predictions} and \code{references} represent the same time
+#'   interval, albeit at different resolutions. Violating that assumption would
+#'   throw the two time series out of alignment, leading to dubious results.
+#'
+#' @seealso \code{\link{summary.transition}}
 #'
 #' @examples
 #' set.seed(100)
@@ -63,9 +77,20 @@ get_transition_info <- function(
 #' @keywords internal
 validate_transition_info_input <- function(predictions, references) {
 
-  stopifnot(
-    length(predictions) == length(references)
-  )
+  if (is.logical(predictions)) {
+    predictions <- as.numeric(predictions)
+  }
+
+  if (is.logical(references)) {
+    references <- as.numeric(references)
+  }
+
+  if (length(predictions) != length(references)) {
+    warning(paste(
+      "`predictions` and `references` have different lengths.",
+      "\n  See note in ?PAutilities::get_transition_info."
+    ), call. = FALSE)
+  }
 
   complete <- stats::complete.cases(predictions, references)
   if (any(!complete)) {
