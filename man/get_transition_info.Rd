@@ -5,6 +5,7 @@
 \alias{get_transition_info}
 \alias{validate_transition_info_input}
 \alias{impute_trans}
+\alias{recode_trans_names}
 \title{Invoke the Transition Pairing Method}
 \usage{
 get_transition_info(predictions, references, window_size = 1, ...)
@@ -12,6 +13,8 @@ get_transition_info(predictions, references, window_size = 1, ...)
 validate_transition_info_input(predictions, references)
 
 impute_trans(x, out_length)
+
+recode_trans_names(x)
 }
 \arguments{
 \item{predictions}{A dummy-coded vector of predicted transitions (1)
