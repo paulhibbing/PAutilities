@@ -30,12 +30,14 @@ get_matchings <- function(prefs) {
   ## indexing, so need to test for presence of characters)
 
     matchings <-
-      matchingMarkets::hri(
-        s.prefs = prefs$student_reference_prefs,
-        c.prefs = prefs$college_prediction_prefs
+      utils::capture.output(
+        matchings <- matchingMarkets::hri(
+          s.prefs = prefs$student_reference_prefs,
+          c.prefs = prefs$college_prediction_prefs
+        )
       ) %>%
-      {.$matchings[
-        .$matchings$sOptimal == 1, c("college", "student")
+      {matchings$matchings[
+        matchings$matchings$sOptimal == 1, c("college", "student")
       ]} %>%
       sapply(
         function(x) if(is.character(x)) as.numeric(x) else x,
