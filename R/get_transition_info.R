@@ -20,7 +20,9 @@
 #' references  <- (sample(1:100)%%2)
 #' window_size <- 7
 #' get_transition_info(predictions, references, window_size)
-get_transition_info <- function(predictions, references, window_size = 1, ...) {
+get_transition_info <- function(
+  predictions, references, window_size = 1, ...
+) {
 
   validate_transition_info_input(predictions, references)
 
@@ -70,15 +72,13 @@ validate_transition_info_input <- function(predictions, references) {
     warning(paste(
       "Addressing", sum(!complete), "cases with",
       "missing prediction and/or reference"
-    ))
+    ), call. = FALSE)
   }
 
-  missing_info <-
-    {!seq(predictions) %in% which(!complete)} %>%
-    {data.frame(
-      old_index = seq(predictions)[.],
-      new_index = seq(which(.))
-    )}
+  missing_info <- data.frame(
+    old_index = which(complete),
+    new_index = seq(which(complete))
+  )
 
   predictions <- predictions[complete]
   references <- references[complete]
