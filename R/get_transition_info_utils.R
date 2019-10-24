@@ -96,3 +96,23 @@ impute_trans <- function(x, out_length) {
   return()
 
 }
+
+#' @rdname get_transition_info
+#' @keywords internal
+recode_trans_names <- function(x) {
+  switch(
+    x,
+    "window_size" = "window_size",
+    "student_reference" = "references",
+    "college_prediction" = "predictions",
+    "student_reference_i" = "reference_transition_indices",
+    "college_prediction_i" = "prediction_transition_indices",
+    "student_reference_colnames" = "pruned_reference_transition_indices",
+    "college_prediction_colnames" = "pruned_prediction_transition_indices",
+    "false_negative_indices" = "false_negative_indices",
+    "false_positive_indices" = "false_positive_indices",
+    "student_reference_prefs" = "reference_preferences",
+    "college_prediction_prefs" = "prediction_preferences",
+    "matchings" = "matchings"
+  )
+}
