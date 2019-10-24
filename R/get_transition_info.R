@@ -50,17 +50,19 @@ get_transition_info <- function(
 
   rejects <- prefs$matchings$rejected
 
-  prefs$false_negative_indices <-
-    prefs$student_reference_i %>%
-    {!. %in% prefs$matchings$Reference_Index[!rejects]} %>%
-    prefs$student_reference_i[.] %>%
-    c(prefs$false_negative_indices, .)
+  if (!!length(rejects)) {
 
-  prefs$false_positive_indices <-
-    prefs$college_prediction_i %>%
-    {!. %in% prefs$matchings$Prediction_Index[!rejects]} %>%
-    prefs$college_prediction_i[.] %>%
-    c(prefs$false_positive_indices, .)
+    prefs$false_negative_indices <-
+      prefs$student_reference_i %>%
+      {!. %in% prefs$matchings$Reference_Index[!rejects]} %>%
+      prefs$student_reference_i[.]
+
+    prefs$false_positive_indices <-
+      prefs$college_prediction_i %>%
+      {!. %in% prefs$matchings$Prediction_Index[!rejects]} %>%
+      prefs$college_prediction_i[.]
+
+  }
 
   stopifnot(
 

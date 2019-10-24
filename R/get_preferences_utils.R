@@ -16,6 +16,10 @@
 #'
 get_proposer_rank <- function(proposer, rejecter, window_size) {
 
+  if (any(!length(proposer), !length(rejecter))) return(
+    matrix(nrow = 0, ncol = 0)
+  )
+
   ranks <-
     proposer %>%
     sapply(
@@ -93,15 +97,23 @@ prune_prefs <- function(prefs) {
     if (any(ref_test)) {
       prefs$false_negative_indices <-
         prefs$student_reference_i[which(ref_test)]
-      prefs$student_reference_colnames <-
-        prefs$student_reference_i[-which(ref_test)]
+      if (all(ref_test)) {
+        prefs$student_reference_colnames <- integer(0)
+      } else {
+        prefs$student_reference_colnames <-
+          prefs$student_reference_i[-which(ref_test)]
+      }
     }
 
     if (any(pred_test)) {
       prefs$false_positive_indices <-
         prefs$college_prediction_i[which(pred_test)]
-      prefs$college_prediction_colnames <-
-        prefs$college_prediction_i[-which(pred_test)]
+      if (all(pred_test)) {
+        prefs$college_prediction_colnames <- integer(0)
+      } else {
+        prefs$college_prediction_colnames <-
+          prefs$college_prediction_i[-which(pred_test)]
+      }
     }
 
   # Get the final preferences

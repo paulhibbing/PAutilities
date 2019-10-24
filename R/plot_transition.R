@@ -43,24 +43,25 @@ plot.transition <- function(x, ...) {
     x$predictions
   )
 
-  sapply(
-    seq(nrow(x$matchings)), function(i) {
+  if (nrow(x$matchings) > 0) {
+    sapply(
+      seq(nrow(x$matchings)), function(i) {
 
-      if (x$matchings$rejected[i]) {
-        line_col <- "red"
-      } else {
-        line_col <- "blue"
+        if (x$matchings$rejected[i]) {
+          line_col <- "red"
+        } else {
+          line_col <- "blue"
+        }
+
+        graphics::lines(
+          c(x$matchings$Reference_Index[i], x$matchings$Prediction_Index[i]),
+          c(1,2),
+          col = line_col
+        )
+
       }
-
-      graphics::lines(
-        c(x$matchings$Reference_Index[i], x$matchings$Prediction_Index[i]),
-        c(1,2),
-        col = line_col
-      )
-
-    }
-  )
-
+    )
+  }
   invisible()
 
 }

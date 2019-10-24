@@ -10,6 +10,21 @@
 #'
 get_matchings <- function(prefs) {
 
+  if (any(
+    !length(prefs$student_reference_prefs),
+    !length(prefs$college_prediction_prefs)
+  )) {
+    result <-
+      matrix(nrow = 0, ncol = 7) %>%
+      data.frame() %>%
+      stats::setNames(c(
+        "Prediction", "Reference",
+        "Prediction_Index", "Reference_Index",
+        "abs_lag", "signed_lag", "rejected"
+      ))
+    return(result)
+  }
+
   ## Get the matchings
   ## (Use of characters (in newer matchingMarkets versions) causes problems with
   ## indexing, so need to test for presence of characters)
@@ -47,12 +62,11 @@ get_matchings <- function(prefs) {
   matchings$signed_lag <- matchings$Prediction_Index -
     matchings$Reference_Index
 
-  prefs <- data.frame(
+  data.frame(
     matchings[order(matchings$Prediction), ],
     row.names = NULL
-  )
-
-  sequence_check(prefs)
+  ) %>%
+  sequence_check(.)
 
 }
 

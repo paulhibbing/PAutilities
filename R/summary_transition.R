@@ -53,17 +53,30 @@ summary.transition <- function(
 
     abs_lags <-
       object$matchings$abs_lag[!rejects] %>%
-      mean_sd(digits = 1, nsmall = 1)
+      mean_sd(digits = 1, nsmall = 1) %>%
+      sapply(
+        function(x) if(is.nan(x)) NA_real_ else x,
+        simplify = FALSE
+      ) %>%
+      c(stringsAsFactors = FALSE, row.names = list(NULL)) %>%
+      do.call(data.frame, .)
 
     signed_lags <-
       object$matchings$signed_lag[!rejects] %>%
-      mean_sd(digits = 1, nsmall = 1)
+      mean_sd(digits = 1, nsmall = 1) %>%
+      sapply(
+        function(x) if(is.nan(x)) NA_real_ else x,
+        simplify = FALSE
+      ) %>%
+      c(stringsAsFactors = FALSE, row.names = list(NULL)) %>%
+      do.call(data.frame, .)
 
     rmse <-
       object$matchings$abs_lag[!rejects]^2 %>%
       mean(.) %>%
       sqrt(.) %>%
-      round(1)
+      round(1) %>%
+      sapply(function(x) if(is.nan(x)) NA else x)
 
     rmse_prop <- 1 - rmse/object$window_size
 
@@ -95,11 +108,15 @@ summary.transition <- function(
 
       mean_abs_lag_indices = abs_lags$mean,
       sd_abs_lag_indices = abs_lags$sd,
-      mean_sd_abs_lag_indices = abs_lags$sum_string,
+      mean_sd_abs_lag_indices = gsub(
+        "NaN", "NA", abs_lags$sum_string
+      ),
 
       mean_signed_lag_indices = signed_lags$mean,
       sd_signed_lag_indices = signed_lags$sd,
-      mean_sd_signed_lag_indices = signed_lags$sum_string,
+      mean_sd_signed_lag_indices = gsub(
+        "NaN", "NA", signed_lags$sum_string
+      ),
 
       recall = true_positives / reference_positives,
       precision = true_positives / predicted_positives,
