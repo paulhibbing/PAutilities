@@ -15,16 +15,16 @@
 #'   information for evaluating the effectiveness of the predictions.
 #' @export
 #'
-#' @note The TPM uses a Gale-Shapley algorithm to pair predictions and
-#'   references together based on how close they are to one another in time,
-#'   which is defined operationally based on relative indexing. For example, the
-#'   vector \code{0, 1, 1, 0, 1} would indicate transitions at "time" 0.4, 0.6,
-#'   and 1. As long as \code{predictions} and \code{references} have the same
-#'   length, the relative indexing shouldn't warrant any special concern. If
-#'   they don't have the same length, the method runs on the assumption that
-#'   both \code{predictions} and \code{references} represent the same time
-#'   interval, albeit at different resolutions. Violating that assumption would
-#'   throw the two time series out of alignment, leading to dubious results.
+#' @note If the lengths of \code{predictions} and \code{references} differ, a
+#'   warning is issued, and the shorter vector will be expanded to match the
+#'   length of the longer, using the original relative/proportional positions of
+#'   the transitions to determine where they should be placed in the expanded
+#'   vector. The relative position could be determined different ways, each
+#'   having unique implications for how well aligned \code{predictions} and
+#'   \code{references} are. Therefore, while this function is not unusable when
+#'   the lengths differ, you should make sure you know what you're doing if you
+#'   want to use it that way. The safest solution is to expand the shorter
+#'   vector yourself.
 #'
 #' @seealso \code{\link{summary.transition}}
 #'
@@ -70,54 +70,5 @@ get_transition_info <- function(
   prefs$missing_cases <- missing_cases
 
   structure(prefs, class = "transition")
-
-}
-
-#' @rdname get_transition_info
-#' @keywords internal
-validate_transition_info_input <- function(predictions, references) {
-
-  if (is.logical(predictions)) {
-    predictions <- as.numeric(predictions)
-  }
-
-  if (is.logical(references)) {
-    references <- as.numeric(references)
-  }
-
-  if (length(predictions) != length(references)) {
-    warning(paste(
-      "`predictions` and `references` have different lengths.",
-      "\n  See note in ?PAutilities::get_transition_info."
-    ), call. = FALSE)
-  }
-
-  complete <- stats::complete.cases(predictions, references)
-  if (any(!complete)) {
-    warning(paste(
-      "Addressing", sum(!complete), "cases with",
-      "missing prediction and/or reference"
-    ), call. = FALSE)
-  }
-
-  missing_info <- data.frame(
-    old_index = which(complete),
-    new_index = seq(which(complete))
-  )
-
-  predictions <- predictions[complete]
-  references <- references[complete]
-
-  stopifnot(
-    all(predictions %in% c(0, 1)),
-    all(references %in% c(0,1))
-  )
-
-  assign("predictions", predictions, parent.frame())
-  assign("references", references, parent.frame())
-  assign("missing_info", missing_info, parent.frame())
-  assign("missing_cases", which(!complete), parent.frame())
-
-  invisible()
 
 }
