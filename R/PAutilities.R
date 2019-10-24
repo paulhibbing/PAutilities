@@ -18,7 +18,7 @@ NULL
 #' @import ggplot2 dplyr methods
 NULL
 
-#' @importFrom magrittr %>%
+#' @importFrom magrittr %>% %T>%
 NULL
 
 #' @importFrom stats sd median quantile
