@@ -133,11 +133,29 @@ prune_prefs <- function(prefs) {
       prefs$window_size
     )
 
+    if (length(prefs$student_reference_prefs)==1) {
+
+      prefs$student_reference_prefs <- matrix(
+        c(prefs$student_reference_prefs, rep(NA, 3)),
+        nrow = 2, ncol = 2
+      )
+
+    }
+
     prefs$college_prediction_prefs <- get_proposer_rank(
       prefs$college_prediction_colnames,
       prefs$student_reference_colnames,
       prefs$window_size
     )
+
+    if (length(prefs$college_prediction_prefs)==1) {
+
+      prefs$college_prediction_prefs <- matrix(
+        c(prefs$college_prediction_prefs, rep(NA, 3)),
+        nrow = 2, ncol = 2
+      )
+
+    }
 
   return(prefs)
 
