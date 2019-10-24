@@ -61,8 +61,8 @@ summary.transition <- function(
 
     rmse <-
       object$matchings$abs_lag[!rejects]^2 %>%
-      mean() %>%
-      sqrt() %>%
+      mean(.) %>%
+      sqrt(.) %>%
       round(1)
 
     rmse_prop <- 1 - rmse/object$window_size
