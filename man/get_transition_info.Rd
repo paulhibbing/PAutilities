@@ -3,8 +3,7 @@
 \name{get_transition_info}
 \alias{get_transition_info}
 \alias{validate_transition_info_input}
-\title{Convert a set of predicted and actual activity transitions to an object that
-can be analyzed}
+\title{Invoke the Transition Pairing Method}
 \usage{
 get_transition_info(predictions, references, window_size = 1, ...)
 
@@ -12,10 +11,12 @@ validate_transition_info_input(predictions, references)
 }
 \arguments{
 \item{predictions}{A dummy-coded vector of predicted transitions (1)
-interspersed with non-transitions (0)}
+interspersed with non-transitions (0). Logical vectors are coerced to
+numeric.}
 
 \item{references}{A dummy-coded vector of actual (i.e., reference)
-transitions (1) interspersed with non-transitions (0)}
+transitions (1) interspersed with non-transitions (0). Logical vectors are
+coerced to numeric.}
 
 \item{window_size}{The maximum number of indices that are allowed to separate
 a predicted and reference transition, before the two are considered
@@ -28,8 +29,19 @@ an object of class \code{transition} that contains necessary
   information for evaluating the effectiveness of the predictions.
 }
 \description{
-Convert a set of predicted and actual activity transitions to an object that
-can be analyzed
+Invoke the Transition Pairing Method
+}
+\note{
+The TPM uses a Gale-Shapley algorithm to pair predictions and
+  references together based on how close they are to one another in time,
+  which is defined operationally based on relative indexing. For example, the
+  vector \code{0, 1, 1, 0, 1} would indicate transitions at "time" 0.4, 0.6,
+  and 1. As long as \code{predictions} and \code{references} have the same
+  length, the relative indexing shouldn't warrant any special concern. If
+  they don't have the same length, the method runs on the assumption that
+  both \code{predictions} and \code{references} represent the same time
+  interval, albeit at different resolutions. Violating that assumption would
+  throw the two time series out of alignment, leading to dubious results.
 }
 \examples{
 set.seed(100)
@@ -37,5 +49,8 @@ predictions <- (sample(1:100)\%\%2)
 references  <- (sample(1:100)\%\%2)
 window_size <- 7
 get_transition_info(predictions, references, window_size)
+}
+\seealso{
+\code{\link{summary.transition}}
 }
 \keyword{internal}
