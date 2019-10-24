@@ -50,24 +50,33 @@ get_transition_info <- function(
 
   rejects <- prefs$matchings$rejected
 
-  prefs$false_negative_indices <- prefs$student_reference_i[
-    !prefs$student_reference_i %in%
-      prefs$matchings$Reference_Index[!rejects]
-  ]
+  prefs$false_negative_indices <-
+    prefs$student_reference_i %>%
+    {!. %in% prefs$matchings$Reference_Index[!rejects]} %>%
+    prefs$student_reference_i[.] %>%
+    c(prefs$false_negative_indices, .)
 
-  prefs$false_positive_indices <- prefs$college_prediction_i[
-    !prefs$college_prediction_i %in%
-      prefs$matchings$Prediction_Index[!rejects]
-  ]
+  prefs$false_positive_indices <-
+    prefs$college_prediction_i %>%
+    {!. %in% prefs$matchings$Prediction_Index[!rejects]} %>%
+    prefs$college_prediction_i[.] %>%
+    c(prefs$false_positive_indices, .)
 
   stopifnot(
-    nrow(prefs$matchings[!rejects, ]) + length(prefs$false_negative_indices) ==
-      length(prefs$student_reference_i),
-    nrow(prefs$matchings[!rejects, ]) + length(prefs$false_positive_indices) ==
-      length(prefs$college_prediction_i)
+
+    nrow(prefs$matchings[!rejects, ]) +
+      length(prefs$false_negative_indices) ==
+    length(prefs$student_reference_i),
+
+    nrow(prefs$matchings[!rejects, ]) +
+      length(prefs$false_positive_indices) ==
+    length(prefs$college_prediction_i)
+
   )
 
-  prefs$missing_cases <- missing_cases
+  names(prefs) <-
+    names(prefs) %>%
+    sapply(recode_trans_names, USE.NAMES = FALSE)
 
   structure(prefs, class = "transition")
 

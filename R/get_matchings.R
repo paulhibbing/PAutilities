@@ -11,40 +11,39 @@
 get_matchings <- function(prefs) {
 
   ## Get the matchings
+  ## (Use of characters (in newer matchingMarkets versions) causes problems with
+  ## indexing, so need to test for presence of characters)
 
-  matchings <- matchingMarkets::hri(
-    s.prefs = prefs$student_reference_prefs,
-    c.prefs = prefs$college_prediction_prefs
-  )
-
-  matchings <- matchings$matchings[
-    matchings$matchings$sOptimal == 1,
-    c("college", "student")
-  ]
-
-  ## Set/check formatting
-
-  names(matchings) <- c("Prediction", "Reference")
-
-  ## Use of characters (in newer matchingMarkets versions) causes problems with
-  ## indexing, so need to test for presence of characters
-
-  if (is.character(matchings$Prediction)) {
-    matchings$Prediction <- as.numeric(matchings$Prediction)
-  }
-
-  if (is.character(matchings$Reference)) {
-    matchings$Reference <- as.numeric(matchings$Reference)
-  }
+    matchings <-
+      matchingMarkets::hri(
+        s.prefs = prefs$student_reference_prefs,
+        c.prefs = prefs$college_prediction_prefs
+      ) %>%
+      {.$matchings[
+        .$matchings$sOptimal == 1, c("college", "student")
+      ]} %>%
+      sapply(
+        function(x) if(is.character(x)) as.numeric(x) else x,
+        simplify = FALSE
+      ) %>%
+      {do.call(
+        data.frame,
+        c(., stringsAsFactors = FALSE, row.names = NULL)
+      )} %>%
+      stats::setNames(c("Prediction", "Reference"))
 
   matchings$Prediction_Index <-
-    prefs$college_prediction_colnames[matchings$Prediction]
+    matchings$Prediction %>%
+    prefs$college_prediction_colnames[.]
+
   matchings$Reference_Index <-
-    prefs$student_reference_colnames[matchings$Reference]
+    matchings$Reference %>%
+    prefs$student_reference_colnames[.]
 
   matchings$abs_lag <- abs(
     matchings$Prediction_Index - matchings$Reference_Index
   )
+
   matchings$signed_lag <- matchings$Prediction_Index -
     matchings$Reference_Index
 
