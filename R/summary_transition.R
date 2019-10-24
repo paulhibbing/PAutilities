@@ -148,12 +148,12 @@ add_summaryTransition <- function(e1, e2) {
   e1 <- e1@trans_object
   e2 <- e2@trans_object
 
-  student_reference <- c(
-    e1$student_reference, e2$student_reference
+  references <- c(
+    e1$references, e2$references
   )
 
-  college_prediction <- c(
-    e1$college_prediction, e2$college_prediction
+  predictions <- c(
+    e1$predictions, e2$predictions
   )
 
   matchings <- rbind(
@@ -173,19 +173,17 @@ add_summaryTransition <- function(e1, e2) {
 
   list(
     window_size = window_size,
-    student_reference = student_reference,
-    college_prediction = college_prediction,
-    student_reference_i = not_used,
-    college_prediction_i = not_used,
-    student_reference_colnames = not_used,
-    college_prediction_colnames = not_used,
+    references = references,
+    predictions = predictions,
+    reference_transition_indices = not_used,
+    prediction_transition_indices = not_used,
+    pruned_reference_transition_indices = not_used,
+    pruned_prediction_transition_indices = not_used,
     false_negative_indices = not_used,
     false_positive_indices = not_used,
-    missing_info = not_used,
-    student_reference_prefs = not_used,
-    college_prediction_prefs = not_used,
-    matchings = matchings,
-    missing_cases = not_used
+    reference_preferences = not_used,
+    prediction_preferences = not_used,
+    matchings = matchings
   ) %>%
   summary.transition(rand)
 
