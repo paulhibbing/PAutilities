@@ -50,6 +50,31 @@ get_proposer_rank <- function(proposer, rejecter, window_size) {
 
 }
 
+#' @rdname prune_prefs
+#' @keywords internal
+dim_check <- function(x) {
+
+  if (length(x)==1) {
+
+    return(matrix(
+      c(x, rep(NA, 3)),
+      nrow = 2, ncol = 2
+    ))
+
+  }
+
+  if (nrow(x) == 1) {
+    x <- rbind(x, NA)
+  }
+
+  if (ncol(x) == 1) {
+    x <- cbind(x, NA)
+  }
+
+  x
+
+}
+
 #' Account for cases that refuse all matches
 #'
 #' To run the college admissions algorithm, it is assumed that each
@@ -118,8 +143,6 @@ prune_prefs <- function(prefs) {
       }
     }
 
-  # Account for cases with no predicted and/or reference transitions
-
     if (all(!length(ref_test), !length(pred_test))) {
       prefs$false_negative_indices <- prefs$student_reference_i
       prefs$student_reference_colnames <- integer(0)
@@ -129,36 +152,22 @@ prune_prefs <- function(prefs) {
 
   # Get the final preferences
 
-    prefs$student_reference_prefs <- get_proposer_rank(
-      prefs$student_reference_colnames,
-      prefs$college_prediction_colnames,
-      prefs$window_size
-    )
+    prefs$student_reference_prefs <-
+      get_proposer_rank(
+        prefs$student_reference_colnames,
+        prefs$college_prediction_colnames,
+        prefs$window_size
+      ) %>%
+      dim_check(.)
 
-    if (length(prefs$student_reference_prefs)==1) {
+    prefs$college_prediction_prefs <-
+      get_proposer_rank(
+        prefs$college_prediction_colnames,
+        prefs$student_reference_colnames,
+        prefs$window_size
+      ) %>%
+      dim_check(.)
 
-      prefs$student_reference_prefs <- matrix(
-        c(prefs$student_reference_prefs, rep(NA, 3)),
-        nrow = 2, ncol = 2
-      )
-
-    }
-
-    prefs$college_prediction_prefs <- get_proposer_rank(
-      prefs$college_prediction_colnames,
-      prefs$student_reference_colnames,
-      prefs$window_size
-    )
-
-    if (length(prefs$college_prediction_prefs)==1) {
-
-      prefs$college_prediction_prefs <- matrix(
-        c(prefs$college_prediction_prefs, rep(NA, 3)),
-        nrow = 2, ncol = 2
-      )
-
-    }
-
-  return(prefs)
+  prefs
 
 }
