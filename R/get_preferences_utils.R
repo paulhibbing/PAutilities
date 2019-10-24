@@ -116,6 +116,15 @@ prune_prefs <- function(prefs) {
       }
     }
 
+  # Account for cases with no predicted and/or reference transitions
+
+    if (all(!length(ref_test), !length(pred_test))) {
+      prefs$false_negative_indices <- prefs$student_reference_i
+      prefs$student_reference_colnames <- integer(0)
+      prefs$false_positive_indices <- prefs$college_prediction_i
+      prefs$college_prediction_colnames <- integer(0)
+    }
+
   # Get the final preferences
 
     prefs$student_reference_prefs <- get_proposer_rank(

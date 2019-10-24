@@ -76,9 +76,19 @@ summary.transition <- function(
       mean(.) %>%
       sqrt(.) %>%
       round(1) %>%
-      sapply(function(x) if(is.nan(x)) NA else x)
+      sapply(function(x) if(is.nan(x)) NA_real_ else x)
 
     rmse_prop <- 1 - rmse/object$window_size
+
+  # Recall/precision
+
+    recall <-
+      (true_positives / reference_positives) %>%
+      {if (is.nan(.)) 0 else .}
+
+    precision <-
+      (true_positives / predicted_positives) %>%
+      {if (is.nan(.)) 0 else .}
 
   # Rand
 
@@ -118,8 +128,8 @@ summary.transition <- function(
         "NaN", "NA", signed_lags$sum_string
       ),
 
-      recall = true_positives / reference_positives,
-      precision = true_positives / predicted_positives,
+      recall = recall,
+      precision = precision,
 
       rmse_lag_indices = rmse,
       rmse_prop = rmse_prop,

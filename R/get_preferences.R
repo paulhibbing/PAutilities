@@ -41,8 +41,8 @@ get_preferences <- function(
       college_prediction_i = pred_i,
       student_reference_colnames = ref_i,
       college_prediction_colnames = pred_i,
-      false_negative_indices = c(),
-      false_positive_indices = c()
+      false_negative_indices = integer(0),
+      false_positive_indices = integer(0)
     )
 
   prune_prefs(prefs)

@@ -20,10 +20,9 @@ validate_transition_info_input <- function(predictions, references) {
     )
 
     if (empty_test) {
-      stop(
-        "Cannot analyze transitions when",
-        " there are none\n  for `predictions`",
-        " and/or `references`",
+      warning(
+        "No transitions exist in ",
+        "`predictions` and/or `references`",
         call. = FALSE
       )
     }

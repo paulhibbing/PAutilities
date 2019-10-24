@@ -41,7 +41,7 @@ get_transition_info <- function(
   validate_transition_info_input(predictions, references)
 
   prefs <- get_preferences(
-    predictions, references, window_size, missing_info
+    predictions, references, window_size
   )
 
   prefs$matchings <- get_matchings(prefs)
