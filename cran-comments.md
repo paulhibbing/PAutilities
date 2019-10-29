@@ -4,14 +4,17 @@
 This is an updated version of PAutilities, in which the
     following changes have been made:
     
-* Removed unused dependency on package `AGread`
-* Added support for calculation of RMR via sliding window analysis
-* Added process management utility for easy messaging and timekeeping
-* Added tools to compare objects more specifically than via `all.equal`
-* Added `na.rm = TRUE` to the mean bias line on Bland-Altman plots
-* Added shape control as an option for Bland-Altman plots
-* Cleaned up TPM summary method
-* Added rejection of non-consecutive pairings to the TPM
+* Added paired equivalence testing functionality, including plot method
+* Added a function to classify activity intensity from metabolic equivalents and
+    (if available) posture
+* Added a wrapper for `base::rle` that gives a data frame with original `rle`
+    information, plus start/stop indices for each run
+* Added various performance indicators to `summary.transition`
+* Converted `summary.transition` output to an S4 framework, and added
+    addition/subraction methods
+* Added spurious curve generation functions
+* Adjusted Transition Pairing Method to make it more robust (e.g. to deal with
+    missing values)
 
 ## Test environments
 
@@ -25,4 +28,4 @@ This is an updated version of PAutilities, in which the
 
 ## Reverse dependencies
 
-There are currently no reverse dependencies for PAutilities.
+* AGread (0 errors | 0 warnings | 0 notes)

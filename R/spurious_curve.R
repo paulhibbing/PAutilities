@@ -41,8 +41,8 @@ spurious_curve <- function(
           "and `references` -- drawing from elements of `info`"
         ))
       }
-      predictions <- trans$college_prediction
-      references  <- trans$student_reference
+      predictions <- trans$predictions
+      references  <- trans$references
 
     }
 

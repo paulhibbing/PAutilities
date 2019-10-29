@@ -6,3 +6,4 @@
 ^data-raw$
 ^to-do$
 ^cran-comments\.md$
+^revdep$

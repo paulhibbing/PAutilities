@@ -2,10 +2,10 @@
 % Please edit documentation in R/summary_transition.R
 \name{as}
 \alias{as}
+\alias{as}
 \title{As("summaryTransition", "data.frame")}
 \description{
 As("summaryTransition", "data.frame")
 
 As("summaryTransition", "list")
 }
-\concept{summaryTransition}
