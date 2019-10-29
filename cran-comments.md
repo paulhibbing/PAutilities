@@ -19,7 +19,7 @@ This is an updated version of PAutilities, in which the
 ## Test environments
 
 * local Windows 10 install, R 3.5.0
-* ubuntu 14.04.5 (on travis-ci; devel and release)
+* ubuntu 16.04.6 (on travis-ci; devel and release)
 * win-builder (devel and release)
 
 ## R CMD check results
