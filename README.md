@@ -19,3 +19,7 @@ encouraged.
   - Metabolic calculations (energy expenditure conversions, basal
     metabolic rate predictions)
   - Analysis of bout detection algorithm performance
+  - Paired equivalence testing
+  - Activity intensity classification from metabolic equivalents and (if
+    available) posture
+  - Indexed run length encoding
