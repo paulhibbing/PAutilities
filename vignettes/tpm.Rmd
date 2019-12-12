@@ -18,7 +18,7 @@ library(PAutilities)
 
 ## Introduction
 
-This vignette is designed to highlight some basic aspects of using the transition pairing method (TPM) in R. It has been written with the assumption that the reader is already familiar with the TPM itself, and is simply in need of direction on how to implement it. The core functions are `PAutilities::get_transition_info()` and `PAutilities::spurious_curve`, along with S3 methods for `plot` and `summary`, and S4 methods for `+` and `-`.
+This vignette is designed to highlight some basic aspects of using the transition pairing method (TPM) in R. It has been written with the assumption that the reader is already familiar with the TPM itself, and is simply in need of direction on how to implement it. The core functions are `PAutilities::get_transition_info` and `PAutilities::spurious_curve`, along with S3 methods for `plot` and `summary`, and S4 methods for `+` and `-`.
 
 The TPM is used for evaluating dynamic segmentation algorithms, especially in the context of physical activity data from wearable sensors. The best example is an algorithm that aims to identify transitions between different activities. Throughout this vignette, we will suppose we are evaluating such an algorithm.
 
@@ -44,7 +44,11 @@ The transition now occurs at index 10 of 25, still 40% of the way into the vecto
 
 ## Running the TPM
 
-We will first run the TPM using a spurious pairing threshold of 7.
+We will first run the TPM using a spurious pairing threshold of 7.  
+
+<br />
+
+**NOTE:** In both `get_transition_info` and `spurious_curve`, the spurious pairing threshold values reflect *indices*, not necessarily seconds. In the example below, the threshold setting (`window_size = 7`) would reflect seconds if both the `predictions` and `references` objects were second-by-second variables. On the other hand, if they were 5-s epochs (i.e., 0.2 Hz sampling rate), `window_size = 7` would correspond to a 35-s lag time allowance.
 
 ```{r TPM7}
   transitions <- get_transition_info(
@@ -79,9 +83,11 @@ This gives an S4 object of class `summaryTransition`. The `result` slot must be 
 ```
 
 
-NOTE: The output includes several versions of the [Rand Index](https://www.tandfonline.com/doi/abs/10.1207/s15327906mbr2104_5). Although it's not recommendable to use the rand index (for similar reasons to the Needleman-Wunsch algorithm, as discussed elsewhere), it is included for completeness since it is technically applicable to this data and easy to interpret. (Essentially it gives a score between 0 and 1, reflective of how well aligned the criterion and predicted segments are. The different values represent different adjustments. See also the [CLUES](https://www.sciencedirect.com/science/article/pii/S0167947306004786) paper and its related [R package](https://cran.r-project.org/package=clues).)
+**NOTE:** The output includes several versions of the [Rand Index](https://www.tandfonline.com/doi/abs/10.1207/s15327906mbr2104_5). Although it's not recommendable to use the rand index (for similar reasons to the Needleman-Wunsch algorithm, as discussed elsewhere), it is included for completeness since it is technically applicable to this data and easy to interpret. (Essentially it gives a score between 0 and 1, reflective of how well aligned the criterion and predicted segments are. The different values represent different adjustments. See also the [CLUES](https://www.sciencedirect.com/science/article/pii/S0167947306004786) paper and its related [R package](https://cran.r-project.org/package=clues).)
 
-ANOTHER NOTE: The `result` slot also includes some extra variables, such as signed lags. Two important variables are **rmse_prop** and **aggregated_performance**. The former expresses RMSE in relative terms. That is, since the RMSE minimum (0) and maximum (7, i.e., equal to the spurious pairing threshold) values are known, RMSE can be expressed as a proportion or percentage of maximum (shown as RMSE~%~ below). The advantage is that RMSE~%~ puts RMSE on the same scale as recall and precision. That allows the three of them to be averaged into a single indicator of performance, i.e., `aggregated_performance`. This approach is useful when a single criterion is needed, e.g. for determining which algorithm settings provide the best performance. 
+<br />
+
+**ANOTHER NOTE:** The `result` slot also includes some extra variables, such as signed lags. Two important variables are **rmse_prop** and **aggregated_performance**. The former expresses RMSE in relative terms, i.e., as a value between 0% (pessimal RMSE, equal to the spurious pairing threshold) and 100% (optimal RMSE, equal to 0). The advantage of this metric (RMSE~%~) is that it puts RMSE on the same scale as recall and precision, allowing all three of them to be averaged into a single indicator of performance, i.e., `aggregated_performance`. This approach is useful when a single criterion is needed, e.g. for determining which algorithm settings provide the best performance. 
 
 ## Moving On
 
@@ -98,9 +104,10 @@ Even with `magrittr` pipes, this takes up some space:
     library(magrittr, quietly = TRUE, verbose = FALSE)
   )
 
-  get_transition_info(algorithm, criterion, 7) %>%
-  summary(.) %>%
-  slot("result")
+  summarized <-
+    get_transition_info(algorithm, criterion, 7) %>%
+    summary(.) %>%
+    slot("result")
 ```
 
 Here's why that level of separation is worthwhile: It makes it possible to combine objects or look at how different they are. Let's say we ran our algorithm on two separate occasions.
@@ -113,7 +120,7 @@ Here's why that level of separation is worthwhile: It makes it possible to combi
   criterion2 <- (sample(1:100)%%2)
 ```
 
-We may be interested in taking an aggregated look at the performance. For that, we can add summary objects together.
+We may be interested in looking at the combined performance for both occasions. For that, we can add summary objects together.
 
 ```{r add}
   summarized2 <-
@@ -127,9 +134,13 @@ We may be interested in taking an aggregated look at the performance. For that, 
   # Now view the result
     
     added@result
+    
+
+    # or:
+    # slot(added, "result")
 ```
 
-Or we may be interested in looking at whether the algorithm performed better in one run than the other. For that, we can subtract. (NOTE: The subtraction method returns a list, not an S4 object, and the `differences` element is the item of interest.)
+Or we may be interested in looking at whether the algorithm performed better on one occasion than the other. For that, we can subtract. (**NOTE:** The subtraction method returns a list, not an S4 object, and the `differences` element is the item of interest.)
 
 ```{r subtract}
   subtracted <- summarized1 - summarized2
@@ -139,7 +150,7 @@ Or we may be interested in looking at whether the algorithm performed better in 
 
 ## Running a spurious curve analysis
 
-It's useful to run your analysis for multiple values of the spurious pairing threshold. That can also be done conveniently through `PAutilities`. Let's look at how performance changes (for our original `transitions`, obtained when we first ran the algorithm).
+It's useful to run your analysis for multiple values of the spurious pairing threshold. That can also be done conveniently through `PAutilities`. Let's look at how performance changes (for our original `transitions` object, obtained when we first ran the algorithm) when we use settings of 5-10.
 
 ```{r spurious}
   curve <- spurious_curve(trans = transitions, thresholds = 5:10)
