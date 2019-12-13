@@ -9,7 +9,3 @@ r:
 
 env:
   - _R_CHECK_SYSTEM_CLOCK_=0
-
-before_install:
-  - sudo apt-get install -y libsndfile1-dev
-  - sudo apt-get install -y libfftw3-dev
