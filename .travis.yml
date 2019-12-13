@@ -11,6 +11,7 @@ env:
   - _R_CHECK_SYSTEM_CLOCK_=0
 
 before_install:
+  - sudo apt-get install -y libpng
   - sudo apt-get install -y devscripts
   - sudo apt-get install -y gfortran
   - sudo apt-get install -y libsndfile1-dev
