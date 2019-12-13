@@ -1,6 +1,7 @@
 # R for travis: see documentation at https://docs.travis-ci.com/user/languages/r
 
 language: R
+sudo: required
 cache: packages
 r:
   - release
@@ -9,4 +10,6 @@ r:
 env:
   - _R_CHECK_SYSTEM_CLOCK_=0
 
-install: skip
+before_install:
+  - sudo apt-get install -y libsndfile1-dev
+  - sudo apt-get install -y libfftw3-dev
