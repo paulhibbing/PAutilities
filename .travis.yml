@@ -13,3 +13,7 @@ env:
 before_install:
   - sudo apt-get install -y libsndfile1-dev
   - sudo apt-get install -y libfftw3-dev
+
+addons:
+  apt:
+    update: false
