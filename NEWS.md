@@ -1,3 +1,9 @@
+# PAutilities 0.3.1
+
+## What's new:
+
+* Added a vignette for the Transition Pairing Method
+
 # PAutilities 0.3.0
 
 ## What's new:

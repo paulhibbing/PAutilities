@@ -167,4 +167,4 @@ That gives us a list of `summaryTransition` objects for each threshold setting. 
 
 ## Conclusion
 
-This vignette has provided a crash course in running the TPM in different ways. Setting up a full analysis can still take some work, but `PAutilities` provides solid infrastructure to help you do so in a controlled way. Suggested improvements are welcome. You can post issues or pull requests on the package [GitHub site](github.com/paulhibbing/PAutilities). See you there.
+This vignette has provided a crash course in running the TPM in different ways. Setting up a full analysis can still take some work, but `PAutilities` provides solid infrastructure to help you do so in a controlled way. Suggested improvements are welcome. You can post issues or pull requests on the package [GitHub site](http://www.github.com/paulhibbing/PAutilities). See you there.
