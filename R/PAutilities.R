@@ -30,6 +30,10 @@ NULL
 #' @importFrom graphics par plot title
 NULL
 
+#' @useDynLib PAutilities, .registration = TRUE
+#' @importFrom Rcpp sourceCpp
+NULL
+
 utils::globalVariables(c(
   "x_label", "CI_low", "CI_high",
   "CI_sig", "low", "high", "vartype",
