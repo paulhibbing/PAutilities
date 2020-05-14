@@ -5,11 +5,11 @@
 \title{Determine weight status from body mass index}
 \usage{
 weight_status(bmi = NULL, breaks = c(-Inf, 18.5, 25, 30, 35, 40, Inf),
-  labels = c("Underweight", "Normal Weight", "Overweight", "Obese_1", "Obese_2", "Obese_3"),
-  right = FALSE, youth = FALSE, ...)
+  labels = c("Underweight", "Normal Weight", "Overweight",
+  "Obese_1", "Obese_2", "Obese_3"), right = FALSE, youth = FALSE, ...)
 
-get_BMI_percentile(weight_kg, height_cm, age_yrs, age_mos = NULL,
-  sex = c("M", "F"), output = c("percentile", "classification", "both"))
+#get_BMI_percentile(weight_kg, height_cm, age_yrs, age_mos = NULL,
+  #sex = c("M", "F"), output = c("percentile", "classification", "both"))
 }
 \arguments{
 \item{bmi}{numeric scalar. The participant BMI.}
