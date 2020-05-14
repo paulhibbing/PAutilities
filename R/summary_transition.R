@@ -14,9 +14,6 @@ summaryTransition <- setClass(
 #'
 #' @param object a \code{transition} object to analyze
 #' @inheritParams get_transition_info
-#' @param rand_index the (possibly adjusted) Rand indices to return from
-#'   \code{\link[clues]{adjustedRand}}. Any or all of \code{c("Rand", "HA",
-#'   "MA", "FM", "Jaccard")}
 #' @param ... further arguments passed to or from methods, currently unused
 #'
 #' @return a data frame containing indicators that reflect, in different ways,
@@ -31,13 +28,8 @@ summaryTransition <- setClass(
 #' transitions <- get_transition_info(predictions, references, window_size)
 #' summary(transitions)
 summary.transition <- function(
-  object, rand_index = c("Rand", "HA", "MA", "FM", "Jaccard"),
-  ...
+  object, ...
 ) {
-
-  rand_index <- match.arg(
-    rand_index, c("Rand", "HA", "MA", "FM", "Jaccard", "Error"), TRUE
-  )
 
   # Marginal totals
 
@@ -82,25 +74,9 @@ summary.transition <- function(
 
   # Recall/precision
 
-    recall <-
-      (true_positives / reference_positives) %>%
-      {if (is.nan(.)) 0 else .}
+    recall <- true_positives / reference_positives
 
-    precision <-
-      (true_positives / predicted_positives) %>%
-      {if (is.nan(.)) 0 else .}
-
-  # Rand
-
-    rand_index <-
-      object[c("references", "predictions")] %>%
-      sapply(cumsum, simplify = FALSE) %>%
-      stats::setNames(c("cl1", "cl2")) %>%
-      do.call(clues::adjustedRand, .) %>%
-      .[rand_index] %>%
-      {stats::setNames(., paste0("Rand_Index_", names(.)))} %>%
-      as.list(.) %>%
-      data.frame(stringsAsFactors = FALSE, row.names = NULL)
+    precision <- true_positives / predicted_positives
 
   # Summarize
 
@@ -141,8 +117,6 @@ summary.transition <- function(
       ., aggregated_performance = rowMeans(
         .[ ,c("recall", "precision", "rmse_prop")]
       )
-    ) %>% cbind(
-      rand_index, stringsAsFactors = FALSE
     ) %>%
     new("summaryTransition", result = ., trans_object = object)
 
@@ -159,18 +133,6 @@ summary.transition <- function(
 add_summaryTransition <- function(e1, e2) {
 
   not_used <- "Not used in combined objects"
-
-  rand_e1 <-
-    names(e1@result) %>%
-    {.[grepl("Rand_Index_", .)]} %>%
-    gsub("Rand_Index_", "", .)
-  rand_e2 <-
-    names(e2@result) %>%
-    {.[grepl("Rand_Index_", .)]} %>%
-    gsub("Rand_Index_", "", .)
-  rand <-
-    c(rand_e1, rand_e2) %>%
-    unique()
 
   e1 <- e1@trans_object
   e2 <- e2@trans_object
@@ -212,7 +174,7 @@ add_summaryTransition <- function(e1, e2) {
     prediction_preferences = not_used,
     matchings = matchings
   ) %>%
-  summary.transition(rand)
+  summary.transition(.)
 
 }
 

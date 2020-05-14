@@ -83,7 +83,7 @@ This gives an S4 object of class `summaryTransition`. The `result` slot must be 
 ```
 
 
-**NOTE:** The output includes several versions of the [Rand Index](https://www.tandfonline.com/doi/abs/10.1207/s15327906mbr2104_5). Although it's not recommendable to use the rand index (for similar reasons to the Needleman-Wunsch algorithm, as discussed elsewhere), it is included for completeness since it is technically applicable to this data and easy to interpret. (Essentially it gives a score between 0 and 1, reflective of how well aligned the criterion and predicted segments are. The different values represent different adjustments. See also the [CLUES](https://www.sciencedirect.com/science/article/pii/S0167947306004786) paper and its related [R package](https://cran.r-project.org/package=clues).)
+**NOTE:** One or more versions prior to `PAutilities 1.0.0` included the [Rand Index](https://www.tandfonline.com/doi/abs/10.1207/s15327906mbr2104_5) (in various forms) in the output. The [associated package](https://cran.r-project.org/package=clues) is no longer supported, so this feature has been removed. At any rate, it's not recommendable to use the Rand index, for similar reasons to the Needleman-Wunsch algorithm, as discussed elsewhere. (Background: Essentially the Rand index gives a score between 0 and 1, reflective of how well aligned the criterion and predicted segments are. Different adjustments can be applied, which you can read about in the [CLUES paper](https://www.sciencedirect.com/science/article/pii/S0167947306004786).)
 
 <br />
 

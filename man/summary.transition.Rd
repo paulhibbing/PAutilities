@@ -8,8 +8,7 @@ transitions}
 \usage{
 get_preferences(predictions, references, window_size, missing_info)
 
-\method{summary}{transition}(object, rand_index = c("Rand", "HA", "MA", "FM",
-  "Jaccard"), ...)
+\method{summary}{transition}(object, ...)
 }
 \arguments{
 \item{predictions}{A dummy-coded vector of predicted transitions (1)
@@ -25,10 +24,6 @@ a predicted and reference transition, before the two are considered
 incompatible}
 
 \item{object}{a \code{transition} object to analyze}
-
-\item{rand_index}{the (possibly adjusted) Rand indices to return from
-\code{\link[clues]{adjustedRand}}. Any or all of \code{c("Rand", "HA",
-"MA", "FM", "Jaccard")}}
 
 \item{...}{further arguments passed to or from methods, currently unused}
 }
