@@ -1,7 +1,7 @@
 Package: PAutilities
 Type: Package
 Title: Streamline Physical Activity Research
-Version: 1.0.0
+Version: 1.0.1
 Authors@R: c(
     person(
       c("Paul", "R."), "Hibbing", email = "paulhibbing@gmail.com",
@@ -35,7 +35,6 @@ Imports:
     reshape2,
     rlang (>= 0.3.1),
     stats,
-    utils,
     Rcpp
 Suggests: testthat,
     knitr,
