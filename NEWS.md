@@ -2,6 +2,14 @@
 
 ## What's new:
 
+* Some minor modifications have been made to clean up internal code.
+
+* The transition pairing method unit tests have been temporarily suspended.
+
+# PAutilities 1.0.0
+
+## What's new:
+
 * Added a function (weight_status) to classify body mass index for adults
     using CDC cutoffs. (This can also be used as a wrapper for the existing
     function that classifies youth BMI based on CDC percentiles.)
