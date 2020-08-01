@@ -36,7 +36,7 @@ new_paired_equivalence <- function(
       absolute_region_width <- 5
     }
 
-    ## Setup for relative_region_width
+  ## Setup for relative_region_width
 
     if (is.null(relative_region_width) && scale == "relative") {
       warning(paste(

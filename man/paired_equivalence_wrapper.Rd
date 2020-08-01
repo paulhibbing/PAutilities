@@ -24,7 +24,8 @@ proportion of an initially-uncalculated mean}
 \item{alpha}{the alpha level for the test}
 
 \item{scale}{character specifying whether the test should occur on an
-absolute or relative scale}
+absolute or relative scale. Must be one of \code{"relative"} (default) or
+\code{"absolute"}.}
 
 \item{na.rm}{logical. Omit mean values for mean calculations?}
 

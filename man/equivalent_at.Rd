@@ -3,12 +3,15 @@
 \name{equivalent_at}
 \alias{equivalent_at}
 \alias{get_absolute_equivalent_at}
+\alias{get_relative_equivalent_at}
 \title{Determine the minimum equivalence zone necessary for establishing equivalence
 in a paired equivalence test}
 \usage{
 equivalent_at(result)
 
 get_absolute_equivalent_at(result)
+
+get_relative_equivalent_at(result)
 }
 \arguments{
 \item{result}{data frame constructed in

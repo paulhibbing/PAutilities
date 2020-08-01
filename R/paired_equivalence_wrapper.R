@@ -13,21 +13,14 @@ paired_equivalence_wrapper <- function(
   do_test = TRUE
 ) {
 
-  result <- stats::setNames(
-
-    data.frame(
-      matrix(ncol = 14),
-      row.names = NULL,
-      stringsAsFactors = FALSE
-    ),
-
-    c(
+  result <-
+    matrix(ncol = 14) %>%
+    data.frame(.) %>%
+    stats::setNames(c(
       "mean_x", "mean_y", "y_type", "mean_diff", "scale",
       "region_width", "region_low", "region_high", "CI_low",
       "CI_high", "tost_p", "tost_sig", "CI_sig", "equivalent_at"
-    )
-
-  )
+    ))
 
   result$mean_x <- mean(x, na.rm = na.rm)
   result$mean_y <- mean(y, na.rm = na.rm)

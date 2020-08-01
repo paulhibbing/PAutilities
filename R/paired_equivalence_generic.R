@@ -8,7 +8,8 @@
 #' @param alpha the alpha level for the test
 #' @param na.rm logical. Omit mean values for mean calculations?
 #' @param scale character specifying whether the test should occur on an
-#'   absolute or relative scale
+#'   absolute or relative scale. Must be one of \code{"relative"} (default) or
+#'   \code{"absolute"}.
 #' @param absolute_region_width the region width for use when \code{scale =
 #'   "absolute"}
 #' @param relative_region_width the region width for use when \code{scale =

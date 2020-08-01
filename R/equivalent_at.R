@@ -21,34 +21,48 @@ equivalent_at <- function(result) {
     ))
   }
 
-  result <- split(result, seq(nrow(result)))
-
-  result <- lapply(
-    result, function(x) {
-
-      x$equivalent_at <- get_absolute_equivalent_at(x)
-      if (x$scale == "relative") {
-        x$equivalent_at <- x$equivalent_at / x$mean_y
-      }
-
-      x
-
-    }
-  )
-
-  do.call(rbind, result)
+  nrow(result) %>%
+  seq(.) %>%
+  split(result, .) %>%
+  lapply(function(x) {
+    x$equivalent_at <- switch(
+      x$scale,
+      "absolute" = get_absolute_equivalent_at(x),
+      "relative" = get_relative_equivalent_at(x)
+    )
+    x
+  }) %>%
+  do.call(rbind, .)
 
 }
 
 #' @rdname equivalent_at
 get_absolute_equivalent_at <- function(result) {
 
-  eq_at <- max(
-    abs(c(result$CI_low, result$CI_high))
-  )
+  lim <-
+    result[ ,c("CI_low", "CI_high")] %>%
+    unlist(.) %>%
+    abs(.) %>%
+    max(.)
 
-  eq_at + (0.001 * eq_at) ## Equivalence zone needs to
-                          ## be slightly larger than `eq_at`
-                          ## in order to be equivalent
+  ## Determine smallest increment above CI that will permit equivalence
+
+  as.character(lim) %>%
+  gsub("^.*\\.", "", .) %>%
+  nchar(.) %>%
+  {. * -1} %>%
+  {10^.} %>%
+  {lim + .} %>%
+  as.character(.)
+
+}
+
+#' @rdname equivalent_at
+get_relative_equivalent_at <- function(result) {
+
+  get_absolute_equivalent_at(result) %>%
+  as.numeric(.) %>%
+  {. / result$mean_y} %>%
+  as.character(.)
 
 }

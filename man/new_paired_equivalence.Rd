@@ -22,7 +22,8 @@ paired with \code{x}}
 \item{na.rm}{logical. Omit mean values for mean calculations?}
 
 \item{scale}{character specifying whether the test should occur on an
-absolute or relative scale}
+absolute or relative scale. Must be one of \code{"relative"} (default) or
+\code{"absolute"}.}
 
 \item{absolute_region_width}{the region width for use when \code{scale =
 "absolute"}}
