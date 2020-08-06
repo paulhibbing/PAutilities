@@ -4,8 +4,13 @@
 \alias{rmr_sliding}
 \title{Calculate resting metabolic rate using a sliding window method}
 \usage{
-rmr_sliding(vo2_values, vo2_timestamps, start_time, stop_time,
-  window_size_minutes = 5)
+rmr_sliding(
+  vo2_values,
+  vo2_timestamps,
+  start_time,
+  stop_time,
+  window_size_minutes = 5
+)
 }
 \arguments{
 \item{vo2_values}{numeric vector of oxygen consumption values}

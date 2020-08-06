@@ -4,11 +4,19 @@
 \alias{get_bmr}
 \title{Retrieve estimated basal metabolic rate for an individual}
 \usage{
-get_bmr(Sex = c("M", "F"), Ht = NULL, Wt, Age, verbose = FALSE,
-  RER = NULL, equation = c("ht_wt", "wt", "both"), kcal_table = c("Lusk",
-  "Peronnet", "both"), method = c("Schofield", "FAO", "both"),
+get_bmr(
+  Sex = c("M", "F"),
+  Ht = NULL,
+  Wt,
+  Age,
+  verbose = FALSE,
+  RER = NULL,
+  equation = c("ht_wt", "wt", "both"),
+  kcal_table = c("Lusk", "Peronnet", "both"),
+  method = c("Schofield", "FAO", "both"),
   MJ_conversion = c("thermochemical", "dry", "convenience", "all"),
-  kcal_conversion = 5)
+  kcal_conversion = 5
+)
 }
 \arguments{
 \item{Sex}{The individual's sex}

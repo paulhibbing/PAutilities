@@ -4,7 +4,8 @@
 \name{ex_data}
 \alias{ex_data}
 \title{Example data for calculating bouts of moderate-to-vigorous physical activity}
-\format{A data frame with 10080 rows and 12 variables:
+\format{
+A data frame with 10080 rows and 12 variables:
 \describe{
   \item{FileID}{character. Name of the file originating the data}
   \item{Date}{character giving the date ("\%m/\%d/\%Y")}
@@ -20,7 +21,8 @@
   \item{Vector.Magnitude}{vector magnitude (Euclidian norm) of the activity
   counts from the three axes}
   \item{METs}{predicted energy expenditure, in metabolic equivalents}
-}}
+}
+}
 \usage{
 ex_data
 }

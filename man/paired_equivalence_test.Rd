@@ -7,19 +7,41 @@
 \alias{paired_equivalence_test}
 \title{Perform equivalence testing on paired samples}
 \usage{
-\method{paired_equivalence_test}{data.frame}(x, y, y_type = c("both",
-  "criterion", "comparison"), alpha = 0.05, na.rm = TRUE,
-  scale = c("relative", "absolute"), absolute_region_width = NULL,
-  relative_region_width = NULL, ...)
+\method{paired_equivalence_test}{data.frame}(
+  x,
+  y,
+  y_type = c("both", "criterion", "comparison"),
+  alpha = 0.05,
+  na.rm = TRUE,
+  scale = c("relative", "absolute"),
+  absolute_region_width = NULL,
+  relative_region_width = NULL,
+  ...
+)
 
-\method{paired_equivalence_test}{default}(x, y, y_type = c("both",
-  "criterion", "comparison"), alpha = 0.05, na.rm = TRUE,
-  scale = c("relative", "absolute"), absolute_region_width = NULL,
-  relative_region_width = NULL, ...)
+\method{paired_equivalence_test}{default}(
+  x,
+  y,
+  y_type = c("both", "criterion", "comparison"),
+  alpha = 0.05,
+  na.rm = TRUE,
+  scale = c("relative", "absolute"),
+  absolute_region_width = NULL,
+  relative_region_width = NULL,
+  ...
+)
 
-paired_equivalence_test(x, y, y_type = c("both", "criterion", "comparison"),
-  alpha = 0.05, na.rm = TRUE, scale = c("relative", "absolute"),
-  absolute_region_width = NULL, relative_region_width = NULL, ...)
+paired_equivalence_test(
+  x,
+  y,
+  y_type = c("both", "criterion", "comparison"),
+  alpha = 0.05,
+  na.rm = TRUE,
+  scale = c("relative", "absolute"),
+  absolute_region_width = NULL,
+  relative_region_width = NULL,
+  ...
+)
 }
 \arguments{
 \item{x}{numeric vector representing the (possibly surrogate) sample}

@@ -5,8 +5,7 @@
 \alias{get_duration}
 \title{Printing and timing utility for managing processes}
 \usage{
-manage_procedure(part = c("Start", "End"), ..., timer = NULL,
-  verbose = TRUE)
+manage_procedure(part = c("Start", "End"), ..., timer = NULL, verbose = TRUE)
 
 get_duration(timer)
 }
@@ -31,7 +30,7 @@ Printing and timing utility for managing processes
 }
 \examples{
 
-manage_procedure("Start", "String will be printed\\n")
+manage_procedure("Start", "String will be printed\n")
 timer <- manage_procedure(
 "Start", "Printing a string is optional", verbose = FALSE
 )

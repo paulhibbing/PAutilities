@@ -10,6 +10,9 @@
 #'
 get_matchings <- function(prefs) {
 
+  if (!requireNamespace("matchingMarkets", quietly = TRUE)) {
+    stop("matchingMarkets package required for get_matchings function!")
+  }
   if (any(
     !length(prefs$student_reference_prefs),
     !length(prefs$college_prediction_prefs)
