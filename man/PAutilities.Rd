@@ -3,7 +3,6 @@
 \docType{package}
 \name{PAutilities}
 \alias{PAutilities}
-\alias{PAutilities-package}
 \title{PAutilities: Streamline Physical Activity Research}
 \description{
 A collection of utilities that are useful for a broad range of tasks that are

@@ -4,8 +4,17 @@
 \alias{paired_equivalence_wrapper}
 \title{A template function for conducting a paired equivalence test}
 \usage{
-paired_equivalence_wrapper(x, y, y_type, width, epsilon, alpha, scale, na.rm,
-  do_test = TRUE)
+paired_equivalence_wrapper(
+  x,
+  y,
+  y_type,
+  width,
+  epsilon,
+  alpha,
+  scale,
+  na.rm,
+  do_test = TRUE
+)
 }
 \arguments{
 \item{x}{numeric vector representing the (possibly surrogate) sample}

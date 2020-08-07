@@ -48,9 +48,6 @@ would like to be matched with, and a stable arrangement is sought. This
 function supports the overall goal by assigning the preferences based on the
 temporal proximity of predicted and actual transitions. Preferences beyond a
 specified \code{window_size} are not allowed.
-
-Evaluate the effectiveness of predicted transitions for an object of class
-\code{transition}
 }
 \examples{
 predictions <- (sample(1:100)\%\%2)

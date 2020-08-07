@@ -4,8 +4,14 @@
 \alias{get_BMI_percentile}
 \title{Calculate youth BMI percentile from CDC standards}
 \usage{
-get_BMI_percentile(weight_kg, height_cm, age_yrs, age_mos = NULL,
-  sex = c("M", "F"), output = c("percentile", "classification", "both"))
+get_BMI_percentile(
+  weight_kg,
+  height_cm,
+  age_yrs,
+  age_mos = NULL,
+  sex = c("M", "F"),
+  output = c("percentile", "classification", "both")
+)
 }
 \arguments{
 \item{weight_kg}{Weight in kilograms}

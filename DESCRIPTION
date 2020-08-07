@@ -21,7 +21,7 @@ Encoding: UTF-8
 LazyData: true
 URL: https://github.com/paulhibbing/PAutilities
 BugReports: https://github.com/paulhibbing/PAutilities/issues
-RoxygenNote: 6.1.1
+RoxygenNote: 7.1.1
 Imports:
     dplyr (>= 0.7),
     equivalence,
@@ -31,14 +31,15 @@ Imports:
     lubridate (>= 1.7.4),
     magrittr (>= 1.5),
     methods,
-    matchingMarkets (>= 1.0.1),
     reshape2,
     rlang (>= 0.3.1),
     stats,
     Rcpp
-Suggests: testthat,
+Suggests: 
+    testthat,
     knitr,
-    rmarkdown
+    rmarkdown,
+    matchingMarkets (>= 1.0.1)
 VignetteBuilder: knitr
 LinkingTo: 
     Rcpp

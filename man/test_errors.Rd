@@ -4,8 +4,13 @@
 \alias{test_errors}
 \title{Compare numeric variables in a data frame based on root-squared differences}
 \usage{
-test_errors(reference, target, vars, tolerance = 0.001005,
-  return_logical = TRUE)
+test_errors(
+  reference,
+  target,
+  vars,
+  tolerance = 0.001005,
+  return_logical = TRUE
+)
 }
 \arguments{
 \item{reference}{a data frame giving reference data}

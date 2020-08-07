@@ -4,9 +4,16 @@
 \alias{new_paired_equivalence}
 \title{A combined constructor and validator for \code{paired_equivalence} objects}
 \usage{
-new_paired_equivalence(x, y, y_type = c("both", "criterion", "comparison"),
-  alpha = 0.05, na.rm = TRUE, scale = c("relative", "absolute"),
-  absolute_region_width = NULL, relative_region_width = NULL)
+new_paired_equivalence(
+  x,
+  y,
+  y_type = c("both", "criterion", "comparison"),
+  alpha = 0.05,
+  na.rm = TRUE,
+  scale = c("relative", "absolute"),
+  absolute_region_width = NULL,
+  relative_region_width = NULL
+)
 }
 \arguments{
 \item{x}{numeric vector representing the (possibly surrogate) sample}
