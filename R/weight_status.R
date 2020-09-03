@@ -49,7 +49,9 @@ weight_status <- function(
   ...
 ) {
 
-  if (is.na(bmi)) return(NA)
+  if (is.na(bmi)) return(
+    factor(NA, labels)
+  )
 
   if (!-Inf %in% breaks) warning(
     "First element of `breaks` should probably be `-Inf`",
