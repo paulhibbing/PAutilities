@@ -5,6 +5,16 @@
   .hdl_breaks <- c(-Inf, 35, 45, 50, 60, Inf)
   .sbp_breaks_male   <- c(-Inf, 120, 130, 140, 160, Inf)
   .sbp_breaks_female <- c(-Inf, 120, 130, 140, 150, 160, Inf)
+  .DAgostino_female <- c(
+    0.00555, 0.01, 0.012, 0.015, 0.017, 0.02, 0.024, 0.028,
+    0.033, 0.039, 0.045, 0.053, 0.063, 0.073, 0.086, 0.10,
+    0.117, 0.137, 0.159, 0.185, 0.215, 0.248, 0.285, 0.30555
+  )
+  .DAgostino_male <- c(
+    0.00555, 0.011, 0.014, 0.016, 0.019, 0.023, 0.028,
+    0.033, 0.039, 0.047, 0.056, 0.067, 0.079, 0.094, 0.112,
+    0.132, 0.156, 0.184, 0.216, 0.253, 0.294, 0.30555
+  )
 
 # Generic and methods -----------------------------------------------------
 
@@ -29,9 +39,10 @@
 #'   column in \code{x} that contains the same information for multiple people
 #' @param diabetes same as \code{bp_treated}, but for the presence of diabetes
 #' @param smoker same as\code{bp_treated}, but for smoking status
+#' @param points logical. Return as points (defaul) or risk percentage?
 #' @param ... arguments passed to other methods
 #'
-#' @return One or more risk profiles
+#' @return One or more risk profiles (for default method with \code{points = TRUE}, or for data frames with \code{combine = FALSE & points = TRUE}). Otherwise numeric risk percentage (for \code{points = FALSE}, scalars and data frames) or an integer vector (for data frames with \code{combine = TRUE & points = FALSE})
 #' @export
 #'
 #' @references \href{D'Agostino et al. (2008)}{http://doi.org/10.1161/CIRCULATIONAHA.107.699579}
@@ -65,7 +76,7 @@
 #'
 cvd_risk <- function(
   x = NULL, method = "D'Agostino_2008", sex, age, total_cholesterol,
-  hdl, systolic, bp_treated, diabetes, smoker, ...
+  hdl, systolic, bp_treated, diabetes, smoker, points = TRUE, ...
 ) {
 
   if (method != "D'Agostino_2008") {
@@ -89,7 +100,7 @@ cvd_risk <- function(
 cvd_risk.default <- function(
   x = NULL, method = "D'Agostino_2008", sex, age,
   total_cholesterol, hdl, systolic, bp_treated,
-  diabetes, smoker, ...
+  diabetes, smoker, points = TRUE, ...
 ) {
 
   stopifnot(is.logical(c(bp_treated, diabetes, smoker)))
@@ -101,7 +112,7 @@ cvd_risk.default <- function(
   DAgostino_wrapper(
     sex, age, total_cholesterol,
     hdl, systolic, bp_treated,
-    diabetes, smoker
+    diabetes, smoker, points
   )
 
 }
@@ -113,7 +124,7 @@ cvd_risk.default <- function(
 cvd_risk.data.frame <- function(
   x = NULL, method = "D'Agostino_2008", sex, age,
   total_cholesterol, hdl, systolic, bp_treated,
-  diabetes, smoker, combine = TRUE, ...
+  diabetes, smoker, points = TRUE, combine = TRUE, ...
 ) {
 
   result <-
@@ -138,7 +149,7 @@ cvd_risk.data.frame <- function(
       bp_treated = .$bp_treated,
       diabetes = .$diabetes,
       smoker = .$smoker,
-      MoreArgs = list(x = NULL),
+      MoreArgs = list(x = NULL, points = points),
       SIMPLIFY = FALSE,
       USE.NAMES = FALSE
     )}
@@ -164,7 +175,7 @@ cvd_risk.data.frame <- function(
 DAgostino_wrapper <- function(
   sex, age, total_cholesterol,
   hdl, systolic, bp_treated,
-  diabetes, smoker
+  diabetes, smoker, points = TRUE
 ) {
 
   sbp_points <-
@@ -178,7 +189,7 @@ DAgostino_wrapper <- function(
 
   if (sex == "Male") {
 
-    risk_DAgostino(
+    result <- risk_DAgostino(
       age, total_cholesterol, hdl, systolic,
       c(0, 2, 5:6, 8, 10, 11:12, 14:15),
       0:4, .sbp_breaks_male, sbp_points,
@@ -187,7 +198,7 @@ DAgostino_wrapper <- function(
 
   } else {
 
-    risk_DAgostino(
+    result <- risk_DAgostino(
       age, total_cholesterol, hdl, systolic,
       c(0, 2, 4:5, 7:12),
       c(0:1, 3:5), .sbp_breaks_female, sbp_points,
@@ -196,6 +207,9 @@ DAgostino_wrapper <- function(
 
   }
 
+  if (points) return(result)
+
+  DAgostino_raw(result, sex)
 
 }
 
@@ -254,5 +268,33 @@ get_risk <- function(x, breaks, values) {
   as.numeric(.) %T>%
   {stopifnot(. %% 1 == 0)} %>%
   as.integer(.)
+
+}
+
+#' @rdname DAgostino
+#' @param result output from \code{risk_DAgostino}
+DAgostino_raw <- function(result, sex) {
+
+  if (sex == "Female") {
+
+    cut(result, c(-Inf, -2:20, Inf), right = TRUE) %>%
+    as.numeric(.) %T>%
+    {if (. %in% c(1,24)) warning(
+      "Returning minimum (coded 0.00555) or\n  maximum ",
+      "(coded 0.30555) D'Agostino risk", call. = FALSE
+    )} %>%
+    {.DAgostino_female[.]}
+
+  } else {
+
+    cut(result, c(-Inf, -3:17, Inf), right = TRUE) %>%
+    as.numeric(.) %T>%
+    {if (. %in% c(1, 22)) warning(
+      "Returning minimum (coded 0.00555) or \n  maximum ",
+      "(coded 0.30555) D'Agostino risk", call. = FALSE
+    )} %>%
+    {.DAgostino_male[.]}
+
+  }
 
 }

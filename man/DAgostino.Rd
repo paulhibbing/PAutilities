@@ -4,15 +4,18 @@
 \alias{DAgostino_wrapper}
 \alias{risk_DAgostino}
 \alias{get_risk}
+\alias{DAgostino_raw}
 \title{Assess risk using the method of D'Agostino et al. (2008)}
 \usage{
 DAgostino_wrapper(sex, age, total_cholesterol, hdl, systolic, bp_treated,
-  diabetes, smoker)
+  diabetes, smoker, points = TRUE)
 
-risk_DAgostino(age, total_cholesterol, hdl, systolic, age_points,
-  tc_points, sbp_breaks, sbp_points, diabetes, smoker)
+risk_DAgostino(age, total_cholesterol, hdl, systolic, age_points, tc_points,
+  sbp_breaks, sbp_points, diabetes, smoker)
 
 get_risk(x, breaks, values)
+
+DAgostino_raw(result, sex)
 }
 \arguments{
 \item{sex}{character scalar indicating either sex for one person (i.e.,
@@ -37,6 +40,8 @@ column in \code{x} that contains the same information for multiple people}
 
 \item{smoker}{same as\code{bp_treated}, but for smoking status}
 
+\item{points}{logical. Return as points (defaul) or risk percentage?}
+
 \item{age_points}{numeric vector giving the risk values assigned to each age
 group. Used as a lookup reference for \code{x}}
 
@@ -52,6 +57,8 @@ group. Used as a lookup reference for \code{x}}
 
 \item{values}{numeric vector giving the risk values assigned to each interval
 in \code{breaks}}
+
+\item{result}{output from \code{risk_DAgostino}}
 }
 \description{
 Assess risk using the method of D'Agostino et al. (2008)
