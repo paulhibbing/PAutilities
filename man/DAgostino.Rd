@@ -7,11 +7,30 @@
 \alias{DAgostino_raw}
 \title{Assess risk using the method of D'Agostino et al. (2008)}
 \usage{
-DAgostino_wrapper(sex, age, total_cholesterol, hdl, systolic, bp_treated,
-  diabetes, smoker, points = TRUE)
+DAgostino_wrapper(
+  sex,
+  age,
+  total_cholesterol,
+  hdl,
+  systolic,
+  bp_treated,
+  diabetes,
+  smoker,
+  points = TRUE
+)
 
-risk_DAgostino(age, total_cholesterol, hdl, systolic, age_points, tc_points,
-  sbp_breaks, sbp_points, diabetes, smoker)
+risk_DAgostino(
+  age,
+  total_cholesterol,
+  hdl,
+  systolic,
+  age_points,
+  tc_points,
+  sbp_breaks,
+  sbp_points,
+  diabetes,
+  smoker
+)
 
 get_risk(x, breaks, values)
 

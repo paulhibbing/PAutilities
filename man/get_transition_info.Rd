@@ -55,7 +55,9 @@ set.seed(100)
 predictions <- (sample(1:100)\%\%2)
 references  <- (sample(1:100)\%\%2)
 window_size <- 7
-get_transition_info(predictions, references, window_size)
+if (isTRUE(requireNamespace("matchingMarkets", quietly = TRUE))) {
+  get_transition_info(predictions, references, window_size)
+}
 }
 \seealso{
 \code{\link{summary.transition}}

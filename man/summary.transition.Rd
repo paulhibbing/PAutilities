@@ -53,7 +53,11 @@ specified \code{window_size} are not allowed.
 predictions <- (sample(1:100)\%\%2)
 references  <- (sample(1:100)\%\%2)
 window_size <- 7
-transitions <- get_transition_info(predictions, references, window_size)
-summary(transitions)
+if (isTRUE(requireNamespace("matchingMarkets", quietly = TRUE))){
+  transitions <- get_transition_info(
+    predictions, references, window_size
+  )
+  summary(transitions)
+}
 }
 \keyword{internal}

@@ -6,15 +6,51 @@
 \alias{cvd_risk.data.frame}
 \title{Calculate risk of cardiovascular disease}
 \usage{
-cvd_risk(x = NULL, method = "D'Agostino_2008", sex, age,
-  total_cholesterol, hdl, systolic, bp_treated, diabetes, smoker, ...)
+cvd_risk(
+  x = NULL,
+  method = "D'Agostino_2008",
+  sex,
+  age,
+  total_cholesterol,
+  hdl,
+  systolic,
+  bp_treated,
+  diabetes,
+  smoker,
+  points = TRUE,
+  ...
+)
 
-\method{cvd_risk}{default}(x = NULL, method = "D'Agostino_2008", sex,
-  age, total_cholesterol, hdl, systolic, bp_treated, diabetes, smoker, ...)
+\method{cvd_risk}{default}(
+  x = NULL,
+  method = "D'Agostino_2008",
+  sex,
+  age,
+  total_cholesterol,
+  hdl,
+  systolic,
+  bp_treated,
+  diabetes,
+  smoker,
+  points = TRUE,
+  ...
+)
 
-\method{cvd_risk}{data.frame}(x = NULL, method = "D'Agostino_2008",
-  sex, age, total_cholesterol, hdl, systolic, bp_treated, diabetes, smoker,
-  combine = TRUE, ...)
+\method{cvd_risk}{data.frame}(
+  x = NULL,
+  method = "D'Agostino_2008",
+  sex,
+  age,
+  total_cholesterol,
+  hdl,
+  systolic,
+  bp_treated,
+  diabetes,
+  smoker,
+  points = TRUE,
+  combine = TRUE,
+  ...
+)
 }
 \arguments{
 \item{x}{optional data frame. If provided, the other arguments will be taken
@@ -46,13 +82,15 @@ column in \code{x} that contains the same information for multiple people}
 
 \item{smoker}{same as\code{bp_treated}, but for smoking status}
 
+\item{points}{logical. Return as points (defaul) or risk percentage?}
+
 \item{...}{arguments passed to other methods}
 
 \item{combine}{logical. Give results as a list of \code{risk_profile}
 objects, or combine the list into an integer vector (default)?}
 }
 \value{
-One or more risk profiles
+One or more risk profiles (for default method with \code{points = TRUE}, or for data frames with \code{combine = FALSE & points = TRUE}). Otherwise numeric risk percentage (for \code{points = FALSE}, scalars and data frames) or an integer vector (for data frames with \code{combine = TRUE & points = FALSE})
 }
 \description{
 Calculate risk of cardiovascular disease

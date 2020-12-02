@@ -11,8 +11,12 @@
 #' predictions <- (sample(1:100)%%2)
 #' references  <- (sample(1:100)%%2)
 #' window_size <- 7
-#' transitions <- get_transition_info(predictions, references, window_size)
-#' plot(transitions)
+#' if (isTRUE(requireNamespace("matchingMarkets", quietly = TRUE))){
+#'   transitions <- get_transition_info(
+#'     predictions, references, window_size
+#'   )
+#'   plot(transitions)
+#' }
 plot.transition <- function(x, ...) {
 
   x$predictions <-
