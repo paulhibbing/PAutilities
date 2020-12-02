@@ -15,6 +15,8 @@
 #'   assessing agreement between two methods of clinical measurement. lancet,
 #'   1(8476), 307-310.
 #'
+#' @seealso \code{\link{ba_analysis}}
+#'
 #' @examples
 #' data(ex_data, package = "PAutilities")
 #'

@@ -68,3 +68,6 @@ Bland, J. M., & Altman, D. G. (1986). Statistical methods for
   assessing agreement between two methods of clinical measurement. lancet,
   1(8476), 307-310.
 }
+\seealso{
+\code{\link{ba_analysis}}
+}
