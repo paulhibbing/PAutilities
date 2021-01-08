@@ -6,6 +6,11 @@
 #' @param age_mos age in months (optional)
 #' @param sex Character scalar indicating participant's sex
 #' @param BMI numeric. Body mass index
+#' @param df. Optional data frame on which to operate. Default is \code{NULL}.
+#'   If passed, the preceding arguments that have been documented on this page
+#'   (\code{weight_kg}, \code{height_cm}, etc) are expected to be character
+#'   scalars naming the columns of \code{df} in which the that information can
+#'   be found
 #' @param output What should be returned: raw percentile, weight status
 #'   classification, both percentile and classification, or a full summary (BMI,
 #'   percentile, classification, and severe obesity cutoff)?
@@ -46,8 +51,16 @@
 get_BMI_percentile <- function(
   weight_kg, height_cm, age_yrs = NULL,
   age_mos = NULL, sex = c("Male", "Female"), BMI = NULL,
+  df = NULL,
   output = c("percentile", "classification", "both", "summary")
 ) {
+
+  if (!is.null(df)) {
+    return(percentile_df(
+      df, weight_kg, height_cm, age_yrs,
+      age_mos, sex, BMI, output
+    ))
+  }
 
   ## Format variables
 

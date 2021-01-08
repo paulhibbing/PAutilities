@@ -55,6 +55,57 @@ percentile_BMI <- function(BMI, weight_kg, height_cm) {
 
 }
 
+#' @rdname get_BMI_percentile
+#' @keywords internal
+percentile_df <- function(
+  df, weight_kg = "default", height_cm = "default", age_yrs = "default",
+  age_mos = "default", sex = "default", BMI = "default",
+  output = c("percentile", "classification", "both", "summary")
+) {
+
+  stopifnot(inherits(df, "data.frame"))
+
+  args <-
+    list(
+      weight_kg = weight_kg, height_cm = height_cm,
+      age_yrs = age_yrs, age_mos = age_mos,
+      sex = sex, BMI = BMI
+    ) %>%
+    .[!sapply(., is.null)] %>%
+    .[!sapply(., function(x) x == "default")] %T>%
+    {stopifnot(all(
+      sapply(., is.character)
+    ))} %>%
+    do.call(c, .) %>%
+    unname(.) %T>%
+    {stopifnot(all(. %in% names(df)))}
+
+  output <- match.arg(output)
+
+  nrow(df) %>%
+  seq(.) %>%
+  split(df[ ,args], .) %>%
+  {lapply(
+    .,
+    function(x, output) {
+      as.list(x) %>%
+      c(output = list(output)) %>%
+      do.call(get_BMI_percentile, .) %T>%
+      {if (!is.list(.)) stopifnot(length(.) == 1)} %>%
+      {if (is.list(.)) . else list(.)} %>%
+      {if (is.null(names(.))) stats::setNames(., output) else .} %>%
+      c(stringsAsFactors = FALSE) %>%
+      do.call(data.frame, .)
+    },
+    output
+  )} %>%
+  do.call(rbind, .) %>%
+  stats::setNames(., paste0("bmi_", names(.))) %>%
+  stats::setNames(., gsub("^bmi_severe", "severe", names(.))) %>%
+  stats::setNames(., gsub("^bmi_BMI$", "bmi_auto_kg_m2", names(.)))
+
+}
+
 #' @rdname bmi_internal
 #' @keywords internal
 percentile_index <- function(reference, age_mos) {
