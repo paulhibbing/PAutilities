@@ -76,15 +76,14 @@ percentile_df <- function(
     {stopifnot(all(
       sapply(., is.character)
     ))} %>%
-    do.call(c, .) %>%
-    unname(.) %T>%
+    do.call(c, .) %T>%
     {stopifnot(all(. %in% names(df)))}
 
   output <- match.arg(output)
 
-  nrow(df) %>%
-  seq(.) %>%
-  split(df[ ,args], .) %>%
+  df[ ,args] %>%
+  stats::setNames(names(args)) %>%
+  split(., seq(nrow(.))) %>%
   {lapply(
     .,
     function(x, output) {

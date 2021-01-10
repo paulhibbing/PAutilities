@@ -116,13 +116,13 @@ get_BMI_percentile <- function(
       cut(
         percentile,
         c(-Inf, 5, 85, 95, Inf),
-        c("Underweight", "Normal Weight", "Overweight", "Obese"),
+        c("Underweight", "Healthy Weight", "Overweight", "Obese"),
         right = FALSE
       ) %>%
       as.character(.) %>%
-      ifelse(BMI >= bmi_severe, "Severe_Obese", .) %>%
+      ifelse(BMI >= bmi_severe, "Severe Obese", .) %>%
       factor(c(
-        "Underweight", "Normal Weight", "Overweight", "Obese", "Severe_Obese"
+        "Underweight", "Healthy Weight", "Overweight", "Obese", "Severe Obese"
       ))
 
   ## Finish up
