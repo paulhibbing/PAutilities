@@ -43,8 +43,8 @@
 #'
 #' @seealso
 #'
-#' \href{https://www.ahajournals.org/doi/10.1161/CIR.0b013e3182a5cfb3}{Kelly et al. (2013)}
 #' \href{https://academic.oup.com/ajcn/article/90/5/1314/4598130}{Flegal et al. (2009)}
+#' \href{https://www.ahajournals.org/doi/10.1161/CIR.0b013e3182a5cfb3}{Kelly et al. (2013)}
 #'
 #' @examples
 #' get_BMI_percentile(39.4, 144.5, 12.35, sex = "Male")
