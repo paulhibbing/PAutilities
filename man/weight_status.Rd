@@ -4,15 +4,16 @@
 \alias{weight_status}
 \title{Determine weight status from body mass index}
 \usage{
-weight_status(bmi = NULL, breaks = c(-Inf, 18.5, 25, 30, 35, 40, Inf),
-  labels = c("Underweight", "Normal Weight", "Overweight",
-  "Obese_1", "Obese_2", "Obese_3"), right = FALSE, youth = FALSE, ...)
+weight_status(BMI = NULL, breaks = c(-Inf, 18.5, 25, 30, 35, 40, Inf),
+  labels = c("Underweight", "Healthy Weight", "Overweight", "Class 1 Obese",
+  "Class 2 Obese", "Class 3 Obese"), right = FALSE, youth = FALSE, ...)
 
-#get_BMI_percentile(weight_kg, height_cm, age_yrs, age_mos = NULL,
-  #sex = c("M", "F"), output = c("percentile", "classification", "both"))
+#get_BMI_percentile(weight_kg, height_cm, age_yrs = NULL, age_mos = NULL,
+  #sex = c("Male", "Female"), BMI = NULL, df = NULL,
+  #output = c("percentile", "classification", "both", "summary"))
 }
 \arguments{
-\item{bmi}{numeric scalar. The participant BMI.}
+\item{BMI}{numeric. The participant body mass index}
 
 \item{breaks}{numeric vector. The boundaries for each weight class; passed to
 \code{base::cut}, with warnings if \code{-Inf} and \code{Inf} are not
@@ -30,7 +31,7 @@ included in the vector.}
 \item{...}{Arguments passed to \code{\link{get_BMI_percentile}}}
 }
 \value{
-a factor scalar reflecting weight status
+a factor reflecting weight status
 }
 \description{
 Allows users to determine weight status from body mass index (BMI). The
@@ -41,8 +42,7 @@ a wrapper for \code{\link{get_BMI_percentile}} to obtain classifications for
 youth.
 }
 \examples{
-status <- sapply(17:42, weight_status)
-head(status)
+weight_status(17:42)
 }
 \references{
 \url{https://www.cdc.gov/obesity/adult/defining.html}

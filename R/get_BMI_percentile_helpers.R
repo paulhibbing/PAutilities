@@ -35,6 +35,10 @@ percentile_age <- function(age_mos, age_yrs) {
 
   }
 
+  if (age_mos < 23.5 | age_mos > 240.5) stop(
+    "Age (in months) must fall in the interval [23.5, 240.5]"
+  )
+
   age_mos
 
 }

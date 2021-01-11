@@ -9,14 +9,15 @@
 #'
 #' @usage
 #'
-#' weight_status(bmi = NULL, breaks = c(-Inf, 18.5, 25, 30, 35, 40, Inf),
-#'   labels = c("Underweight", "Normal Weight", "Overweight",
-#'   "Obese_1", "Obese_2", "Obese_3"), right = FALSE, youth = FALSE, ...)
+#' weight_status(BMI = NULL, breaks = c(-Inf, 18.5, 25, 30, 35, 40, Inf),
+#'   labels = c("Underweight", "Healthy Weight", "Overweight", "Class 1 Obese",
+#'   "Class 2 Obese", "Class 3 Obese"), right = FALSE, youth = FALSE, ...)
 #'
-#' #get_BMI_percentile(weight_kg, height_cm, age_yrs, age_mos = NULL,
-#'   #sex = c("M", "F"), output = c("percentile", "classification", "both"))
+#' #get_BMI_percentile(weight_kg, height_cm, age_yrs = NULL, age_mos = NULL,
+#'   #sex = c("Male", "Female"), BMI = NULL, df = NULL,
+#'   #output = c("percentile", "classification", "both", "summary"))
 #'
-#' @param bmi numeric scalar. The participant BMI.
+#' @param BMI numeric. The participant body mass index
 #' @param breaks numeric vector. The boundaries for each weight class; passed to
 #'   \code{base::cut}, with warnings if \code{-Inf} and \code{Inf} are not
 #'   included in the vector.
@@ -28,73 +29,76 @@
 #'   \code{\link{get_BMI_percentile}}?
 #' @param ... Arguments passed to \code{\link{get_BMI_percentile}}
 #'
-#' @return a factor scalar reflecting weight status
+#' @return a factor reflecting weight status
 #' @export
 #'
 #' @references
 #' \url{https://www.cdc.gov/obesity/adult/defining.html}
 #'
 #' @examples
-#' status <- sapply(17:42, weight_status)
-#' head(status)
+#' weight_status(17:42)
 weight_status <- function(
-  bmi = NULL,
+  BMI = NULL,
   breaks = c(-Inf, 18.5, 25, 30, 35, 40, Inf),
   labels = c(
-    "Underweight", "Normal Weight", "Overweight",
-    "Obese_1", "Obese_2", "Obese_3"
+    "Underweight", "Healthy Weight", "Overweight",
+    "Class 1 Obese", "Class 2 Obese", "Class 3 Obese"
   ),
   right = FALSE,
   youth = FALSE,
   ...
 ) {
 
-  if (is.na(bmi)) return(
-    factor(NA, labels)
-  )
+  ## Control flow for wrapper case
 
-  if (!-Inf %in% breaks) warning(
-    "First element of `breaks` should probably be `-Inf`",
-    call. = FALSE
-  )
-
-  if (!Inf %in% breaks) warning(
-    "Last element of `breaks` should probably be `Inf`",
-    call. = FALSE
-  )
-
-  if (is.null(bmi)) {
-
-    if (!youth) stop(
-      "Cannot classify a null BMI. Did you mean",
+    if (is.null(BMI) & !youth) stop(
+      "Cannot classify weight status for NULL BMI. Did you mean",
       " to set `youth = TRUE`?",
       call. = FALSE
     )
 
-  } else {
+    if (youth) {
 
-    if (bmi < 10) warning(
-      "BMI < 10 provided. Recommend checking",
-      " calculations/units.",
+      return(
+        get_BMI_percentile(BMI = BMI, ...)
+      )
+
+    }
+
+  ## Check input formatting
+
+    if (!inherits(BMI, c("numeric", "integer"))) stop(
+      "BMI must be numeric"
+    )
+
+    if (!-Inf %in% breaks) warning(
+      "First element of `breaks` should probably be `-Inf`",
       call. = FALSE
     )
 
-    if (bmi > 80) warning(
-      "BMI > 80 provided. Recommend checking",
-      " calculations/units.",
+    if (!Inf %in% breaks) warning(
+      "Last element of `breaks` should probably be `Inf`",
       call. = FALSE
     )
 
-  }
+    if (any(!is.na(BMI))) {
 
-  if (youth) {
+      if (any(stats::na.omit(BMI) < 10)) warning(
+        "BMI < 10 provided. Recommend checking",
+        " calculations/units.",
+        call. = FALSE
+      )
 
-    get_BMI_percentile(...)
+      if (any(stats::na.omit(BMI) > 80)) warning(
+        "BMI > 80 provided. Recommend checking",
+        " calculations/units.",
+        call. = FALSE
+      )
 
-  } else {
+    }
 
-    cut(bmi, breaks, labels, right = FALSE)
+  ## Execute the cut
 
-  }
+    cut(BMI, breaks, labels, right = right)
 
 }
