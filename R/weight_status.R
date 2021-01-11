@@ -81,21 +81,7 @@ weight_status <- function(
       call. = FALSE
     )
 
-    if (any(!is.na(BMI))) {
-
-      if (any(stats::na.omit(BMI) < 10)) warning(
-        "BMI < 10 provided. Recommend checking",
-        " calculations/units.",
-        call. = FALSE
-      )
-
-      if (any(stats::na.omit(BMI) > 80)) warning(
-        "BMI > 80 provided. Recommend checking",
-        " calculations/units.",
-        call. = FALSE
-      )
-
-    }
+    bmi_check(BMI)
 
   ## Execute the cut
 
