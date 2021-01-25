@@ -10,8 +10,12 @@ get_ree(
   method = c("harris_benedict", "schofield_wt", "schofield_wt_ht", "fao",
     "muller_wt_ht", "muller_ffm"),
   sex,
-  age_yr = NULL,
+  age_yr = NA,
   ...,
+  output = c("default", "mj_day", "kcal_day", "vo2_ml_min"),
+  calorie = c("thermochemical", "convenience", "dry"),
+  RER = 0.86,
+  kcal_table = c("Lusk", "Peronnet", "both"),
   df = NULL
 )
 
@@ -20,18 +24,34 @@ get_ree_dataframe(df, method, sex, age_yr, ...)
 get_ree_default(method, sex, age_yr, ...)
 }
 \arguments{
-\item{method}{character. The equation to use, one of \code{"harris_benedict",
-"schofield_wt", "schofield_wt_ht", "fao", "muller_wt_ht", or "muller_ffm"}}
+\item{method}{character. The equation(s) to use, chosen from
+\code{"harris_benedict", "schofield_wt", "schofield_wt_ht",
+"fao", "muller_wt_ht", or "muller_ffm"}}
 
-\item{sex}{character. The participant/patient sex, one of \code{"female" or
-"male"}.}
+\item{sex}{character. The participant/patient sex, one of \code{"female"} or
+\code{"male"}}
 
-\item{age_yr}{numeric. The participant age in years. Does not need to be
-passed for \code{method = "muller_ffm"}}
+\item{age_yr}{numeric. The participant/patient age in years. Not used for
+\code{method = "muller_ffm"}, but a value must still be given if a data
+frame is passed. (The value does not need to correspond with age, it is
+simply a placeholder to satisfy internal checks that are applied to all
+equations when making computations on a data frame.)}
 
 \item{...}{arguments (e.g. \code{wt_kg} or \code{ht_cm}) for calculations. An
 error message will clarify which variables need to be passed if they are
-missing.}
+missing}
+
+\item{output}{character. The desired output unit(s), chosen from
+\code{"default", "mj_day", "kcal_day", or "vo2_ml_min"}}
+
+\item{calorie}{character. The desired conversion factor(s) for calculating MJ
+from kcal, chosen from \code{"thermochemical", "convenience", or "dry"}}
+
+\item{RER}{numeric. The respiratory exchange ratio}
+
+\item{kcal_table}{character. The desired conversion table(s) to use for
+converting kcal to oxygen consumption, chosen from \code{"Lusk",
+"Peronnet", or "both"}}
 
 \item{df}{optional data frame. If passed, all prior arguments should be
 character scalars pointing to a column in \code{df} that contains the

@@ -164,3 +164,21 @@ get_ree_grid <- function(
     structure(., row.names = seq(nrow(.)))
 
 }
+
+#' @param settings output from \code{get_ree_grid}
+#' @keywords internal
+#' @rdname get_ree_internal
+ree_profile <- function(settings) {
+
+  nrow(settings) %>%
+  seq(.) %>%
+  split(settings, .) %>%
+  sapply(function(x) {
+    paste(
+      x$method, x$to, x$calorie,
+      paste0(x$kcal_table, x$RER),
+      sep = "_"
+    )
+  }, USE.NAMES = FALSE)
+
+}

@@ -5,8 +5,11 @@
 #'   "fao", "muller_wt_ht", or "muller_ffm"}
 #' @param sex character. The participant/patient sex, one of \code{"female"} or
 #'   \code{"male"}
-#' @param age_yr numeric. The participant/patient age in years. Does not need to
-#'   be passed for \code{method = "muller_ffm"}
+#' @param age_yr numeric. The participant/patient age in years. Not used for
+#'   \code{method = "muller_ffm"}, but a value must still be given if a data
+#'   frame is passed. (The value does not need to correspond with age, it is
+#'   simply a placeholder to satisfy internal checks that are applied to all
+#'   equations when making computations on a data frame.)
 #' @param ... arguments (e.g. \code{wt_kg} or \code{ht_cm}) for calculations. An
 #'   error message will clarify which variables need to be passed if they are
 #'   missing
@@ -30,7 +33,7 @@
 get_ree <- function(
   method = c("harris_benedict", "schofield_wt",
     "schofield_wt_ht", "fao", "muller_wt_ht", "muller_ffm"),
-  sex, age_yr = NULL, ...,
+  sex, age_yr = NA, ...,
   output = c("default", "mj_day", "kcal_day", "vo2_ml_min"),
   calorie = c("thermochemical", "convenience", "dry"),
   RER = 0.86, kcal_table = c("Lusk", "Peronnet", "both"),
@@ -61,31 +64,14 @@ get_ree <- function(
 
   ## Otherwise go grid by grid
 
-    if (is.null(df)) {
-
-      nrow(settings) %>%
-      seq(.) %>%
-      split(settings, .) %>%
-      lapply(function(x, sex, age_yr, ..., df) {
-        get_ree_single_setting(x$method, sex, age_yr, ..., df = df) %>%
-        {. * x$conversion} %>%
-        structure(., settings = x)
-      }, sex, age_yr, ..., df = df) %>%
-      unname(.)
-
-    } else {
-
-      nrow(settings) %>%
-      seq(.) %>%
-      split(settings, .) %>%
-      lapply(function(x, sex, age_yr, ..., df) {
-        get_ree_single_setting(x$method, sex, age_yr, ..., df = df) %>%
-        {. * x$conversion} %>%
-        data.frame(x, ree = ., stringsAsFactors = FALSE, row.names = NULL)
-      }, sex, age_yr, ..., df = df) %>%
-      unname(.)
-
-    }
+    nrow(settings) %>%
+    seq(.) %>%
+    split(settings, .) %>%
+    lapply(function(x, sex, age_yr, ..., df) {
+      get_ree_single_setting(x$method, sex, age_yr, ..., df = df) %>%
+      {. * x$conversion}
+    }, sex, age_yr, ..., df = df) %>%
+    stats::setNames(ree_profile(settings))
 
 }
 
@@ -107,8 +93,8 @@ get_ree_dataframe <- function(df, method, sex, age_yr, ...) {
   do.call(c, .) %>%
   df[ ,.] %>%
   as.list(.) %>%
-  c(method = method) %>%
-  do.call(get_ree, .)
+  c(method = method, df = list(NULL)) %>%
+  do.call(get_ree_single_setting, .)
 
 }
 

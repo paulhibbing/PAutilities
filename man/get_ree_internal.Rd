@@ -4,6 +4,9 @@
 \alias{get_ree_internal}
 \alias{ree_single}
 \alias{get_stratum}
+\alias{get_ree_single_setting}
+\alias{get_ree_grid}
+\alias{ree_profile}
 \title{Internal functions for calculating resting energy expenditure}
 \usage{
 ree_single(
@@ -16,16 +19,26 @@ ree_single(
 )
 
 get_stratum(method, sex, age_yr, breaks, labels)
+
+get_ree_single_setting(method, sex, age_yr, ..., df)
+
+get_ree_grid(method, output, calorie, RER, kcal_table)
+
+ree_profile(settings)
 }
 \arguments{
-\item{sex}{character. The participant/patient sex, one of \code{"female" or
-"male"}.}
+\item{sex}{character. The participant/patient sex, one of \code{"female"} or
+\code{"male"}}
 
-\item{age_yr}{numeric. The participant age in years. Does not need to be
-passed for \code{method = "muller_ffm"}}
+\item{age_yr}{numeric. The participant/patient age in years. Not used for
+\code{method = "muller_ffm"}, but a value must still be given if a data
+frame is passed. (The value does not need to correspond with age, it is
+simply a placeholder to satisfy internal checks that are applied to all
+equations when making computations on a data frame.)}
 
-\item{method}{character. The equation to use, one of \code{"harris_benedict",
-"schofield_wt", "schofield_wt_ht", "fao", "muller_wt_ht", or "muller_ffm"}}
+\item{method}{character. The equation(s) to use, chosen from
+\code{"harris_benedict", "schofield_wt", "schofield_wt_ht",
+"fao", "muller_wt_ht", or "muller_ffm"}}
 
 \item{breaks}{age breaks to use (passed to \code{base::cut})}
 
@@ -33,7 +46,25 @@ passed for \code{method = "muller_ffm"}}
 
 \item{...}{arguments (e.g. \code{wt_kg} or \code{ht_cm}) for calculations. An
 error message will clarify which variables need to be passed if they are
-missing.}
+missing}
+
+\item{df}{optional data frame. If passed, all prior arguments should be
+character scalars pointing to a column in \code{df} that contains the
+corresponding information is stored}
+
+\item{output}{character. The desired output unit(s), chosen from
+\code{"default", "mj_day", "kcal_day", or "vo2_ml_min"}}
+
+\item{calorie}{character. The desired conversion factor(s) for calculating MJ
+from kcal, chosen from \code{"thermochemical", "convenience", or "dry"}}
+
+\item{RER}{numeric. The respiratory exchange ratio}
+
+\item{kcal_table}{character. The desired conversion table(s) to use for
+converting kcal to oxygen consumption, chosen from \code{"Lusk",
+"Peronnet", or "both"}}
+
+\item{settings}{output from \code{get_ree_grid}}
 }
 \description{
 Internal functions for calculating resting energy expenditure
