@@ -1,14 +1,23 @@
 #' Calculate resting energy expenditure
 #'
-#' @param method character. The equation to use, one of \code{"harris_benedict",
-#'   "schofield_wt", "schofield_wt_ht", "fao", "muller_wt_ht", or "muller_ffm"}
-#' @param sex character. The participant/patient sex, one of \code{"female" or
-#'   "male"}.
-#' @param age_yr numeric. The participant age in years. Does not need to be
-#'   passed for \code{method = "muller_ffm"}
+#' @param method character. The equation(s) to use, chosen from
+#'   \code{"harris_benedict", "schofield_wt", "schofield_wt_ht",
+#'   "fao", "muller_wt_ht", or "muller_ffm"}
+#' @param sex character. The participant/patient sex, one of \code{"female"} or
+#'   \code{"male"}
+#' @param age_yr numeric. The participant/patient age in years. Does not need to
+#'   be passed for \code{method = "muller_ffm"}
 #' @param ... arguments (e.g. \code{wt_kg} or \code{ht_cm}) for calculations. An
 #'   error message will clarify which variables need to be passed if they are
-#'   missing.
+#'   missing
+#' @param output character. The desired output unit(s), chosen from
+#'   \code{"default", "mj_day", "kcal_day", or "vo2_ml_min"}
+#' @param calorie character. The desired conversion factor(s) for calculating MJ
+#'   from kcal, chosen from \code{"thermochemical", "convenience", or "dry"}
+#' @param RER numeric. The respiratory exchange ratio
+#' @param kcal_table character. The desired conversion table(s) to use for
+#'   converting kcal to oxygen consumption, chosen from \code{"Lusk",
+#'   "Peronnet", or "both"}
 #' @param df optional data frame. If passed, all prior arguments should be
 #'   character scalars pointing to a column in \code{df} that contains the
 #'   corresponding information is stored
@@ -21,26 +30,62 @@
 get_ree <- function(
   method = c("harris_benedict", "schofield_wt",
     "schofield_wt_ht", "fao", "muller_wt_ht", "muller_ffm"),
-  sex, age_yr = NULL, ..., df = NULL
+  sex, age_yr = NULL, ...,
+  output = c("default", "mj_day", "kcal_day", "vo2_ml_min"),
+  calorie = c("thermochemical", "convenience", "dry"),
+  RER = 0.86, kcal_table = c("Lusk", "Peronnet", "both"),
+  df = NULL
 ) {
 
-  stopifnot(methods::hasArg(method))
+  ## Set up the grid
 
-  method <- match.arg(method)
+    stopifnot(methods::hasArg(method))
 
-  if (is.null(df)) {
+    if (!methods::hasArg(output)) output <- match.arg(output)
+    if (!methods::hasArg(calorie)) calorie <- match.arg(calorie)
+    if (!methods::hasArg(kcal_table)) kcal_table <- match.arg(kcal_table)
 
-    mapply(
-      get_ree_default, sex, age_yr, ...,
-      MoreArgs = list(method = method),
-      USE.NAMES = FALSE
+    settings <- get_ree_grid(
+      method, output, calorie, RER, kcal_table
     )
 
-  } else {
+  ## Deal with one-setting case (no frills necessary to
+  ## clarify what numbers mean)
 
-    get_ree_dataframe(df, method, sex, age_yr, ...)
+    if (nrow(settings) == 1) {
+      result <-
+        get_ree_single_setting(method, sex, age_yr, ..., df = df) %>%
+        {. * settings$conversion}
+      return(result)
+    }
 
-  }
+  ## Otherwise go grid by grid
+
+    if (is.null(df)) {
+
+      nrow(settings) %>%
+      seq(.) %>%
+      split(settings, .) %>%
+      lapply(function(x, sex, age_yr, ..., df) {
+        get_ree_single_setting(x$method, sex, age_yr, ..., df = df) %>%
+        {. * x$conversion} %>%
+        structure(., settings = x)
+      }, sex, age_yr, ..., df = df) %>%
+      unname(.)
+
+    } else {
+
+      nrow(settings) %>%
+      seq(.) %>%
+      split(settings, .) %>%
+      lapply(function(x, sex, age_yr, ..., df) {
+        get_ree_single_setting(x$method, sex, age_yr, ..., df = df) %>%
+        {. * x$conversion} %>%
+        data.frame(x, ree = ., stringsAsFactors = FALSE, row.names = NULL)
+      }, sex, age_yr, ..., df = df) %>%
+      unname(.)
+
+    }
 
 }
 

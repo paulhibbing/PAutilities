@@ -57,3 +57,110 @@ get_stratum <- function(method, sex, age_yr, breaks, labels) {
   .[ ,!sapply(., is.na)]
 
 }
+
+#' @keywords internal
+#' @rdname get_ree_internal
+get_ree_single_setting <- function(method, sex, age_yr, ..., df) {
+
+  if (is.null(df)) {
+
+    mapply(
+      get_ree_default, sex, age_yr, ...,
+      MoreArgs = list(method = method),
+      USE.NAMES = FALSE
+    )
+
+  } else {
+
+    get_ree_dataframe(df, method, sex, age_yr, ...)
+
+  }
+
+}
+
+#' @keywords internal
+#' @rdname get_ree_internal
+get_ree_grid <- function(
+  method, output, calorie, RER, kcal_table
+) {
+
+  method <- match.arg(
+    method,
+    c(
+      "harris_benedict", "schofield_wt",
+      "schofield_wt_ht", "fao",
+      "muller_wt_ht", "muller_ffm"
+    ),
+    TRUE
+  )
+
+  output <- match.arg(
+    output,
+    c("default", "mj_day", "kcal_day", "vo2_ml_min"),
+    TRUE
+  )
+
+  calorie <- match.arg(
+    calorie,
+    c("thermochemical", "convenience", "dry"),
+    TRUE
+  )
+
+  kcal_table <- match.arg(
+    kcal_table,
+    c("Lusk", "Peronnet"),
+    TRUE
+  )
+
+  result <-
+    expand.grid(
+      method = method,
+      to = output,
+      calorie = calorie,
+      RER = RER,
+      kcal_table = kcal_table,
+      stringsAsFactors = FALSE,
+      KEEP.OUT.ATTRS = FALSE
+    ) %>%
+    within({
+      from = equations$unit[
+        sapply(method, match, equations$method, USE.NAMES = FALSE)
+      ]
+      to = ifelse(to == "default", from, to)
+    }) %>%
+    .[!duplicated(.), ] %>%
+    within({
+      mj_day__mj_day = 1
+      kcal_day__kcal_day = 1
+      kcal_day__vo2_ml_min = unname(mapply(
+        get_kcal_vo2_conversion, RER, kcal_table
+      ))
+      kcal_day__vo2_ml_min = 1000/kcal_day__vo2_ml_min/1440
+      #^^ 1000 in numerator to convert L to ml
+      mj_day__kcal_day = sapply(calorie, function(x) {
+        switch(
+          x,
+          "thermochemical" = 239.006,
+          "convenience" = 239,
+          "dry" = 238.846,
+          NA_real_
+        )
+      })
+      kcal_day__mj_day = 1 / mj_day__kcal_day
+      mj_day__vo2_ml_min = mj_day__kcal_day * kcal_day__vo2_ml_min
+    }) %>%
+    .[ ,c(
+      c("method", "from", "to"),
+      setdiff(names(.), c("method", "from", "to"))
+    )]
+
+  paste(result$from, result$to, sep = "__") %>%
+    mapply(
+      function(x, y, df) df[x,y],
+      seq(.), ., MoreArgs = list(df = result)
+    ) %>%
+    {within(result, {conversion = .})} %>%
+    .[ ,!grepl("__", names(.))] %>%
+    structure(., row.names = seq(nrow(.)))
+
+}
