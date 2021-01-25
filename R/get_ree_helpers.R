@@ -13,7 +13,9 @@ ree_single <- function(
   ...
 ) {
 
-  s <- get_stratum(method, sex, age_yr, breaks, labels)
+  s <-
+    tolower(sex) %>%
+    get_stratum(method, ., age_yr, breaks, labels)
 
   variables <-
     names(s) %>%
@@ -45,7 +47,11 @@ ree_single <- function(
 
 #' @rdname get_ree_internal
 #' @keywords internal
-get_stratum <- function(method, sex, age_yr, breaks, labels) {
+get_stratum <- function(
+  method, sex = c("male", "female"), age_yr, breaks, labels
+) {
+
+  sex <- match.arg(sex)
 
   cut(age_yr, breaks, labels) %>%
   as.character(.) %>%

@@ -18,7 +18,7 @@ ree_single(
   ...
 )
 
-get_stratum(method, sex, age_yr, breaks, labels)
+get_stratum(method, sex = c("male", "female"), age_yr, breaks, labels)
 
 get_ree_single_setting(method, sex, age_yr, ..., df)
 
