@@ -91,7 +91,7 @@ get_ree_dataframe <- function(df, method, sex, age_yr, ...) {
     all(unlist(.) %in% names(df))
   )} %>%
   do.call(c, .) %>%
-  df[ ,.] %>%
+  {stats::setNames(df[ ,.], names(.))} %>%
   as.list(.) %>%
   c(method = method, df = list(NULL)) %>%
   do.call(get_ree_single_setting, .)
