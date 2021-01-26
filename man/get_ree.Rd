@@ -2,8 +2,6 @@
 % Please edit documentation in R/get_ree.R
 \name{get_ree}
 \alias{get_ree}
-\alias{get_ree_dataframe}
-\alias{get_ree_default}
 \title{Calculate resting energy expenditure}
 \usage{
 get_ree(
@@ -18,10 +16,6 @@ get_ree(
   kcal_table = c("Lusk", "Peronnet", "both"),
   df = NULL
 )
-
-get_ree_dataframe(df, method, sex, age_yr, ...)
-
-get_ree_default(method, sex, age_yr, ...)
 }
 \arguments{
 \item{method}{character. The equation(s) to use, chosen from
@@ -66,4 +60,3 @@ Calculate resting energy expenditure
 \examples{
 get_ree("schofield_wt_ht", "female", 57.8, wt_kg = 80, ht_m = 1.50)
 }
-\keyword{internal}

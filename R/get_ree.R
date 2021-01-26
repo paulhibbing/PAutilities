@@ -76,7 +76,7 @@ get_ree <- function(
 }
 
 #' @keywords internal
-#' @rdname get_ree
+#' @rdname get_ree_internal
 get_ree_dataframe <- function(df, method, sex, age_yr, ...) {
 
   stopifnot(inherits(df, "data.frame"))
@@ -99,7 +99,7 @@ get_ree_dataframe <- function(df, method, sex, age_yr, ...) {
 }
 
 #' @keywords internal
-#' @rdname get_ree
+#' @rdname get_ree_internal
 get_ree_default <- function(method, sex, age_yr, ...) {
 
   switch(
