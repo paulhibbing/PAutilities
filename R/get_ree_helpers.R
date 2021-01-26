@@ -7,7 +7,7 @@
 #' @keywords internal
 #' @name get_ree_internal
 ree_single <- function(
-  sex = c("male", "female"), age_yr, method,
+  sex = c("female", "male"), age_yr, method,
   breaks = c(-Inf, 3, 10, 18, 30, 60, Inf),
   labels = c("less3", "3to10", "10to18", "18to30", "30to60", "over60"),
   ...
@@ -48,7 +48,7 @@ ree_single <- function(
 #' @rdname get_ree_internal
 #' @keywords internal
 get_stratum <- function(
-  method, sex = c("male", "female"), age_yr, breaks, labels
+  method, sex = c("female", "male"), age_yr, breaks, labels
 ) {
 
   sex <- match.arg(sex)
