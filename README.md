@@ -9,17 +9,20 @@ Status](https://travis-ci.com/paulhibbing/PAutilities.svg?branch=master)](https:
 
 This package provides utilities to support a range of tasks in physical
 activity research. These include the items in the list below, which is
-expected to grow and mature over time. Thus, feature/pull requests are
-encouraged.
+expected to grow and mature over time. Feature/pull requests are
+encouraged!
 
-  - Bland-Altman plots
-  - Bouted moderate-to-vigorous physical activity analysis
-  - Formatted descriptive statistics
-  - Demographic calculations (age, BMI-for-age percentile)
-  - Metabolic calculations (energy expenditure conversions, basal
-    metabolic rate predictions)
-  - Analysis of bout detection algorithm performance
-  - Paired equivalence testing (including a plot method)
   - Activity intensity classification from metabolic equivalents and (if
     available) posture
+  - Analysis of bout detection (i.e., change point detection) algorithm performance
+  - Assessment of cardiovascular disease risk
+  - Bland-Altman analysis and plotting
+  - Bouted moderate-to-vigorous physical activity analysis
+  - Demographic and anthropometric calculations (age, BMI, BMI-for-age
+    percentile, weight status, surface area)
+  - Formatted descriptive statistics
   - Indexed run length encoding
+  - Metabolic calculations (energy expenditure, unit conversions, resting energy
+    expenditure predictions, sliding window resting metabolic rate calculations)
+  - Paired equivalence testing (including a plot method)
+  - Programming management (e.g. runtime updates, object comparisons)
