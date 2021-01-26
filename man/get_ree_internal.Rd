@@ -10,7 +10,7 @@
 \title{Internal functions for calculating resting energy expenditure}
 \usage{
 ree_single(
-  sex = c("male", "female"),
+  sex = c("female", "male"),
   age_yr,
   method,
   breaks = c(-Inf, 3, 10, 18, 30, 60, Inf),
@@ -18,7 +18,7 @@ ree_single(
   ...
 )
 
-get_stratum(method, sex = c("male", "female"), age_yr, breaks, labels)
+get_stratum(method, sex = c("female", "male"), age_yr, breaks, labels)
 
 get_ree_single_setting(method, sex, age_yr, ..., df)
 
