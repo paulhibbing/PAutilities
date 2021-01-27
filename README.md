@@ -26,3 +26,4 @@ encouraged!
     expenditure predictions, sliding window resting metabolic rate calculations)
   - Paired equivalence testing (including a plot method)
   - Programming management (e.g. runtime updates, object comparisons)
+  - Reordering data frame variables
