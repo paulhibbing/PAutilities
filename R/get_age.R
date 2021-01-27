@@ -18,28 +18,31 @@ get_age <- function(
   birthdate, current_date, units = c("years", "months")
 ) {
 
-  stopifnot(all(
-    c(class(birthdate), class(current_date)) == "Date"
-  ))
+  stopifnot(
+    inherits(birthdate, "Date"),
+    inherits(current_date, "Date")
+  )
 
   units <- match.arg(
-    units, c("years", "months", "Error"),
-    several.ok = TRUE
+    units, c("years", "months"), several.ok = TRUE
   )
 
-  age_days <- as.numeric(
-    difftime(current_date, birthdate, units = "days")
-  )
+  age_days <-
+    difftime(
+      current_date, birthdate, units = "days"
+    ) %>%
+    as.numeric(.)
 
-  sapply(
-    units,
-    function(x) {
-      switch(
-        x,
-        "years" = age_days / 365.2425,
-        "months" = age_days / 30.4375
-      )
-    }
-  )
+  if ("years" %in% units) {
+    years <- age_days/365.2425
+    if (length(units) == 1) return(years)
+  }
+
+  if ("months" %in% units) {
+    months <- age_days/30.4375
+    if (length(units) == 1) return(months)
+  }
+
+  data.frame(years = years, months = months)
 
 }
