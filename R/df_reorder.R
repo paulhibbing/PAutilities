@@ -25,8 +25,6 @@ df_reorder <- function(df, columns, after) {
 
   names(df) %>%
   setdiff(columns) %>%
-  df[ ,.] %>%
-  names(.) %>%
   append(., columns, match(after, .)) %>%
   df[ ,.]
 
