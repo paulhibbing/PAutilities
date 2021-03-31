@@ -3,3 +3,10 @@
 *** LATER
 * Add mean_sd_plot function from Rcomps
 * Equivalence plot (w/ single- or multi-zone options)
+* Add ASCVD risk calculation
+  - http://tools.acc.org/ASCVD-Risk-Estimator-Plus/#!/calculate/estimate/
+  - https://www.ahajournals.org/doi/full/10.1161/01.cir.0000437741.48606.98
+    ^^ See Appendix 7
+  - https://www.ahajournals.org/doi/full/10.1161/01.cir.0000437738.63853.7a
+* Add Framingham CVD risk calculation
+  - https://www.ahajournals.org/doi/full/10.1161/01.CIR.97.18.1837
