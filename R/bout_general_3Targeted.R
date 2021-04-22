@@ -1,4 +1,4 @@
-group_runs_sequential <- function(x, threshold = 10) {
+group_runs_targeted <- function(x, threshold = 10) {
 
   x %<>%
     index_runs(x) %>%
@@ -40,5 +40,19 @@ group_runs_sequential <- function(x, threshold = 10) {
   }
 
   df_reorder(x, "group", "end_index")
+
+}
+
+check_targeted <- function(x, target = NULL) {
+
+  if (is.null(target)) stop(
+    "Value must be supplied for `target` argument\n  when",
+    " using method = \"targeted\"", call. = FALSE
+  )
+
+  stopifnot(
+    length(target) == 1,
+    target %in% x
+  )
 
 }

@@ -1,61 +1,25 @@
 get_bouts <- function(
-  x, method = c("sequential", "targeted"), target
+  x, method = c("sequential", "targeted"),
+  threshold = 10, target = NULL
 ) {
 
-  PAutilities::index_runs(x) %>%
-  collapse_runs(.)
+  method <- match.arg(method)
 
-}
+  if (method == "targeted") check_targeted(x, target)
 
-group_runs <- function(x, threshold = 10) {
-
-  x$group <- 1
-  active_run <- FALSE
-
-  for (i in 2:nrow(x)) {
-
-    ## Begin by assuming the next event
-    ## is a continuation of the bout
-    x$group[i] <- x$group[i - 1]
-
-    ## If the run length does not exceed the minimum,
-    ## no further work is needed
-    if (x$lengths[i] < threshold) {
-
-      active_run <- TRUE
-      next
-
-    }
-
-    ## Otherwise, we have to check if a new
-    ## behavior is starting -- first identify
-    ## the expected behavior for this run
-    run_class <-
-      seq(i) %>%
-      x$group[.] %>%
-      {. == x$group[i]} %>%
-      which(.) %>%
-      .[1] %>%
-      x$values[.]
-
-    ## If the current behavior is different,
-    ## then label it as a new run
-    if (x$values[i] != run_class) {
-
-      x$group[i] %<>% {. + 1}
-      active_run <- FALSE
-
-    }
-
-  }
-
-  PAutilities::df_reorder(x, "group", "end_index")
+  switch(
+    method,
+    "sequential" = group_runs_sequential(x, threshold),
+    "targeted" = group_runs_targeted(x, threshold, target),
+    NULL
+  ) %>%
+  collapse_runs(threshold)
 
 }
 
 collapse_runs <- function(x, threshold = 10) {
 
-  group_runs(x, threshold) %>%
+  group_runs_sequential(x, threshold) %>%
   split(., .$group) %>%
   lapply(function(df) {
     data.frame(
