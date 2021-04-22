@@ -1,17 +1,12 @@
-#' Assign run-length-encoded data to groups
-#'
-#' This allows for primary runs to be interrupted by secondary runs
-#' having length up to \code{threshold}
-#'
-#' @param x run-length-encoded data frame (output
-#' from \code{PAutilities::index_runs})
-#' @param threshold the allowable length of interruptions
-#'
-#' @return the input data frame with an additional column indicating
-#'  which group each run has been assigned to
-#'
-#' @keywords internal
-#' @name general_bouts
+get_bouts <- function(
+  x, method = c("sequential", "targeted"), target
+) {
+
+  PAutilities::index_runs(x) %>%
+  collapse_runs(.)
+
+}
+
 group_runs <- function(x, threshold = 10) {
 
   x$group <- 1
@@ -58,15 +53,12 @@ group_runs <- function(x, threshold = 10) {
 
 }
 
-#' @rdname general_bouts
-#' @keywords internal
 collapse_runs <- function(x, threshold = 10) {
 
   group_runs(x, threshold) %>%
   split(., .$group) %>%
   lapply(function(df) {
     data.frame(
-      device = df$device[1],
       start_index = df$start_index[1],
       end_index = df$end_index[nrow(df)],
       group = unique(df$group),
@@ -74,11 +66,8 @@ collapse_runs <- function(x, threshold = 10) {
       lengths = sum(df$lengths),
       interruption_length = sum(
         ifelse(df$values == df$values[1], 0, df$lengths)
-      ),
-      start = df$start[1],
-      end = df$end[nrow(df)]
-    ) %>%
-    within({interval = lubridate::interval(start, end)})
+      )
+    )
   }) %>%
   do.call(rbind, .)
 
