@@ -80,3 +80,6 @@ get_bouts(intensity, "sequential", 5)
 get_bouts(intensity, "targeted", 5, 50, 3, "MVPA", 30)
 }
 }
+\seealso{
+\code{\link{bout_expand}}
+}

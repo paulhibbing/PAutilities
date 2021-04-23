@@ -43,6 +43,8 @@
 #' @note \code{x} must be an atomic vector. Factors should be cast to integer or
 #'   character prior to passing into this function.
 #'
+#' @seealso \code{\link{bout_expand}}
+#'
 #' @return data frame with bout information
 #' @export
 #'
