@@ -6,6 +6,7 @@
 \alias{collapse_runs}
 \alias{group_runs_sequential}
 \alias{group_runs_targeted}
+\alias{process_targeted_set}
 \alias{check_targeted}
 \alias{test_targeted_bouts}
 \title{Bout analysis internal functions}
@@ -19,10 +20,19 @@ group_runs_targeted(
   target,
   required_percent,
   longest_allowable_interruption,
+  max_n_interruptions,
+  target_buffer
+)
+
+process_targeted_set(
+  runs,
+  x,
+  required_percent,
+  longest_allowable_interruption,
   max_n_interruptions
 )
 
-check_targeted(x, target = NULL, required_percent)
+check_targeted(x, target = NULL, required_percent, target_buffer)
 
 test_targeted_bouts(
   x,
@@ -52,6 +62,11 @@ to qualify as valid. See details.}
 
 \item{max_n_interruptions}{numeric. The maximum number of interruption events
 that are allowed before a bout will be considered invalid.}
+
+\item{target_buffer}{numeric. Maximum separation between runs of
+\code{target}, beyond which they will not be clustered together}
+
+\item{runs}{pre-processed input (mostly run length encoded)}
 }
 \description{
 Bout analysis internal functions

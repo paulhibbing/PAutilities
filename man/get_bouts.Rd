@@ -10,7 +10,8 @@ get_bouts(
   longest_allowable_interruption = Inf,
   required_percent = 100,
   max_n_interruptions = Inf,
-  target = NULL
+  target = NULL,
+  target_buffer = NULL
 )
 }
 \arguments{
@@ -35,6 +36,9 @@ that are allowed before a bout will be considered invalid.}
 
 \item{target}{character. The value of \code{x} for which bout information is
 desired (applicable only when \code{method = "targeted"})}
+
+\item{target_buffer}{numeric. Maximum separation between runs of
+\code{target}, beyond which they will not be clustered together}
 }
 \value{
 data frame with bout information
@@ -73,7 +77,6 @@ data(ex_data, package = "PAutilities")
 intensity <- as.character(get_intensity(ex_data$METs))
 get_bouts(intensity, "sequential", 5)
 \donttest{
-  intensity <- split(intensity, ex_data$Date)
-  get_bouts(intensity[[1]], "targeted", 5, 50, 3, "MVPA")
+get_bouts(intensity, "targeted", 5, 50, 3, "MVPA", 30)
 }
 }

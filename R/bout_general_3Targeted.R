@@ -4,12 +4,42 @@
 group_runs_targeted = function(
   x, target, required_percent,
   longest_allowable_interruption,
+  max_n_interruptions, target_buffer
+) {
+
+  ifelse(x == target, target, "other") %>%
+  index_runs(.) %>%
+  within({group = cumsum(
+    values == "other" & lengths >= target_buffer
+  )}) %>%
+  split(., .$group) %>%
+  lapply(function(df, target) df[df$values == target, ], target) %>%
+  .[sapply(., function(df) nrow(df) > 0)] %>%
+  lapply(
+    process_targeted_set, x, required_percent,
+    longest_allowable_interruption, max_n_interruptions
+  ) %>%
+  do.call(rbind, .) %>%
+  structure(., h = .$h) %>%
+  within({h = NULL})
+
+}
+
+#' @inheritParams get_bouts
+#' @param runs pre-processed input (mostly run length encoded)
+#' @keywords internal
+#' @rdname bouts_internal
+process_targeted_set <- function(
+  runs, x, required_percent, longest_allowable_interruption,
   max_n_interruptions
 ) {
 
-  runs <-
-    index_runs(x) %>%
-    subset(values == target)
+  if (nrow(runs) == 1) {
+    result <-
+      collapse_runs(runs) %>%
+      cbind(h = NA, .)
+    return(result)
+  }
 
   if (nrow(runs) > 100) message(
     "\nDetected more than 100 potential bouts",
@@ -49,12 +79,17 @@ group_runs_targeted = function(
 #' @keywords internal
 #' @rdname bouts_internal
 check_targeted <- function(
-  x, target = NULL, required_percent
+  x, target = NULL, required_percent, target_buffer
 ) {
 
   if (is.null(target)) stop(
     "Value must be supplied for `target` argument\n  when",
     " using method = \"targeted\"", call. = FALSE
+  )
+
+  if (is.null(target_buffer)) warning(
+    "No value specified for `target_buffer`.\nDefaulting to Inf, ",
+    "which may dramatically increase runtime", call. = FALSE
   )
 
   stopifnot(length(target) == 1)
@@ -102,13 +137,7 @@ test_targeted_bouts <- function(
       cbind(run, .)
     }, x) %>%
     do.call(rbind, .) %>%
-    cbind(
-      h = h,
-      required_percent = required_percent,
-      max_n_interruptions = max_n_interruptions,
-      longest_allowable_interruption = longest_allowable_interruption,
-      .
-    )
+    cbind(h = h, .)
 
   meets_requirements <- all(
     result$percent_time_engaged >= required_percent,

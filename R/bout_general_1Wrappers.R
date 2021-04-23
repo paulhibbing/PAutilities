@@ -16,6 +16,8 @@
 #'   that are allowed before a bout will be considered invalid.
 #' @param target character. The value of \code{x} for which bout information is
 #'   desired (applicable only when \code{method = "targeted"})
+#' @param target_buffer numeric. Maximum separation between runs of
+#'   \code{target}, beyond which they will not be clustered together
 #'
 #' @details When \code{method = "sequential"}, only one of the arguments
 #'   applies (\code{longest_allowable_interruption}). The other arguments
@@ -49,20 +51,20 @@
 #' intensity <- as.character(get_intensity(ex_data$METs))
 #' get_bouts(intensity, "sequential", 5)
 #' \donttest{
-#'   intensity <- split(intensity, ex_data$Date)
-#'   get_bouts(intensity[[1]], "targeted", 5, 50, 3, "MVPA")
+#' get_bouts(intensity, "targeted", 5, 50, 3, "MVPA", 30)
 #' }
 get_bouts <- function(
   x, method = c("sequential", "targeted"),
   longest_allowable_interruption = Inf, required_percent = 100,
-  max_n_interruptions = Inf, target = NULL
+  max_n_interruptions = Inf, target = NULL, target_buffer = NULL
 ) {
 
   method <- match.arg(method)
 
-  if (method == "targeted") check_targeted(
-    x, target, required_percent
-  )
+  if (method == "targeted") {
+    check_targeted(x, target, required_percent, target_buffer)
+    if (is.null(target_buffer)) target_buffer <- Inf
+  }
 
   switch(
     method,
@@ -72,9 +74,20 @@ get_bouts <- function(
     "targeted" = group_runs_targeted(
       x, target, required_percent,
       longest_allowable_interruption,
-      max_n_interruptions
+      max_n_interruptions, target_buffer
     ),
     NULL
+  ) %>%
+  within({group = NULL}) %>%
+  structure(
+    .,
+    row.names = seq(nrow(.)),
+    class = append(class(.), paste0("bout_", method)),
+    longest_allowable_interruption = longest_allowable_interruption,
+    required_percent = required_percent,
+    max_n_interruptions = max_n_interruptions,
+    target = target,
+    target_buffer = target_buffer
   )
 
 }
