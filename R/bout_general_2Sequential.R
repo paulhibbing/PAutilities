@@ -1,7 +1,12 @@
-group_runs_sequential <- function(x, threshold = 10) {
+#' @inheritParams get_bouts
+#' @keywords internal
+#' @rdname bouts_internal
+group_runs_sequential <- function(
+  x, longest_allowable_interruption
+) {
 
   x %<>%
-    index_runs(x) %>%
+    index_runs(.) %>%
     within({group = 1})
 
   for (i in 2:nrow(x)) {
@@ -10,9 +15,9 @@ group_runs_sequential <- function(x, threshold = 10) {
     ## is a continuation of the last one
     x$group[i] <- x$group[i - 1]
 
-    ## If the run length does not exceed the minimum,
+    ## If the run length does not exceed the threshold,
     ## no further work is needed
-    if (x$lengths[i] < threshold) {
+    if (x$lengths[i] < longest_allowable_interruption) {
 
       next
 
@@ -39,6 +44,7 @@ group_runs_sequential <- function(x, threshold = 10) {
 
   }
 
-  df_reorder(x, "group", "end_index")
+  df_reorder(x, "group", "end_index") %>%
+  collapse_runs(.)
 
 }
