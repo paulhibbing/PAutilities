@@ -46,23 +46,21 @@ test_clusterBased_bouts(
 of \code{sedentary behavior}, \code{light physical activity}, or
 \code{moderate-to-vigorous physical activity}}
 
-\item{target}{character. The value of \code{x} for which bout information is
-desired.}
+\item{target}{Value of \code{x} for which bout information is desired}
 
 \item{target_buffer}{numeric. Maximum separation between runs of
 \code{target}, beyond which they will not be clustered together}
 
 \item{required_percent}{numeric (1-100). The minimum percentage of the full
-bout period that must be spent engaged in the target behavior. Stated
-differently, interruptions can compose no more than
-(100-\code{required_percent})\% of the bout.}
+bout period that must be spent engaging in the target behavior. Stated
+differently, this threshold stipulates that interruptions can compose no
+more than \code{100-required_percent} of the bout}
 
-\item{longest_allowable_interruption}{numeric. The number of consecutive
-out-of-class readings that must occur to satisfy the bout termination
-criteria}
+\item{longest_allowable_interruption}{numeric. The maximum length for any
+single interruption in a valid bout}
 
 \item{max_n_interruptions}{numeric. The maximum number of interruption events
-that are allowed before a bout will be considered invalid.}
+that are allowed before a bout will be considered invalid}
 
 \item{runs}{pre-processed input (mostly run length encoded)}
 }

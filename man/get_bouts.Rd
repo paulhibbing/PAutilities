@@ -23,26 +23,49 @@ of \code{sedentary behavior}, \code{light physical activity}, or
 only one option is supported (\code{cluster-based}), but others may be
 added in the future}
 
-\item{target}{character. The value of \code{x} for which bout information is
-desired.}
+\item{target}{Value of \code{x} for which bout information is desired}
 
 \item{target_buffer}{numeric. Maximum separation between runs of
 \code{target}, beyond which they will not be clustered together}
 
-\item{longest_allowable_interruption}{numeric. The number of consecutive
-out-of-class readings that must occur to satisfy the bout termination
-criteria}
+\item{longest_allowable_interruption}{numeric. The maximum length for any
+single interruption in a valid bout}
 
 \item{required_percent}{numeric (1-100). The minimum percentage of the full
-bout period that must be spent engaged in the target behavior. Stated
-differently, interruptions can compose no more than
-(100-\code{required_percent})\% of the bout.}
+bout period that must be spent engaging in the target behavior. Stated
+differently, this threshold stipulates that interruptions can compose no
+more than \code{100-required_percent} of the bout}
 
 \item{max_n_interruptions}{numeric. The maximum number of interruption events
-that are allowed before a bout will be considered invalid.}
+that are allowed before a bout will be considered invalid}
 }
 \value{
-data frame with bout information
+data frame with bout information (one row per bout). The 11 columns
+  are formatted as follows:
+\describe{
+  \item{start_index}{The start index of the bout period}
+  \item{end_index}{The end index of the bout period}
+  \item{values}{The target behavior (the name is a vestige of
+  \code{\link{index_runs}})}
+  \item{n_total_events}{The number of distinct behavior runs in the
+  bout period. Equal to the sum of \code{n_value_events}
+  and \code{n_interruption_events}}
+  \item{n_value_events}{The number of distinct occurrences of the
+  target behavior}
+  \item{n_interruption events}{The number of distinct occurrences
+  of interruptive behavior}
+  \item{length_total}{The total number of indices comprising the
+  bout period}
+  \item{length_value}{The number of indices spent engaged in the
+  target behavior}
+  \item{length_interruption}{The number of indices spent engaged
+  in interruptive behavior}
+  \item{longest_interruption_event}{The number of indices
+  comprising the longest interruption event}
+  \item{percent_time_engaged}{The percentage (0-100) of \code{length_total}
+  that was spent engaging in \code{target}, equal to
+  \code{length_value / length_total * 100}}
+}
 }
 \description{
 Identify bouts of activity, allowing for interruptions
@@ -50,6 +73,19 @@ Identify bouts of activity, allowing for interruptions
 \note{
 \code{x} must be an atomic vector. Factors should be cast to integer or
   character prior to passing into this function.
+
+Minimum bout length is not part of this function, because it can easily
+  be added post hoc. This would be done by screening the output, e.g., by
+  excluding bouts that last < 10 minutes.
+
+  Users should note that the function (input, code, and output) operates by
+  index, not duration. That is, the function cannot tell if each data point
+  represents a 1-s period, a 1-min period, or anything else. Users need to
+  take this into consideration when deciding which settings to use (e.g.
+  \code{longest_allowable_interruption = 12} to allow for 1-min interruptions
+  if input data are in 5-s epochs) and how to interpret the output (e.g.
+  \code{length_value == 12} corresponds to one minute if data are in 5-s
+  epochs).
 }
 \examples{
 data(ex_data, package = "PAutilities")
