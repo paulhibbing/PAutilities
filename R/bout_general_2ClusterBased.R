@@ -1,7 +1,7 @@
 #' @inheritParams get_bouts
 #' @keywords internal
 #' @rdname bouts_internal
-group_runs_targeted = function(
+group_runs_clusterBased = function(
   x, target, required_percent,
   longest_allowable_interruption,
   max_n_interruptions, target_buffer
@@ -16,7 +16,7 @@ group_runs_targeted = function(
   lapply(function(df, target) df[df$values == target, ], target) %>%
   .[sapply(., function(df) nrow(df) > 0)] %>%
   lapply(
-    process_targeted_set, x, required_percent,
+    process_clusterBased_set, x, required_percent,
     longest_allowable_interruption, max_n_interruptions
   ) %>%
   do.call(rbind, .) %>%
@@ -29,7 +29,7 @@ group_runs_targeted = function(
 #' @param runs pre-processed input (mostly run length encoded)
 #' @keywords internal
 #' @rdname bouts_internal
-process_targeted_set <- function(
+process_clusterBased_set <- function(
   runs, x, required_percent, longest_allowable_interruption,
   max_n_interruptions
 ) {
@@ -56,7 +56,7 @@ process_targeted_set <- function(
     stats::hclust("complete")
 
   results <- mapply(
-    test_targeted_bouts,
+    test_clusterBased_bouts,
     h = c(0, tree$height),
     MoreArgs = list(
       x = x, runs = runs, tree = tree,
@@ -78,13 +78,12 @@ process_targeted_set <- function(
 #' @inheritParams get_bouts
 #' @keywords internal
 #' @rdname bouts_internal
-check_targeted <- function(
+check_clusterBased <- function(
   x, target = NULL, required_percent, target_buffer
 ) {
 
   if (is.null(target)) stop(
-    "Value must be supplied for `target` argument\n  when",
-    " using method = \"targeted\"", call. = FALSE
+    "Value must be supplied for `target` argument", call. = FALSE
   )
 
   if (is.null(target_buffer)) warning(
@@ -116,7 +115,7 @@ check_targeted <- function(
 #' @inheritParams get_bouts
 #' @keywords internal
 #' @rdname bouts_internal
-test_targeted_bouts <- function(
+test_clusterBased_bouts <- function(
   x, runs, tree, h, required_percent,
   max_n_interruptions, longest_allowable_interruption
 ) {

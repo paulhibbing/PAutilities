@@ -36,24 +36,23 @@
 #' get_bouts(intensity, "cluster-based", 5, 50, 3, "MVPA", 30)
 #' }
 get_bouts <- function(
-  x, method = "cluster-based",
+  x, method = "cluster-based", target, target_buffer,
   longest_allowable_interruption = Inf, required_percent = 100,
-  max_n_interruptions = Inf, target = NULL, target_buffer = NULL
+  max_n_interruptions = Inf
 ) {
 
   method <- match.arg(method)
 
   if (method == "cluster-based") {
-    check_targeted(x, target, required_percent, target_buffer)
+    if (missing(target)) target <- NULL
+    if (missing(target_buffer)) target_buffer <- NULL
+    check_clusterBased(x, target, required_percent, target_buffer)
     if (is.null(target_buffer)) target_buffer <- Inf
   }
 
   switch(
     method,
-    "sequential" = group_runs_sequential(
-      x, longest_allowable_interruption
-    ),
-    "cluster-based" = group_runs_targeted(
+    "cluster-based" = group_runs_clusterBased(
       x, target, required_percent,
       longest_allowable_interruption,
       max_n_interruptions, target_buffer
