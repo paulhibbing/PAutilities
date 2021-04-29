@@ -42,11 +42,12 @@ process_clusterBased_set <- function(
 
   if (nrow(runs) > 100) message(
     "\nDetected more than 100 potential bouts",
-    " (exact n = ", nrow(runs), ")",
+    " (exact n = ", nrow(runs), ").",
     "\nAlgorithm will take a long time to run.",
     "\nTo circumvent this, consider splitting `x`",
     " into subsets,\n  e.g. by analyzing ",
-    "each day of data separately."
+    "each day of data separately, or by",
+    "\n  setting `target_buffer` to a higher value."
   )
 
   tree <-
