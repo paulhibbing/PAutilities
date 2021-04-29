@@ -12,11 +12,21 @@
 #' tail(bout_expand(bouts), 40)
 bout_expand <- function(bouts) {
 
-  nrow(bouts) %>%
-  seq(.) %>%
-  split(bouts, .) %>%
-  lapply(function(x) rep(x$values, x$end_index - x$start_index + 1)) %>%
-  c(use.names = FALSE) %>%
-  do.call(c, .)
+  if ("other" %in% bouts$values) warning(
+    "`bout_expand` may behave oddly when",
+    " the input includes 'other' in its values"
+  )
+
+  result <-
+    attr(bouts, "input_length") %>%
+    rep("other", .)
+
+  for (i in seq(nrow(bouts))) {
+
+    result[bouts$start_index[i]:bouts$end_index[i]] <- bouts$values[i]
+
+  }
+
+  result
 
 }

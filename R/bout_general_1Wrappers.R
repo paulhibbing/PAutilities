@@ -85,6 +85,7 @@ get_bouts <- function(
     .,
     row.names = seq(nrow(.)),
     class = append(class(.), paste0("bout_", method)),
+    input_length = length(x),
     longest_allowable_interruption = longest_allowable_interruption,
     required_percent = required_percent,
     max_n_interruptions = max_n_interruptions,

@@ -9,38 +9,41 @@ group_runs_sequential <- function(
     index_runs(.) %>%
     within({group = 1})
 
+  current_state <- x$values[1]
+  new_state <- FALSE
+  cumulative_interruption <- 0
+
   for (i in 2:nrow(x)) {
 
-    ## Begin by assuming this bout/run
-    ## is a continuation of the last one
+    ## Start by assuming the active group will be assigned
     x$group[i] <- x$group[i - 1]
 
-    ## If the run length does not exceed the threshold,
-    ## no further work is needed
-    if (x$lengths[i] < longest_allowable_interruption) {
+    ## The state needs to change if the cumulative interruption
+    ## exceeds threshold; however, if the current row value matches
+    ## the original, it should not be added to the cumulative
+    ## interruption total
+    cumulative_interruption <-
+      {x$values[i] == current_state} %>%
+      ifelse(0, x$lengths[i]) %>%
+      sum(cumulative_interruption)
 
+    if (cumulative_interruption > longest_allowable_interruption) {
+      new_state <- TRUE
+    }
+
+    ## If we are not in a new state, we were correct to assume assignment would
+    ## be to the active group. As such, no further action is needed.
+    if (!new_state) {
       next
-
     }
 
-    ## Otherwise, we have to check if a new
-    ## behavior is starting -- first identify
-    ## the expected behavior for this run
-    run_class <-
-      seq(i) %>%
-      x$group[.] %>%
-      {. == x$group[i]} %>%
-      which(.) %>%
-      .[1] %>%
-      x$values[.]
-
-    ## If the current behavior is different,
-    ## then label it as a new run
-    if (x$values[i] != run_class) {
-
-      x$group[i] %<>% {. + 1}
-
-    }
+    ## Otherwise, we need to update the state, start a new group,
+    ## and reset the state tracking variables (new_state and
+    ## cumulative_interruption)
+    current_state <- x$values[i]
+    x$group[i] %<>% {. + 1}
+    new_state <- FALSE
+    cumulative_interruption <- 0
 
   }
 
