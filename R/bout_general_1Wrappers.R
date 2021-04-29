@@ -12,7 +12,7 @@
 #' @param required_percent numeric (1-100). The minimum percentage of the full
 #'   bout period that must be spent engaged in the target behavior. Stated
 #'   differently, interruptions can compose no more than
-#'   (100-\code{required_percent})% of the bout.
+#'   (100-\code{required_percent})\% of the bout.
 #' @param max_n_interruptions numeric. The maximum number of interruption events
 #'   that are allowed before a bout will be considered invalid.
 #' @param target character. The value of \code{x} for which bout information is
@@ -31,9 +31,8 @@
 #' @examples
 #' data(ex_data, package = "PAutilities")
 #' intensity <- as.character(get_intensity(ex_data$METs))
-#' get_bouts(intensity, "sequential", 5)
 #' \donttest{
-#' get_bouts(intensity, "cluster-based", 5, 50, 3, "MVPA", 30)
+#' get_bouts(intensity, "cluster-based", "MVPA", 30, 5, 50, 3)
 #' }
 get_bouts <- function(
   x, method = "cluster-based", target, target_buffer,
@@ -53,9 +52,8 @@ get_bouts <- function(
   switch(
     method,
     "cluster-based" = group_runs_clusterBased(
-      x, target, required_percent,
-      longest_allowable_interruption,
-      max_n_interruptions, target_buffer
+      x, target, target_buffer, required_percent,
+      longest_allowable_interruption, max_n_interruptions
     ),
     NULL
   ) %>%
@@ -91,22 +89,22 @@ collapse_runs <- function(x) {
       group = unique(df$group),
 
       values = df$values[1],
-      n_events = nrow(df),
+      n_total_events = nrow(df),
       n_value_events = sum(df$values == df$values[1]),
       n_interruption_events = sum(df$values != df$values[1]),
 
-      total_length = sum(df$lengths),
-      value_length = sum(
+      length_total = sum(df$lengths),
+      length_value = sum(
         ifelse(df$values == df$values[1], df$lengths, 0)
       ),
-      interruption_length = sum(
+      length_interruption = sum(
         ifelse(df$values == df$values[1], 0, df$lengths)
       ),
       longest_interruption_event = max(
         ifelse(df$values == df$values[1], 0, df$lengths)
       )
     ) %>%
-    within({percent_time_engaged = value_length / total_length * 100})
+    within({percent_time_engaged = length_value / length_total * 100})
   }) %>%
   do.call(rbind, .)
 

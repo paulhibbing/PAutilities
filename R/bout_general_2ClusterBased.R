@@ -2,9 +2,8 @@
 #' @keywords internal
 #' @rdname bouts_internal
 group_runs_clusterBased = function(
-  x, target, required_percent,
-  longest_allowable_interruption,
-  max_n_interruptions, target_buffer
+  x, target, target_buffer, required_percent,
+  longest_allowable_interruption, max_n_interruptions
 ) {
 
   ifelse(x == target, target, "other") %>%

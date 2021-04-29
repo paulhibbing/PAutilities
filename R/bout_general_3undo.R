@@ -8,8 +8,10 @@
 #' @examples
 #' data(ex_data, package = "PAutilities")
 #' intensity <- as.character(get_intensity(ex_data$METs))
-#' bouts <- get_bouts(intensity, "sequential", 1)
+#' \donttest{
+#' bouts <- get_bouts(intensity, target = "MVPA", target_buffer = 1)
 #' tail(bout_expand(bouts), 40)
+#' }
 bout_expand <- function(bouts) {
 
   if ("other" %in% bouts$values) warning(

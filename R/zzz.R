@@ -1,6 +1,6 @@
 if(getRversion() >= "2.15.1") utils::globalVariables(c(
-  ".", "sd_bias", "mean_bias", "group",
-  "total_length", "value_length", "values"
+  ".", "sd_bias", "mean_bias", "group", "values",
+  "length_total", "length_value"
 ))
 
 .onAttach <- function(libname, pkgname) {
