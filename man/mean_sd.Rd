@@ -2,10 +2,30 @@
 % Please edit documentation in R/descriptives.R
 \name{mean_sd}
 \alias{mean_sd}
+\alias{mean_sd.default}
+\alias{mean_sd.data.frame}
 \title{Compute the mean and standard deviation of a vector, returning a formatted
 string containing the values as `M +/- SD`}
 \usage{
 mean_sd(
+  x = NULL,
+  MoreArgs = NULL,
+  give_df = TRUE,
+  ...,
+  mean_x = NULL,
+  sd_x = NULL
+)
+
+\method{mean_sd}{default}(
+  x = NULL,
+  MoreArgs = NULL,
+  give_df = TRUE,
+  ...,
+  mean_x = NULL,
+  sd_x = NULL
+)
+
+\method{mean_sd}{data.frame}(
   x = NULL,
   MoreArgs = NULL,
   give_df = TRUE,
@@ -33,6 +53,6 @@ Compute the mean and standard deviation of a vector, returning a formatted
 string containing the values as `M +/- SD`
 }
 \examples{
-mean_sd(rnorm(1:100, 50))
+mean_sd(rnorm(100, 50))
 
 }

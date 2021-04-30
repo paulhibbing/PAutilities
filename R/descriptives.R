@@ -53,10 +53,21 @@ descriptives <- function(dataset, variable, group = NULL) {
 #'
 #' @export
 #' @examples
-#' mean_sd(rnorm(1:100, 50))
+#' mean_sd(rnorm(100, 50))
 #'
-mean_sd <- function(x = NULL, MoreArgs = NULL, give_df = TRUE, ...,
-  mean_x = NULL, sd_x = NULL) {
+mean_sd <- function(
+  x = NULL, MoreArgs = NULL, give_df = TRUE, ...,
+  mean_x = NULL, sd_x = NULL
+) {
+  UseMethod("mean_sd", x)
+}
+
+#' @rdname mean_sd
+#' @export
+mean_sd.default <- function(
+  x = NULL, MoreArgs = NULL, give_df = TRUE, ...,
+  mean_x = NULL, sd_x = NULL
+) {
 
   if (!is.null(x)) {
     mean_x <- do.call(mean, c(x = list(x), MoreArgs))
@@ -78,4 +89,33 @@ mean_sd <- function(x = NULL, MoreArgs = NULL, give_df = TRUE, ...,
     stringsAsFactors = FALSE,
     row.names = NULL
   )
+
+}
+
+#' @rdname mean_sd
+#' @export
+mean_sd.data.frame <- function(
+  x = NULL, MoreArgs = NULL, give_df = TRUE, ...,
+  mean_x = NULL, sd_x = NULL
+) {
+
+  stopifnot(sapply(x, is.numeric))
+
+  result <- sapply(
+    x, mean_sd.default, MoreArgs, give_df,
+    ...,  mean_x = mean_x, sd_x = sd_x,
+    simplify = FALSE
+  )
+
+  if (give_df){
+    do.call(rbind, result) %>%
+    {within(., {variable = row.names(.)})} %>%
+    df_reorder("variable", "mean") %>%
+    df_reorder("mean", "variable") %>%
+    structure(row.names = seq(nrow(.)))
+  } else {
+    c(result, use.names = FALSE) %>%
+    do.call(c, .)
+  }
+
 }
