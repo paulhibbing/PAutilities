@@ -1,0 +1,88 @@
+---
+title: "Cluster-Based Bouts"
+author: "Paul R. Hibbing"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Cluster-Based Bouts}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+library(PAutilities)
+```
+
+## Introduction and Installation
+
+This vignette will show you how to run the cluster-based bout identifier. The
+first step is making sure you have the `PAutilities` package (version 1.1.0 or
+greater) installed on your computer. To get version 1.1.0, you may need to
+install from GitHub. Here is code you can use to accomplish that:
+
+```{r install}
+
+## devtools is a package that makes it easy to install from GitHub, but I find
+## that it sometimes struggles to get related packages (i.e., dependencies)
+## installed correctly. So here is my manual workaround. Some of these packages
+## will take a long time to install if you don't have them already installed.
+
+invisible(lapply(
+  c(
+    "dplyr", "equivalence", "ggplot2", "graphics", "lazyeval",
+    "lubridate", "magrittr", "methods", "reshape2", "rlang",
+    "stats", "Rcpp"
+  ),
+  function(x) if (!x %in% installed.packages()) install.packages(x)
+))
+
+devtools::install_github("paulhibbing/PAutilities", dependencies = FALSE)
+
+```
+
+## Moving On
+
+Once you have the package installed, all you need is some activity data and the `get_bouts` function. For this demonstration, we will use the example data available within `PAutilities` itself.
+
+```{r data}
+data(ex_data, package = "PAutilities")
+```
+
+This dataset has energy expenditure values that we can use to look at bouts of moderate-to-vigorous physical activity.
+
+```{r prep}
+
+## First, extract an intensity vector from the energy expenditure data
+intensity <- PAutilities::get_intensity(ex_data$METs)
+
+## The above command returns a factor variable -- get_bouts
+## will complain about this and tell you it needs a character
+## or numeric variable, so let's cast the intensity vector to
+## character
+intensity <- as.character(intensity)
+
+```
+
+Once we have our datastream of interest (`intensity` in this case), we can plug
+it into `get_bouts`. Let's see the code first, then go over what it means.
+
+```{r bouts}
+
+PAutilities::get_bouts(
+  x = intensity,
+  method = "cluster-based",
+  target = "MVPA",
+  target_buffer = 30,
+  longest_allowable_interruption = 2,
+  required_percent = 80,
+  max_n_interruptions = Inf
+)
+
+```
+
+Here is what each piece means:
+
+* *PAutilities::get_bouts:* This tells R to find the `get_bouts` function in the `PAutilities` package
