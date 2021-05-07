@@ -2,12 +2,17 @@
 % Please edit documentation in R/bout_general_3undo.R
 \name{bout_expand}
 \alias{bout_expand}
+\alias{bout_expand.default}
 \title{Re-vectorize run length encoded data}
 \usage{
-bout_expand(bouts)
+bout_expand(bouts, ...)
+
+\method{bout_expand}{default}(bouts, ...)
 }
 \arguments{
 \item{bouts}{output from \code{\link{get_bouts}}}
+
+\item{...}{arguments passed to methods}
 }
 \value{
 a vector of individual values comprising the runs in \code{bouts}
