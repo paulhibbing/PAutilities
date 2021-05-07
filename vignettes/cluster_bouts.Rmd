@@ -109,7 +109,7 @@ Here is what each piece means:
 * **target_buffer = 30** Here we specify how our data should be
   stratified/partitioned. In this case, `intensity` is a minute-by-minute
   variable, so our setting of `30` means the data will be
-  stratified/partitioned anytime we see 30 consecutive minutes of `other`
+  stratified/partitioned anytime we see 30+ consecutive minutes of `other`
   behavior. *It is crucial to understand that the meaning of this setting
   depends on the epoch length of the input data. If `intensity` was a
   second-by-second variable, we would need to set `target_buffer = 1800` to
@@ -194,4 +194,4 @@ head(ex_data)
 
 ## Conclusion
 
-This should give you a broad sense of how to use the cluster-based bout identification method and what else you can do with it. Feel free to post an issue on the [GitHub page](https://github.com/paulhibbing/PAutilities) if any of the above gives you trouble. Good luck!
+This should give you a broad sense of how to use the cluster-based bout identification method and what else you can do with it. Feel free to [post an issue on the GitHub page](https://github.com/paulhibbing/PAutilities/issues/new/choose) if any of the above gives you trouble. Good luck!
