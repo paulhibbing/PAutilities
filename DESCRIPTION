@@ -8,7 +8,7 @@ Authors@R: c(
       role = c("aut","cre")),
     person(
       "Centers for Disease Control and Prevention", role = "ctb"))
-Depends: R (>= 2.10)
+Depends: R (>= 3.5.0)
 Description: A collection of utilities that are useful for a broad range of
     tasks that are common in physical activity research, including the
     following: creation of Bland-Altman plots, formatted descriptive
@@ -39,7 +39,8 @@ Suggests:
     testthat,
     knitr,
     rmarkdown,
-    matchingMarkets (>= 1.0.1)
+    matchingMarkets (>= 1.0.1),
+    utils
 VignetteBuilder: knitr
 LinkingTo: 
     Rcpp
