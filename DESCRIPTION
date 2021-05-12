@@ -39,6 +39,7 @@ Suggests:
     testthat,
     knitr,
     rmarkdown,
+    remotes,
     matchingMarkets (>= 1.0.1),
     utils
 VignetteBuilder: knitr

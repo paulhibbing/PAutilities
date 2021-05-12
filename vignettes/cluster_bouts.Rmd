@@ -25,23 +25,24 @@ install from GitHub rather than CRAN. Here's how to do that:
 
 ```{r install, eval=FALSE}
 
-## devtools is a package that makes it easy to install packages from GitHub, but
-## I find that it sometimes struggles to install the related packages (i.e.,
-## dependencies) correctly. So here is my manual workaround. All it's doing is
-## looking through a list of required packages, and installing any of them that
-## haven't already been installed (they'll be skipped if they have).
+## remotes is a package that makes it easy to install packages from GitHub, but
+## in my experience it sometimes struggles to install the related packages (i.e.,
+## dependencies) correctly. So first we'll do a manual workaround. All it's
+## doing is looking through a list of required packages, and installing any of
+## them that haven't already been installed (they'll be skipped if they have).
 ## Be aware: Some of these packages have long installation times.
 
 invisible(lapply(
   c(
     "dplyr", "equivalence", "ggplot2", "graphics", "lazyeval",
-    "lubridate", "magrittr", "methods", "reshape2", "rlang",
-    "stats", "utils", "Rcpp"
+    "lubridate", "magrittr", "methods", "reshape2", "remotes",
+    "rlang", "stats", "utils", "Rcpp"
   ),
   function(x) if (!x %in% installed.packages()) install.packages(x)
 ))
 
-devtools::install_github("paulhibbing/PAutilities", dependencies = FALSE)
+## Once that's done, we can (hopefully) install from GitHub
+remotes::install_github("paulhibbing/PAutilities", dependencies = FALSE)
 
 ```
 
@@ -80,8 +81,8 @@ invisible(file.remove(destination))
 
 This dataset has activity counts that we can use to look at bouts of
 moderate-to-vigorous physical activity (MVPA). For illustration, let's say we
-initially coded our data as sedentary behavior (PAXINTEN &le; 100), light physical
-activity (PAXINTEN 101-1951), or MVPA (PAXINTEN &ge; 1952).
+initially coded our data as sedentary behavior ($PAXINTEN \leq 100$), light physical
+activity (PAXINTEN 101-1951), or MVPA ($PAXINTEN \geq 1952$).
 
 ```{r prep, cache=TRUE}
 
@@ -139,7 +140,7 @@ Here is what each piece means:
 * **target_buffer = 30** Here we specify how our data should be
   stratified/partitioned. In this case, `intensity` is a minute-by-minute
   variable, so our setting of `30` means the data will be
-  stratified/partitioned anytime we see &ge;30 consecutive minutes of `other`
+  stratified/partitioned anytime we see $\geq30$ consecutive minutes of `other`
   behavior. *It is crucial to understand that the meaning of this setting
   depends on the epoch length of the input data. If `intensity` was a
   second-by-second variable, we would need to set `target_buffer = 1800` to
@@ -153,7 +154,7 @@ Here is what each piece means:
 * **max_n_interruptions = Inf** Here we specify that a valid bout can have
   unlimited interruptions as long as the criteria for
   `longest_allowable_interruption` and `required_percent` are met.
-* **minimum_bout_length = 10** Here we specify that only bouts lasting &ge; 10
+* **minimum_bout_length = 10** Here we specify that only bouts lasting $\geq10$
   min should be included in the output.
   
 The above elements are set up to allow flexible bout criteria depending on the
@@ -201,11 +202,12 @@ As before, epoch length influences the interpretation of length variables. Keep 
 
 ## Expanding the Output
 
-Lastly, in some cases we may want to convert our bout information back to the original length of the input (i.e., `intensity`). We can use the `bout_expand` function to accomplish that.
+In some cases we may want to convert our bout information back to the original length of the input (i.e., `intensity`). We can use the `bout_expand` function to accomplish that.
 
 ```{r expansion, cache=TRUE}
 expanded <- PAutilities::bout_expand(mvpa_bouts)
 str(expanded)
+table(expanded)
 ```
 
 And we can also append that new variable into our original dataset as well.
