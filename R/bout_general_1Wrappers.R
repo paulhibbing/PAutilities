@@ -2,7 +2,9 @@
 #'
 #' @param x A vector of activity labels, e.g. minute-by-minute classifications
 #'   of \code{sedentary behavior}, \code{light physical activity}, or
-#'   \code{moderate-to-vigorous physical activity}
+#'   \code{moderate-to-vigorous physical activity}. Must be an atomic vector.
+#'   Factors should be cast to integer or character prior to passing into
+#'   this function.
 #' @param method character. The bout identification method to use. Currently,
 #'   only one option is supported (\code{cluster-based}), but others may be
 #'   added in the future
@@ -17,11 +19,8 @@
 #'   more than \code{100-required_percent} of the bout
 #' @param max_n_interruptions numeric. The maximum number of interruption events
 #'   that are allowed before a bout will be considered invalid
-#'
-#' @note \code{x} must be an atomic vector. Factors should be cast to integer or
-#'   character prior to passing into this function.
-#'
-#' @seealso \code{\link{bout_expand}}
+#' @param minimum_bout_length numeric filtering criterion. Bouts will be
+#'   discarded if \code{length_value} (see below) is less than this amount.
 #'
 #' @return data frame with bout information (one row per bout). The 11 columns
 #'   are formatted as follows:
@@ -50,18 +49,17 @@
 #'   \code{length_value / length_total * 100}}
 #' }
 #'
-#' @note Minimum bout length is not part of this function, because it can easily
-#'   be added post hoc. This would be done by screening the output, e.g., by
-#'   excluding bouts that last < 10 minutes.
 #'
-#'   Users should note that the function (input, code, and output) operates by
-#'   index, not duration. That is, the function cannot tell if each data point
+#' @note Users should note that the function (input, code, and output) operates
+#'   by index, not duration. That is, the function cannot tell if each data point
 #'   represents a 1-s period, a 1-min period, or anything else. Users need to
 #'   take this into consideration when deciding which settings to use (e.g.
 #'   \code{longest_allowable_interruption = 12} to allow for 1-min interruptions
 #'   if input data are in 5-s epochs) and how to interpret the output (e.g.
 #'   \code{length_value == 12} corresponds to one minute if data are in 5-s
 #'   epochs).
+#'
+#' @seealso \code{\link{bout_expand}}
 #'
 #' @export
 #'
@@ -74,7 +72,7 @@
 get_bouts <- function(
   x, method = "cluster-based", target, target_buffer,
   longest_allowable_interruption = Inf, required_percent = 100,
-  max_n_interruptions = Inf
+  max_n_interruptions = Inf, minimum_bout_length = 0
 ) {
 
   method <- match.arg(method)
@@ -95,6 +93,8 @@ get_bouts <- function(
     NULL
   ) %>%
   within({group = NULL}) %>%
+  .[.$length_value >= minimum_bout_length, ] %>%
+  check_no_bouts(x, target) %>%
   structure(
     .,
     row.names = seq(nrow(.)),
@@ -106,6 +106,7 @@ get_bouts <- function(
     longest_allowable_interruption = longest_allowable_interruption,
     required_percent = required_percent,
     max_n_interruptions = max_n_interruptions,
+    minimum_bout_length = minimum_bout_length,
     target = target,
     target_buffer = target_buffer,
     x = x

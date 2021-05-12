@@ -32,9 +32,13 @@ bout_expand.default <- function(bouts, ...) {
     attr(bouts, "target") %T>%
     {stopifnot(all(bouts$values == .))}
 
+  anyBouts <- attr(bouts, "anyBouts")
+
   result <-
     attr(bouts, "input_length") %>%
     rep("other", .)
+
+  if (!anyBouts) return(result)
 
   for (i in seq(nrow(bouts))) {
 

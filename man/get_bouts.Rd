@@ -11,13 +11,16 @@ get_bouts(
   target_buffer,
   longest_allowable_interruption = Inf,
   required_percent = 100,
-  max_n_interruptions = Inf
+  max_n_interruptions = Inf,
+  minimum_bout_length = 0
 )
 }
 \arguments{
 \item{x}{A vector of activity labels, e.g. minute-by-minute classifications
 of \code{sedentary behavior}, \code{light physical activity}, or
-\code{moderate-to-vigorous physical activity}}
+\code{moderate-to-vigorous physical activity}. Must be an atomic vector.
+Factors should be cast to integer or character prior to passing into
+this function.}
 
 \item{method}{character. The bout identification method to use. Currently,
 only one option is supported (\code{cluster-based}), but others may be
@@ -38,6 +41,9 @@ more than \code{100-required_percent} of the bout}
 
 \item{max_n_interruptions}{numeric. The maximum number of interruption events
 that are allowed before a bout will be considered invalid}
+
+\item{minimum_bout_length}{numeric filtering criterion. Bouts will be
+discarded if \code{length_value} (see below) is less than this amount.}
 }
 \value{
 data frame with bout information (one row per bout). The 11 columns
@@ -71,15 +77,8 @@ data frame with bout information (one row per bout). The 11 columns
 Identify bouts of activity, allowing for interruptions
 }
 \note{
-\code{x} must be an atomic vector. Factors should be cast to integer or
-  character prior to passing into this function.
-
-Minimum bout length is not part of this function, because it can easily
-  be added post hoc. This would be done by screening the output, e.g., by
-  excluding bouts that last < 10 minutes.
-
-  Users should note that the function (input, code, and output) operates by
-  index, not duration. That is, the function cannot tell if each data point
+Users should note that the function (input, code, and output) operates
+  by index, not duration. That is, the function cannot tell if each data point
   represents a 1-s period, a 1-min period, or anything else. Users need to
   take this into consideration when deciding which settings to use (e.g.
   \code{longest_allowable_interruption = 12} to allow for 1-min interruptions

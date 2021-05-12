@@ -8,6 +8,7 @@
 \alias{process_clusterBased_set}
 \alias{check_clusterBased}
 \alias{test_clusterBased_bouts}
+\alias{check_no_bouts}
 \title{Bout analysis internal functions}
 \usage{
 collapse_runs(x)
@@ -40,11 +41,15 @@ test_clusterBased_bouts(
   max_n_interruptions,
   longest_allowable_interruption
 )
+
+check_no_bouts(results, x, target)
 }
 \arguments{
 \item{x}{A vector of activity labels, e.g. minute-by-minute classifications
 of \code{sedentary behavior}, \code{light physical activity}, or
-\code{moderate-to-vigorous physical activity}}
+\code{moderate-to-vigorous physical activity}. Must be an atomic vector.
+Factors should be cast to integer or character prior to passing into
+this function.}
 
 \item{target}{Value of \code{x} for which bout information is desired}
 
@@ -63,6 +68,8 @@ single interruption in a valid bout}
 that are allowed before a bout will be considered invalid}
 
 \item{runs}{pre-processed input (mostly run length encoded)}
+
+\item{results}{output from \code{group_runs_clusterBased}}
 }
 \description{
 Bout analysis internal functions
