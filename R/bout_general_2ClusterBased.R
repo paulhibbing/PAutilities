@@ -51,7 +51,7 @@ process_clusterBased_set <- function(
   )
 
   tree <-
-    runs$start_index %>%
+    runs[ ,c("start_index", "end_index")] %>%
     stats::dist(method = "euclidian") %>%
     stats::hclust("complete")
 
