@@ -1,7 +1,7 @@
 ---
 title: "Cluster-Based Bouts"
 author: "Paul R. Hibbing"
-output: rmarkdown::pdf_document
+output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Cluster-Based Bouts}
   %\VignetteEngine{knitr::rmarkdown}
