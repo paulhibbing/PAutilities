@@ -54,8 +54,30 @@ process_clusterBased_set <- function(
   )
 
   tree <-
-    runs[ ,c("start_index", "end_index")] %>%
-    stats::dist(method = "euclidian") %>%
+    ## Calculate distance between each event, i.e.,
+    ## time elapsed from the end of one event to
+    ## the start of another. Keep in mind the end
+    ## index represents the interval [end, end + 1),
+    ## so the time elapsed formula is
+    ## `start_index - (end_index + 1)`.
+    ## This call to mapply is a little convoluted
+    ## because it populates a full square matrix when
+    ## we're only interested in the lower triangle.
+    ## (The upper triangle calculations represent
+    ## reverse distances that are off by 2 because
+    ## the `- 1` operation should be a `+ 1` when
+    ## going in reverse.) This is not a problem
+    ## because `as.dist` will cut out all but the
+    ## lower triangle.
+    mapply(
+      function(end, starts) starts - end - 1,
+      runs$end_index,
+      MoreArgs = list(starts = runs$start_index)
+    ) %>%
+    structure(dimnames = list(
+      row.names(runs), row.names(runs)
+    )) %>%
+    as.dist(.) %>%
     stats::hclust("complete")
 
   results <- mapply(
