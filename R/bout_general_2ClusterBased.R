@@ -77,7 +77,7 @@ process_clusterBased_set <- function(
     structure(dimnames = list(
       row.names(runs), row.names(runs)
     )) %>%
-    as.dist(.) %>%
+    stats::as.dist(.) %>%
     stats::hclust("complete")
 
   results <- mapply(

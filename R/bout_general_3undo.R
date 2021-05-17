@@ -49,6 +49,7 @@ bout_expand.default <- function(bouts, ...) {
   attr(bouts, "x") %>%
   {. != target} %>%
   {. & result == target} %>%
-  ifelse("interruption", result)
+  ifelse("interruption", result) %>%
+  factor(c("other", target, "interruption"))
 
 }

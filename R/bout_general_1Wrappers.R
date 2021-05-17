@@ -100,7 +100,11 @@ get_bouts <- function(
     row.names = seq(nrow(.)),
     class = append(
       class(.),
-      gsub("[-]+", "_", paste0("bout_", method))
+      c(
+        "bouts",
+        gsub("[-]+", "_", paste0("bout_", method))
+      ),
+      0
     ),
     input_length = length(x),
     longest_allowable_interruption = longest_allowable_interruption,
