@@ -1,7 +1,7 @@
 ---
 title: "Cluster-Based Bouts"
 author: "Paul R. Hibbing"
-output: rmarkdown::html_vignette
+output: rmarkdown::pdf_document
 vignette: >
   %\VignetteIndexEntry{Cluster-Based Bouts}
   %\VignetteEngine{knitr::rmarkdown}
@@ -82,7 +82,7 @@ invisible(file.remove(destination))
 This dataset has activity counts that we can use to look at bouts of
 moderate-to-vigorous physical activity (MVPA). For illustration, let's say we
 initially coded our data as sedentary behavior ($PAXINTEN \leq 100$), light physical
-activity (PAXINTEN 101-1951), or MVPA ($PAXINTEN \geq 1952$).
+activity ($PAXINTEN\:\:101-1951$), or MVPA ($PAXINTEN \geq 1952$).
 
 ```{r prep, cache=TRUE}
 
@@ -215,6 +215,16 @@ And we can also append that new variable into our original dataset as well.
 ```{r expansion2, cache=TRUE}
 ex_data$intensity <- expanded
 head(ex_data)
+```
+
+\newpage
+
+## Plotting the output
+
+If you want to visualize the results of your bout analysis, you can use a basic `plot` function.
+
+```{r plotting, cache=TRUE, fig.width=7, fig.height=5, fig.align='center'}
+plot(mvpa_bouts)
 ```
 
 ## Conclusion
