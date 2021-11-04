@@ -78,11 +78,14 @@ process_clusterBased_set <- function(
       row.names(runs), row.names(runs)
     )) %>%
     stats::as.dist(.) %>%
-    stats::hclust("complete")
+    stats::hclust("single")
 
   results <- mapply(
     test_clusterBased_bouts,
-    h = c(0, tree$height),
+    h = c(
+      0,
+      unique(tree$height) ## Ties produce redundant values
+    ),
     MoreArgs = list(
       x = x, target = target, runs = runs, tree = tree,
       required_percent = required_percent,

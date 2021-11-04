@@ -21,7 +21,7 @@ Visualize the result of a bout analysis
 data(ex_data, package = "PAutilities")
 intensity <- as.character(get_intensity(ex_data$METs))
 \donttest{
-  bouts <- get_bouts(intensity, "cluster-based", "MVPA", 30, 5, 50, 3)
+  bouts <- get_bouts(intensity, "CRIB", "MVPA", 30, 5, 50, 3)
   plot(bouts)
 }
 }

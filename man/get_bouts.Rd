@@ -6,7 +6,7 @@
 \usage{
 get_bouts(
   x,
-  method = "cluster-based",
+  method = "CRIB",
   target,
   target_buffer,
   longest_allowable_interruption = Inf,
@@ -23,7 +23,7 @@ Factors should be cast to integer or character prior to passing into
 this function.}
 
 \item{method}{character. The bout identification method to use. Currently,
-only one option is supported (\code{cluster-based}), but others may be
+only one option is supported (\code{CRIB}), but others may be
 added in the future}
 
 \item{target}{Value of \code{x} for which bout information is desired}
@@ -90,7 +90,7 @@ Users should note that the function (input, code, and output) operates
 data(ex_data, package = "PAutilities")
 intensity <- as.character(get_intensity(ex_data$METs))
 \donttest{
-get_bouts(intensity, "cluster-based", "MVPA", 30, 5, 50, 3)
+get_bouts(intensity, "CRIB", "MVPA", 30, 5, 50, 3)
 }
 }
 \seealso{

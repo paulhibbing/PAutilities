@@ -6,7 +6,7 @@
 #'   Factors should be cast to integer or character prior to passing into
 #'   this function.
 #' @param method character. The bout identification method to use. Currently,
-#'   only one option is supported (\code{cluster-based}), but others may be
+#'   only one option is supported (\code{CRIB}), but others may be
 #'   added in the future
 #' @param target Value of \code{x} for which bout information is desired
 #' @param target_buffer numeric. Maximum separation between runs of
@@ -67,17 +67,17 @@
 #' data(ex_data, package = "PAutilities")
 #' intensity <- as.character(get_intensity(ex_data$METs))
 #' \donttest{
-#' get_bouts(intensity, "cluster-based", "MVPA", 30, 5, 50, 3)
+#' get_bouts(intensity, "CRIB", "MVPA", 30, 5, 50, 3)
 #' }
 get_bouts <- function(
-  x, method = "cluster-based", target, target_buffer,
+  x, method = "CRIB", target, target_buffer,
   longest_allowable_interruption = Inf, required_percent = 100,
   max_n_interruptions = Inf, minimum_bout_length = 0
 ) {
 
   method <- match.arg(method)
 
-  if (method == "cluster-based") {
+  if (method == "CRIB") {
     if (missing(target)) target <- NULL
     if (missing(target_buffer)) target_buffer <- NULL
     check_clusterBased(x, target, required_percent, target_buffer)
@@ -86,7 +86,7 @@ get_bouts <- function(
 
   switch(
     method,
-    "cluster-based" = group_runs_clusterBased(
+    "CRIB" = group_runs_clusterBased(
       x, target, target_buffer, required_percent,
       longest_allowable_interruption, max_n_interruptions
     ),
