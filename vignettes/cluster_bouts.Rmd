@@ -1,9 +1,9 @@
 ---
-title: "Cluster-Based Bouts"
+title: "Clustered Recognition of Intermittent Bouts (CRIB)"
 author: "Paul R. Hibbing"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Cluster-Based Bouts}
+  %\VignetteIndexEntry{CRIB}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -18,7 +18,7 @@ library(PAutilities)
 
 ## Introduction and Installation
 
-This vignette will show you how to run the cluster-based bout identifier. The
+This vignette will show you how to implement the CRIB method. The
 first step is making sure you have the `PAutilities` package (version 1.1.0 or
 greater) installed on your computer. To get the most current code, you can
 install from GitHub rather than CRAN. Here's how to do that:
@@ -111,7 +111,7 @@ it into `get_bouts`. Let's see the code first, then go over what it means.
 
 mvpa_bouts <- PAutilities::get_bouts(
   x = intensity,
-  method = "cluster-based",
+  method = "CRIB",
   target = "MVPA",
   target_buffer = 30,
   longest_allowable_interruption = 2,
@@ -130,8 +130,8 @@ Here is what each piece means:
   in your console, R will print the source code.
 * **x = intensity** Here we specify that our input datastream is `intensity`,
   as defined in the earlier code.
-* **method = "cluster-based"** Here we specify that R should run the
-  cluster-based bout identification method. Right now, this is the only
+* **method = "CRIB"** Here we specify that R should run the
+  CRIB method. Right now, this is the only
   option, but in the future it will be possible to add others.
 * **target = "MVPA"** Here we specify which behavior we are interested in.
   The input data (`intensity`) has values in the set `{SB, LPA, MVPA}`, and
@@ -163,7 +163,7 @@ research question and the variable of interest. In our example, we set
 approaches can be taken for other settings as well, by setting them to `0` or
 `Inf` as appropriate. (For `required_percent`, 100 is the upper limit rather
 than `Inf`.) Notably, `minimum_bout_length` is a filtering criterion. It has no
-direct affect on how the bouts are defined; it simply affects which ones are
+direct effect on how the bouts are defined; it simply affects which ones are
 retained *after* they have been defined.
   
 ## Interpreting the Output
@@ -229,4 +229,4 @@ plot(mvpa_bouts)
 
 ## Conclusion
 
-This should give you a broad sense of how to use the cluster-based bout identification method and what else you can do with it. Feel free to [post an issue on the GitHub page](https://github.com/paulhibbing/PAutilities/issues/new/choose) if any of the above gives you trouble. Good luck!
+This should give you a broad sense of how to use the CRIB method and what else you can do with it. Feel free to [post an issue on the GitHub page](https://github.com/paulhibbing/PAutilities/issues/new/choose) if any of the above gives you trouble. Good luck!
