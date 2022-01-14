@@ -43,6 +43,8 @@ residual_adjust <- function(d, variable, confounder, label, verbose = FALSE) {
       " do not exist in `d`. Skipping residual adjustment."
     )
 
+    d
+
   } else {
 
     paste0(variable, " ~ ", confounder) %>%
