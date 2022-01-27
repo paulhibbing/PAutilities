@@ -77,7 +77,7 @@ mean_sd.default <- function(
   sum_string <- paste(
     format(mean_x, ...),
     format(sd_x, ...),
-    sep = "+/-"
+    sep = " \u00B1 "
   )
 
   if (!give_df) return(sum_string)
