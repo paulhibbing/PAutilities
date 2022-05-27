@@ -18,6 +18,16 @@
 #' head(index_runs(x))
 index_runs <- function(x, zero_index = FALSE) {
 
+  if (is.factor(x) | !is.atomic(x)) x %<>% as.character(.)
+
+  if (!length(x)) {
+    warning(
+      "index_runs: `x` is NULL or otherwise has length 0",
+      " -- returning NULL", call. = FALSE
+    )
+    return(NULL)
+  }
+
   result <-
     rle(x) %>%
     do.call(data.frame, .) %>%
