@@ -5,6 +5,11 @@
 
 using namespace Rcpp;
 
+#ifdef RCPP_USE_GLOBAL_ROSTREAM
+Rcpp::Rostream<true>&  Rcpp::Rcout = Rcpp::Rcpp_cout_get();
+Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
+#endif
+
 // get_indices
 List get_indices(NumericVector y_var, int window_size);
 RcppExport SEXP _PAutilities_get_indices(SEXP y_varSEXP, SEXP window_sizeSEXP) {
