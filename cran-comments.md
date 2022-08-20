@@ -12,7 +12,6 @@ This is an updated version of PAutilities, in which the
 ## Test environments
 
 * local Windows 10 install, R 3.5.0
-* ubuntu 16.04.6 (on travis-ci; devel and release)
 * win-builder (devel and release)
 * macOS 10.13.6 High Sierra (on R-hub; release)
 * Debian Linux 9.3.0-11 (on R-hub; devel)

@@ -1,7 +1,5 @@
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-[![Build
-Status](https://travis-ci.com/paulhibbing/PAutilities.svg?branch=master)](https://travis-ci.com/paulhibbing/PAutilities)
 [![Licence](https://img.shields.io/badge/licence-GPL--3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0.en.html)
 [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/PAutilities)](https://cran.r-project.org/package=PAutilities)
 
@@ -17,9 +15,9 @@ encouraged!
   - Analysis of bout detection (i.e., change point detection) algorithm performance
   - Assessment of cardiovascular disease risk
   - Bland-Altman analysis and plotting
-  - Bouted moderate-to-vigorous physical activity analysis
-  - Demographic and anthropometric calculations (age, BMI, BMI-for-age
-    percentile, weight status, surface area)
+  - ~~Bouted moderate-to-vigorous physical activity analysis~~ (now recommend using `analyze_bouts` from [PBpatterns](https://github.com/paulhibbing/PBpatterns))
+  - ~~Demographic and anthropometric calculations (age, BMI, BMI-for-age
+    percentile, weight status, surface area)~~ (now recommend using [anthropometry](https://github.com/paulhibbing/anthropometry))
   - Formatted descriptive statistics
   - Indexed run length encoding
   - Metabolic calculations (energy expenditure, unit conversions, resting energy

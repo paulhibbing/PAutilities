@@ -69,6 +69,13 @@ bout_mvpa <-
            right = FALSE), ..., timestamps = NULL,
     output_var = c("is_MVPA", "bout_tracker")) {
 
+    warning(
+      "bout_mvpa is soft-deprecated; recommend using",
+      " `analyze_bouts` from the PBpatterns package\n",
+      "  Run the following: remotes::install_github(",
+      dQuote("paulhibbing/PBpatterns"), ")", call. = FALSE
+    )
+
   # Set up
     if (is.null(timestamps)) {
       warning(paste("`bout_mvpa` is designed to",
