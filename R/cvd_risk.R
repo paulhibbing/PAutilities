@@ -45,7 +45,7 @@
 #' @return One or more risk profiles (for default method with \code{points = TRUE}, or for data frames with \code{combine = FALSE & points = TRUE}). Otherwise numeric risk percentage (for \code{points = FALSE}, scalars and data frames) or an integer vector (for data frames with \code{combine = TRUE & points = FALSE})
 #' @export
 #'
-#' @references \href{D'Agostino et al. (2008)}{http://doi.org/10.1161/CIRCULATIONAHA.107.699579}
+#' @references \href{https://pubmed.ncbi.nlm.nih.gov/18212285/}{D'Agostino et al. (2008)}
 #'
 #' @examples
 #'
@@ -170,7 +170,7 @@ cvd_risk.data.frame <- function(
 #' @note Parameter descriptions have been inherited from \code{\link{cvd_risk}},
 #'   but only direct scalar values (i.e., not column names) are allowed for this
 #'   function
-#' @references \href{D'Agostino et al. (2008)}{http://doi.org/10.1161/CIRCULATIONAHA.107.699579}
+#' @references \href{https://pubmed.ncbi.nlm.nih.gov/18212285/}{D'Agostino et al. (2008)}
 #' @keywords internal
 DAgostino_wrapper <- function(
   sex, age, total_cholesterol,

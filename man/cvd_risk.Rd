@@ -124,5 +124,5 @@ cvd_risk(
 
 }
 \references{
-\href{D'Agostino et al. (2008)}{http://doi.org/10.1161/CIRCULATIONAHA.107.699579}
+\href{https://pubmed.ncbi.nlm.nih.gov/18212285/}{D'Agostino et al. (2008)}
 }

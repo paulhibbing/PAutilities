@@ -61,20 +61,17 @@
 #'
 #' @export
 #'
-bout_mvpa <-
-  function(intensity, var_type = c("METs", "Intensity"),
-    min_duration = 10, termination = 3, MoreArgs =
-      list(breaks = c(-Inf, 1.51, 3, Inf),
-           labels = c("SB", "LPA", "MVPA"),
-           right = FALSE), ..., timestamps = NULL,
-    output_var = c("is_MVPA", "bout_tracker")) {
-
-    warning(
-      "bout_mvpa is soft-deprecated; recommend using",
-      " `analyze_bouts` from the PBpatterns package\n",
-      "  Run the following: remotes::install_github(",
-      dQuote("paulhibbing/PBpatterns"), ")", call. = FALSE
-    )
+bout_mvpa <- function(
+  intensity, var_type = c("METs", "Intensity"),
+  min_duration = 10, termination = 3,
+  MoreArgs = list(
+    breaks = c(-Inf, 1.51, 3, Inf),
+    labels = c("SB", "LPA", "MVPA"),
+    right = FALSE
+  ),
+  ..., timestamps = NULL,
+  output_var = c("is_MVPA", "bout_tracker")
+) {
 
   # Set up
     if (is.null(timestamps)) {

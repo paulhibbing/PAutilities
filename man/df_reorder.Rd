@@ -2,12 +2,9 @@
 % Please edit documentation in R/df_reorder.R
 \name{df_reorder}
 \alias{df_reorder}
-\alias{validate_df_reorder_input}
 \title{Reorder the columns of a data frame}
 \usage{
 df_reorder(df, columns, after)
-
-validate_df_reorder_input(df, arg, label)
 }
 \arguments{
 \item{df}{the data frame}
@@ -17,10 +14,6 @@ indices)}
 
 \item{after}{the column after which to insert \code{columns} (must be a
 scalar, either a character name or a numeric index)}
-
-\item{arg}{internal parameter (one of \code{columns} or \code{after})}
-
-\item{label}{internal parameter (one of \code{"columns"} or \code{"after"})}
 }
 \value{
 The reordered data frame

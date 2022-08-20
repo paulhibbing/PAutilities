@@ -94,5 +94,5 @@ lapply(test_result, head)
 
 }
 \references{
-\href{https://www.ncbi.nlm.nih.gov/pubmed/29135817}{Dixon et al.}
+\href{https://pubmed.ncbi.nlm.nih.gov/29135817/}{Dixon et al.}
 }

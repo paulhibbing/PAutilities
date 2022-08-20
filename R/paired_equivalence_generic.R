@@ -19,7 +19,7 @@
 #' @return a `paired_equivalence` object summarizing the test input and results
 #' @note If a value is not specified for the region width that corresponds with
 #'   \code{scale}, a default value will be assigned with a warning.
-#' @references \href{https://www.ncbi.nlm.nih.gov/pubmed/29135817}{Dixon et al.}
+#' @references \href{https://pubmed.ncbi.nlm.nih.gov/29135817/}{Dixon et al.}
 #' @export
 #'
 #' @examples

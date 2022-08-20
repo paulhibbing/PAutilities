@@ -18,7 +18,7 @@ library(PAutilities)
 
 ## Introduction
 
-This vignette is designed to highlight some basic aspects of using the transition pairing method (TPM) in R. It has been written with the assumption that the reader is already familiar with the [TPM itself](https://journals.humankinetics.com/view/journals/jmpb/3/3/article-p219.xml), and is simply in need of direction on how to implement it. The core functions are `PAutilities::get_transition_info` and `PAutilities::spurious_curve`, along with S3 methods for `plot` and `summary`, and S4 methods for `+` and `-`.
+This vignette is designed to highlight some basic aspects of using the transition pairing method (TPM) in R. It has been written with the assumption that the reader is already familiar with the [TPM itself](https://pubmed.ncbi.nlm.nih.gov/34258524/), and is simply in need of direction on how to implement it. The core functions are `PAutilities::get_transition_info` and `PAutilities::spurious_curve`, along with S3 methods for `plot` and `summary`, and S4 methods for `+` and `-`.
 
 The TPM is used for evaluating dynamic segmentation algorithms, especially in the context of physical activity data from wearable sensors. The best example is an algorithm that aims to identify transitions between different activities. Throughout this vignette, we will suppose we are evaluating such an algorithm.
 
@@ -167,4 +167,4 @@ That gives us a list of `summaryTransition` objects for each threshold setting. 
 
 ## Conclusion
 
-This vignette has provided a crash course in running the TPM in different ways. Setting up a full analysis can still take some work, but `PAutilities` provides solid infrastructure to help you do so in a controlled way. Suggested improvements are welcome. You can post issues or pull requests on the package [GitHub site](http://www.github.com/paulhibbing/PAutilities). See you there.
+This vignette has provided a crash course in running the TPM in different ways. Setting up a full analysis can still take some work, but `PAutilities` provides solid infrastructure to help you do so in a controlled way. Suggested improvements are welcome. You can post issues or pull requests on the package [GitHub site](https://github.com/paulhibbing/PAutilities). See you there.

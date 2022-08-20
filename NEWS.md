@@ -1,3 +1,20 @@
+# PAutilities 1.1.0
+
+## What's new:
+
+* Increased R dependency to 3.5.0
+* Added risk analysis for cardiovascular disease
+* Added Bland-Altman analysis function
+* Added functions for time series dataframes, to test for continuity, reduce to
+  full days, and manage variable order
+* Added a function to determine epoch length
+* Continued to develop functionality related to resting energy expenditure and
+  body mass index (the latter will eventually be moved to the anthropometry
+  package -- see https://github.com/paulhibbing/anthropometry)
+* Added functionality for residual adjustment
+
+
+
 # PAutilities 1.0.1
 
 ## What's new:
@@ -5,6 +22,8 @@
 * Some minor modifications have been made to clean up internal code.
 
 * The transition pairing method unit tests have been temporarily suspended.
+
+
 
 # PAutilities 1.0.0
 
@@ -21,11 +40,15 @@
 * Removed dependency on orphaned `clues` package (resulting in changes to
     unit test cache)
 
+
+
 # PAutilities 0.3.1
 
 ## What's new:
 
 * Added a vignette for the Transition Pairing Method
+
+
 
 # PAutilities 0.3.0
 
@@ -43,6 +66,8 @@
 * Adjusted Transition Pairing Method to make it more robust (e.g. to deal with
     missing values)
 
+
+
 # PAutilities 0.2.0
 
 ## What's new:
@@ -55,6 +80,8 @@
 * Added shape control as an option for Bland-Altman plots
 * Cleaned up TPM summary method
 * Added rejection of non-consecutive pairings to the TPM
+
+
 
 # PAutilities 0.1.2
 
@@ -69,12 +96,16 @@ This is a second resubmission of version 0.1.0. The following changes
 * Swapped donttest{} in for dontrun{} in documentation where appropriate
 * Added detail to package documentation
 
+
+
 # PAutilities 0.1.1
 
 ## Summary
 
 This is a resubmission of version 0.1.0. The extraneous LICENSE file
     has been removed.
+
+
 
 # PAutilities 0.1.0
 

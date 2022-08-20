@@ -15,36 +15,10 @@
 #' df_reorder(df, c("c", "d"), "a")
 df_reorder <- function(df, columns, after) {
 
-  stopifnot(
-    inherits(df, "data.frame"),
-    length(after) == 1
+  df %>%
+  dplyr::relocate(
+    dplyr::all_of(columns),
+    .after = dplyr::all_of(after)
   )
-
-  columns <- validate_df_reorder_input(df, columns, "columns")
-  after <- validate_df_reorder_input(df, after, "after")
-
-  names(df) %>%
-  setdiff(columns) %>%
-  append(., columns, match(after, .)) %>%
-  df[ ,.]
-
-}
-
-#' @rdname df_reorder
-#' @param arg internal parameter (one of \code{columns} or \code{after})
-#' @param label internal parameter (one of \code{"columns"} or \code{"after"})
-validate_df_reorder_input <- function(df, arg, label) {
-
-  if (is.numeric(arg)) {
-    stopifnot(all(arg %in% seq(ncol(df))))
-    return(names(df)[arg])
-  }
-
-  if (is.character(arg)) {
-    stopifnot(all(arg %in% names(df)))
-    return(arg)
-  }
-
-  stop(label, " must be numeric or character")
 
 }
