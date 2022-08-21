@@ -61,7 +61,7 @@
     information, plus start/stop indices for each run
 * Added various performance indicators to `summary.transition`
 * Converted `summary.transition` output to an S4 framework, and added
-    addition/subraction methods
+    addition/subtraction methods
 * Added spurious curve generation functions
 * Adjusted Transition Pairing Method to make it more robust (e.g. to deal with
     missing values)
@@ -111,7 +111,7 @@ This is a resubmission of version 0.1.0. The extraneous LICENSE file
 
 ## Summary
 
-This is the intial release of PAutilities. Current features include:
+This is the initial release of PAutilities. Current features include:
 
 * Bland-Altman plots
 * Bouted moderate-to-vigorous physical activity analysis

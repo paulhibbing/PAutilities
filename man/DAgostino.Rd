@@ -47,7 +47,7 @@ contains age information. Units are years}
 
 \item{total_cholesterol}{same as \code{age}, but for total cholesterol, in mg/dL}
 
-\item{hdl}{same as \code{age}, but for HDL, in mg/DL}
+\item{hdl}{same as \code{age}, but for HDL, in mg/dL}
 
 \item{systolic}{same as \code{age}, but for systolic blood pressure, in mmHg}
 
@@ -59,7 +59,7 @@ column in \code{x} that contains the same information for multiple people}
 
 \item{smoker}{same as\code{bp_treated}, but for smoking status}
 
-\item{points}{logical. Return as points (defaul) or risk percentage?}
+\item{points}{logical. Return as points (default) or risk percentage?}
 
 \item{age_points}{numeric vector giving the risk values assigned to each age
 group. Used as a lookup reference for \code{x}}

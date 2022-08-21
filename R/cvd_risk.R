@@ -32,14 +32,14 @@
 #'   character scalar indicating the name of the column in \code{x} that
 #'   contains age information. Units are years
 #' @param total_cholesterol same as \code{age}, but for total cholesterol, in mg/dL
-#' @param hdl same as \code{age}, but for HDL, in mg/DL
+#' @param hdl same as \code{age}, but for HDL, in mg/dL
 #' @param systolic same as \code{age}, but for systolic blood pressure, in mmHg
 #' @param bp_treated either a logical scalar indicating whether a person is
 #'   taking blood pressure medication, or a character scalar pointing to the
 #'   column in \code{x} that contains the same information for multiple people
 #' @param diabetes same as \code{bp_treated}, but for the presence of diabetes
 #' @param smoker same as\code{bp_treated}, but for smoking status
-#' @param points logical. Return as points (defaul) or risk percentage?
+#' @param points logical. Return as points (default) or risk percentage?
 #' @param ... arguments passed to other methods
 #'
 #' @return One or more risk profiles (for default method with \code{points = TRUE}, or for data frames with \code{combine = FALSE & points = TRUE}). Otherwise numeric risk percentage (for \code{points = FALSE}, scalars and data frames) or an integer vector (for data frames with \code{combine = TRUE & points = FALSE})

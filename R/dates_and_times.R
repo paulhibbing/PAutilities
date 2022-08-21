@@ -76,7 +76,7 @@ full_days_continuous <- function(
 #'   After rounding, the code checks for the existence of multiple epoch
 #'   lengths. If they are detected (e.g., due to a discontinuity in the file), a
 #'   warning is issued and the most prevalent epoch length is returned. The
-#'   warning will specify all the different epoch lengths that were deteceted,
+#'   warning will specify all the different epoch lengths that were detected,
 #'   which may be useful information for troubleshooting.
 #'
 #' @return The epoch length of the data, in seconds
