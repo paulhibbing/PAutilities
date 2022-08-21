@@ -15,7 +15,7 @@ This is an updated version of PAutilities, in which the following changes have b
 
 ## Test environments
 
--   local Windows 10 install, R 3.5.0
+-   local Windows 10 install, R 4.0.5
 -   win-builder (devel and release)
 -   macOS High Sierra, R-release, CRAN's setup (on R-hub)
 -   Debian Linux, R-devel, GCC (on R-hub)
