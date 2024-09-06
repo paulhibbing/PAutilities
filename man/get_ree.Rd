@@ -5,8 +5,8 @@
 \title{Calculate resting energy expenditure}
 \usage{
 get_ree(
-  method = c("harris_benedict", "schofield_wt", "schofield_wt_ht", "fao",
-    "muller_wt_ht", "muller_ffm"),
+  method = c("harris_benedict", "schofield_wt", "schofield_wt_ht", "fao", "muller_wt_ht",
+    "muller_ffm"),
   sex,
   age_yr = NA,
   ...,

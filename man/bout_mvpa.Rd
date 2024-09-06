@@ -10,8 +10,8 @@ bout_mvpa(
   var_type = c("METs", "Intensity"),
   min_duration = 10,
   termination = 3,
-  MoreArgs = list(breaks = c(-Inf, 1.51, 3, Inf), labels = c("SB", "LPA", "MVPA"),
-    right = FALSE),
+  MoreArgs = list(breaks = c(-Inf, 1.51, 3, Inf), labels = c("SB", "LPA", "MVPA"), right
+    = FALSE),
   ...,
   timestamps = NULL,
   output_var = c("is_MVPA", "bout_tracker")

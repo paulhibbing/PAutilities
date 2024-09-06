@@ -6,7 +6,7 @@
 #' @param age_mos age in months (optional)
 #' @param sex Character scalar indicating participant's sex
 #' @param BMI numeric. Body mass index
-#' @param df. Optional data frame on which to operate. Default is \code{NULL}.
+#' @param df Optional data frame on which to operate. Default is \code{NULL}.
 #'   If passed, the preceding arguments that have been documented on this page
 #'   (\code{weight_kg}, \code{height_cm}, etc) are expected to be character
 #'   scalars naming the columns of \code{df} in which the that information can
@@ -37,14 +37,14 @@
 #' provided by the Centers for Disease Control and Prevention. For more
 #' information, see:
 #'
-#' \url{https://www.cdc.gov/obesity/childhood/defining.html}
+#' \url{https://www.cdc.gov/obesity/hcp/about/screening.html}
 #'
-#' \url{https://www.cdc.gov/healthyweight/assessing/bmi/childrens_bmi/tool_for_schools.html}
+#' \url{https://www.cdc.gov/growthcharts/cdc_charts.htm}
 #'
 #' @seealso
 #'
-#' \href{https://academic.oup.com/ajcn/article/90/5/1314/4598130}{Flegal et al. (2009)}
-#' \href{https://www.ahajournals.org/doi/10.1161/CIR.0b013e3182a5cfb3}{Kelly et al. (2013)}
+#' \doi{10.3945/ajcn.2009.28335}
+#' \href{https://pubmed.ncbi.nlm.nih.gov/24016455/}{Kelly et al. (2013)}
 #'
 #' @examples
 #' get_BMI_percentile(39.4, 144.5, 12.35, sex = "Male")

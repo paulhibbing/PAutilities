@@ -45,5 +45,5 @@ youth.
 weight_status(17:42)
 }
 \references{
-\url{https://www.cdc.gov/obesity/adult/defining.html}
+\url{https://www.cdc.gov/bmi/adult-calculator/bmi-categories.html}
 }

@@ -33,7 +33,7 @@
 #' @export
 #'
 #' @references
-#' \url{https://www.cdc.gov/obesity/adult/defining.html}
+#' \url{https://www.cdc.gov/bmi/adult-calculator/bmi-categories.html}
 #'
 #' @examples
 #' weight_status(17:42)
