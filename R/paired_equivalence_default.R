@@ -9,6 +9,9 @@ paired_equivalence_test.default <- function(
   ...
 ) {
 
+  criterion_results <- NULL
+  comparison_results <- NULL
+
   stopifnot(is.numeric(x))
   keep <- stats::complete.cases(x, y)
 
