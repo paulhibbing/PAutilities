@@ -11,9 +11,8 @@ Changes are as follows:
 
 ## Test environments
 
--   local Windows 10 install, R 4.2.2
+-   local Windows 11 install, R 4.2.2
 -   win-builder (devel and release)
--   macOS on R-hub
 -   Linux on R-hub
 
 ## R CMD check results

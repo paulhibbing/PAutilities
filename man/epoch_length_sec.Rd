@@ -26,7 +26,7 @@ The function is designed to work even when the epoch length is less
   length (e.g., +/- 0.0000002). Thus, the code rounds everything to the
   precision indicated by \code{digits}. For most applications, the default
   value (\code{digits = 6}) should be well past the range of meaningful
-  fluctuations and lead to a favorable outcome. But the \code{ditits}
+  fluctuations and lead to a favorable outcome. But the \code{digits}
   argument can also be adjusted if greater assurance is needed.
 
   After rounding, the code checks for the existence of multiple epoch
