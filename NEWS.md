@@ -1,3 +1,13 @@
+# PAutilities 1.2.0
+
+## What's new:
+
+* Primarily a re-release of 1.1.0 now that `matchingMarkets` is available again
+* Minor changes (e.g., URL fixes and updates to work with latest R versions)
+* Revdep checks removed since there are currently no reverse dependencies
+
+
+
 # PAutilities 1.1.0
 
 ## What's new:

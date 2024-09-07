@@ -1,29 +1,33 @@
 ## Resubmission
 
-This is an updated version of PAutilities, in which the following changes have been made:
+This is effectively a resubmission of `PAutilities`, which was previously
+archived when one of its dependencies became unavailable (`matchingMarkets`).
+The latter dependency is now available again, and thus we are resubmitting.
+Changes are as follows:
 
--   Increased R dependency to 3.5.0
--   Added risk analysis for cardiovascular disease
--   Added Bland-Altman analysis function
--   Added functions for time series dataframes, to test for continuity, reduce
-    to full days, and manage variable order
--   Added a function to determine epoch length
--   Continued to develop functionality related to resting energy expenditure and
-    body mass index (the latter will eventually be moved to the anthropometry
-    package -- see https://github.com/paulhibbing/anthropometry)
--   Added functionality for residual adjustment
+-   Minor tweaks (e.g., URL fixes and updates to work with latest R versions)
+-   Removed revdep since there are currently no reverse dependencies
+-   Updated .onAttach to indicate newer build version of R
 
 ## Test environments
 
--   local Windows 10 install, R 4.0.5
+-   local Windows 10 install, R 4.2.2
 -   win-builder (devel and release)
--   macOS High Sierra, R-release, CRAN's setup (on R-hub)
--   Debian Linux, R-devel, GCC (on R-hub)
+-   macOS on R-hub
+-   Linux on R-hub
 
 ## R CMD check results
 
-0 ERRORs \| 0 WARNINGs \| 0 NOTEs
+0 ERRORs \| 0 WARNINGs \| 1 NOTEs
 
-## Reverse dependencies
+* checking CRAN incoming feasibility ... NOTE
+  Maintainer: 'Paul R. Hibbing <paulhibbing@gmail.com>'
 
--   Sojourn (0 errors \| 0 warnings \| 0 notes)
+  New submission
+
+  Package was archived on CRAN
+
+  CRAN repository db overrides:
+  X-CRAN-Comment: Archived on 2023-04-19 as issues were not corrected in time.
+    
+  [The issues have been fixed, per the above explanation]
