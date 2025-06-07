@@ -1,3 +1,13 @@
+# PAutilities 1.2.1
+
+## What's new:
+
+* Minor revisions to DESCRIPTION
+* Filled in absent `value` fields in the documentation for various exported functions
+* Ensured all plot-option modifications are properly reset
+
+
+
 # PAutilities 1.2.0
 
 ## What's new:

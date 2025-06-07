@@ -1,13 +1,14 @@
 ## Resubmission
 
-This is effectively a resubmission of `PAutilities`, which was previously
-archived when one of its dependencies became unavailable (`matchingMarkets`).
-The latter dependency is now available again, and thus we are resubmitting.
-Changes are as follows:
+This is an updated submission following rejection of v1.2.0 on 11 Sept, 2024.
+The following changes have been made in response to the comments from
+Konstanze Lauseker:
 
--   Minor tweaks (e.g., URL fixes and updates to work with latest R versions)
--   Removed revdep since there are currently no reverse dependencies
--   Updated .onAttach to indicate newer build version of R
+-   Removed redundant 'A collection of utilities' and added references in the
+    start of DESCRIPTION with other minor edits to suit.
+-   Ensured that the listed functions have a `return` field in the associated
+    documentation files
+-   Ensured all plot-option modifications are properly reset
 
 ## Test environments
 
