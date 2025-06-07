@@ -6,3 +6,4 @@
 ^to-do$
 ^cran-comments\.md$
 ^revdep$
+^.github

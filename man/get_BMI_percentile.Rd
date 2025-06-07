@@ -80,7 +80,7 @@ This function was developed with reference to public domain resources
 provided by the Centers for Disease Control and Prevention. For more
 information, see:
 
-\url{https://www.cdc.gov/obesity/hcp/about/screening.html}
+\url{https://www.cdc.gov/bmi/adult-calculator/bmi-categories.html}
 
 \url{https://www.cdc.gov/growthcharts/cdc_charts.htm}
 }
