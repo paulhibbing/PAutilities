@@ -5,10 +5,8 @@ The following changes have been made in response to the comments from
 Konstanze Lauseker:
 
 -   Removed redundant 'A collection of utilities' and added references in the
-    start of DESCRIPTION with other minor edits to suit. Note that `https` has
-    been used in place of `doi` in some locations where R CMD Check indicated
-    possibly invalid DOIs.
--   Ensured that the listed functions have a `return` field in the associated
+    start of DESCRIPTION, with other minor edits to suit
+-   Ensured that the listed functions have a `value` field in the associated
     documentation files
 -   Ensured all plot-option modifications are properly reset
 
