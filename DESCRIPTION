@@ -11,13 +11,11 @@ Authors@R: c(
 Depends: R (>= 3.5.0)
 Description: Functions that support a broad range of common tasks in physical
     activity research, including but not limited to creation of Bland-Altman
-    plots (<doi:10.1136/bmj.313.7049.106>), formatted descriptive statistics,
-    metabolic calculations such as basal metabolic rate predictions
-    (<https://europepmc.org/article/med/4044297/reloa>), demographic
-    calculations such as age-for-body-mass-index percentile
-    (<https://www.cdc.gov/growthcharts/cdc_charts.htm>), bout analysis of
-    moderate-to-vigorous intensity physical activity (<doi:10.1123/jmpb.2021-0059>),
-    and analysis of bout detection algorithm performance (<doi:10.1123/jmpb.2019-0039>).
+    plots (<doi:10.1136/bmj.313.7049.106>), metabolic calculations such as basal
+    metabolic rate predictions (<https://europepmc.org/article/med/4044297/reloa>),
+    demographic calculations such as age-for-body-mass-index percentile
+    (<https://www.cdc.gov/growthcharts/cdc_charts.htm>), and analysis of bout
+    detection algorithm performance (<https://pubmed.ncbi.nlm.nih.gov/34258524/>).
 License: GPL-3
 Encoding: UTF-8
 LazyData: true

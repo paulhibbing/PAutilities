@@ -66,7 +66,7 @@ full_days_continuous <- function(
 #'   than one second (e.g., for raw accelerometry data). Thus, it is not
 #'   possible to base the code on convenient \code{difftime} methods. Instead,
 #'   numeric operations are performed after running \code{unclass} on the input.
-#'   This sometimes results in miniscule fluctuations of the calculated epoch
+#'   This sometimes results in minuscule fluctuations of the calculated epoch
 #'   length (e.g., +/- 0.0000002). Thus, the code rounds everything to the
 #'   precision indicated by \code{digits}. For most applications, the default
 #'   value (\code{digits = 6}) should be well past the range of meaningful
