@@ -82,6 +82,9 @@ spurious_curve <- function(
 #' }
 plot.spurious_curve <- function(x, ...) {
 
+  oldpar <- par(no.readonly = TRUE)
+  on.exit(par(oldpar))
+
   x <- lapply(x, as, Class = "data.frame")
 
   plot_vars <- c(

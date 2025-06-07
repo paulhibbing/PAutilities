@@ -160,9 +160,17 @@ It's useful to run your analysis for multiple values of the spurious pairing thr
 
 That gives us a list of `summaryTransition` objects for each threshold setting. The list also inherits class `spurious_curve`, which has a convenient `plot` method.
 
+```{r store_opts, include=FALSE}
+  oldpar <- par(no.readonly = TRUE)
+```
+
 ```{r spur_plot, fig.width=7, fig.height=5}
   par(mar=rep(3,4))
   plot(curve)
+```
+
+```{r restore_opts, include=FALSE}
+  par(oldpar)
 ```
 
 ## Conclusion
