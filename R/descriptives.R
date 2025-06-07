@@ -5,6 +5,8 @@
 #' @param group character scalar giving an optional grouping variable for the
 #'   summary
 #'
+#' @return a data frame of formatted summary statistics
+#'
 #' @export
 #' @examples
 #' data(ex_data, package = "PAutilities")
@@ -20,8 +22,7 @@ descriptives <- function(dataset, variable, group = NULL) {
   # group <- "age_group"
 
   if (!is.null(group)) {
-  dataset <-
-    dataset %>% dplyr::group_by(!! as.name(group))
+    dataset %<>% dplyr::group_by(!! as.name(group))
   }
 
   data.frame(
@@ -50,6 +51,10 @@ descriptives <- function(dataset, variable, group = NULL) {
 #' @param ... additional arguments passed to \code{format}
 #' @param mean_x an already-calculated mean value for \code{x}
 #' @param sd_x an already-calculated sd value for \code{x}
+#'
+#' @return either a formatted character scalar (if \code{give_df == FALSE}), or
+#'   else a data frame containing columns for the mean value, standard
+#'   deviation, and formatted character string combining the two.
 #'
 #' @export
 #' @examples

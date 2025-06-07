@@ -49,6 +49,10 @@ either \code{warn} (the default) or \code{stop}}
 \item{...}{arguments passed to \code{as.POSIXct}, for use if \code{time_var}
 is a character rather than \code{POSIXt} variable}
 }
+\value{
+an updated copy of \code{df}, in which incomplete days are addressed
+  according to the selected value of \code{drop}.
+}
 \description{
 Drop incomplete days from a dataset
 }

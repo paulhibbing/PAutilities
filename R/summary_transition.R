@@ -133,6 +133,8 @@ summary.transition <- function(
 #' @param e1 the first object
 #' @param e2 the second object
 #'
+#' @return a \code{summaryTransition} object (see \code{\link{summary.transition}}
+#'
 #' @keywords internal
 add_summaryTransition <- function(e1, e2) {
 

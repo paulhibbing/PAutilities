@@ -18,6 +18,10 @@ format)}
 \item{...}{arguments passed to \code{as.POSIXct}, for use if \code{time_var}
 is a character rather than \code{POSIXt} variable}
 }
+\value{
+a logical scalar indicating whether the dataframe reflects a
+  continuous time series
+}
 \description{
 Check if a dataframe is continuous
 }

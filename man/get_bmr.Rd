@@ -44,6 +44,11 @@ kilocalories. Defaults to thermochemical.}
 \item{kcal_conversion}{numeric. If RER is NULL (default), the factor to use
 for converting kilocalories to oxygen consumption}
 }
+\value{
+a data frame containing predictions of basal metabolic rate in one
+  column, along with additional columns that indicate how the predictions
+  were obtained (e.g., which sources and conversions were applied)
+}
 \description{
 Retrieve estimated basal metabolic rate for an individual
 }

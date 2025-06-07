@@ -13,10 +13,19 @@ weir_equation(VO2, VCO2, epochSecs)
 
 \item{epochSecs}{The averaging window of the metabolic data, in seconds}
 }
+\value{
+numeric scalar indicating predicted energy expenditure from the Weir
+  equation, based on the inputs
+}
 \description{
 Calculate energy expenditure using the Weir equation
 }
 \examples{
 weir_equation(3.5, 3.1, 60)
 
+}
+\references{
+De V Weir, J. B. (1949). New methods for calculating metabolic
+  rate with special reference to protein metabolism. The Journal of physiology,
+  109(1-2), 1.
 }

@@ -148,6 +148,9 @@ epoch_length_sec <- function(timestamps, digits = 6) {
 #' @param ... arguments passed to \code{as.POSIXct}, for use if \code{time_var}
 #'   is a character rather than \code{POSIXt} variable
 #'
+#' @return an updated copy of \code{df}, in which incomplete days are addressed
+#'   according to the selected value of \code{drop}.
+#'
 #' @seealso \code{\link{df_continuous}}
 #' @export
 #'
@@ -271,6 +274,9 @@ full_days <- function(
 #' Check if a dataframe is continuous
 #'
 #' @inheritParams full_days
+#'
+#' @return a logical scalar indicating whether the dataframe reflects a
+#'   continuous time series
 #'
 #' @export
 #'

@@ -48,6 +48,11 @@ data frame?}
 
 \item{sd_x}{an already-calculated sd value for \code{x}}
 }
+\value{
+either a formatted character scalar (if \code{give_df == FALSE}), or
+  else a data frame containing columns for the mean value, standard
+  deviation, and formatted character string combining the two.
+}
 \description{
 Compute the mean and standard deviation of a vector, returning a formatted
 string containing the values as `M +/- SD`

@@ -41,18 +41,18 @@ same length as \code{intensity}}
 
 \item{output_var}{the output variable(s) to give}
 }
+\value{
+based on the setting of \code{output_var}, one or both of
+  \code{is_MVPA} and \code{bout_tracker} will be returned, the former being
+  a vector of indicators (1 or 0) specifying whether a minute is part of a
+  valid MVPA bout, and the latter being a collapsed data frame giving only
+  the valid bouts of MVPA and the relevant information (i.e., duration of
+  the bout, minutes of MVPA, and percentage of time spent in MVPA within
+  the bout). If both are selected, they are returned in a list.
+}
 \description{
 Classify moderate-to-vigorous physical activity in bouts of a specific
 minimum length
-}
-\note{
-\code{output_var} gives one or both of \code{is_MVPA} and
-  \code{bout_tracker}, the former being a vector of indicators (1 or 0)
-  specifying whether a minute is part of a valid MVPA bout, and the latter
-  being a collapsed data frame giving only the valid bouts of MVPA and the
-  relevant information (i.e., duration of the bout, minutes of MVPA, and
-  percentage of time spent in MVPA within the bout). If both are selected,
-  they are returned in a list.
 }
 \examples{
 data(ex_data, package = "PAutilities")

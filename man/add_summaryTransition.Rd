@@ -20,6 +20,9 @@ subtract_summaryTransition(e1, e2)
 
 \item{e2}{the second object}
 }
+\value{
+a \code{summaryTransition} object (see \code{\link{summary.transition}}
+}
 \description{
 Addition and subtraction for objects of class \code{summaryTransition}
 }

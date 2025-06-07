@@ -15,6 +15,10 @@
 #' @param kcal_conversion numeric. If RER is NULL (default), the factor to use
 #'   for converting kilocalories to oxygen consumption
 #'
+#' @return a data frame containing predictions of basal metabolic rate in one
+#'   column, along with additional columns that indicate how the predictions
+#'   were obtained (e.g., which sources and conversions were applied)
+#'
 #' @references
 #' Schofield, W. N. (1985). Predicting basal metabolic rate, new standards and
 #' review of previous work. \emph{Human nutrition. Clinical nutrition}, 39,
@@ -196,6 +200,13 @@ get_bmr <- function(
 #' @param VO2 Oxygen consumption
 #' @param VCO2 Carbon dioxide production
 #' @param epochSecs The averaging window of the metabolic data, in seconds
+#'
+#' @return numeric scalar indicating predicted energy expenditure from the Weir
+#'   equation, based on the inputs
+#'
+#' @references De V Weir, J. B. (1949). New methods for calculating metabolic
+#'   rate with special reference to protein metabolism. The Journal of physiology,
+#'   109(1-2), 1.
 #'
 #' @export
 #'

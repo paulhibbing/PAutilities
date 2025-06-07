@@ -14,6 +14,9 @@ descriptives(dataset, variable, group = NULL)
 \item{group}{character scalar giving an optional grouping variable for the
 summary}
 }
+\value{
+a data frame of formatted summary statistics
+}
 \description{
 Compute descriptive statistics for a variable in the metabolic data set
 }
