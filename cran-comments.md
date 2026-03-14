@@ -3,11 +3,14 @@
 
 This is an updated submission with the following changes:
 
--   Added a `reintegrate` function
+-   Reversed operand order when calculating bias in `ba_analysis`
+-   Added a reintegration function
+-   Updated ggplot2 code and dependency
+-   Modernized `roxygen2` usage
 
 ## Test environments
 
--   local Windows 11 install, R 4.2.2
+-   local Windows 11 install, R 4.5.3
 -   win-builder (devel and release)
 -   Linux on R-hub
 
@@ -24,7 +27,7 @@ This is an updated submission with the following changes:
        Status: Forbidden
        Message: 403
     
-  [This is a false positive. The link has already been successfully used on CRAN in PAutilities version 1.2.1]
+  [This is a false positive. The link has already been used successfully on CRAN in PAutilities version 1.2.1]
   
 ## Reverse dependencies
 

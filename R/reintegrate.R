@@ -87,7 +87,6 @@ reintegrate <- function(
     dplyr::across(where(function(x) !is.numeric(x)), dplyr::first)
   ) %>%
   dplyr::select(dplyr::all_of(names(df))) %>%
-  # as.data.frame(.) %>%
   vm_reformat(verbose = FALSE)
 
 }
