@@ -38,7 +38,7 @@ shaded_equivalence_plot <- function(results, ...) {
     theme_classic() +
     theme(
       ...,
-      axis.line = element_line(size = 0.5),
+      axis.line = element_line(linewidth = 0.5),
       axis.title = element_text(size = 14),
       axis.text = element_text(size = 12)
     ) +
@@ -95,7 +95,7 @@ unshaded_equivalence_plot <- function(results, ...) {
     theme_classic() +
     theme(
       ...,
-      axis.line = element_line(size = 0.5),
+      axis.line = element_line(linewidth = 0.5),
       axis.title = element_text(size = 14),
       axis.text = element_text(size = 12)
     )

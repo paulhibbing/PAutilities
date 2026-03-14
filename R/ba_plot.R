@@ -58,7 +58,7 @@ ba_plot <- function(
 
   ggplot(plotdata, aes_string(x = x_var, y = y_var)) +
   geom_point(shape = shape) + theme_classic() +
-  theme(axis.line = element_line(size = .5)) +
+  theme(axis.line = element_line(linewidth = .5)) +
   scale_y_continuous(
     name = y_name
   ) +
@@ -71,7 +71,7 @@ ba_plot <- function(
         ~mean(eval(parse(text = y_var)), na.rm = TRUE),
         data = plotdata
       ),
-    size = 1.2
+    linewidth = 1.2
   ) +
   geom_smooth(
     method = 'lm', se = FALSE,
@@ -84,7 +84,7 @@ ba_plot <- function(
           ~mean(eval(parse(text = y_var)), na.rm = TRUE) +
             (1.96*stats::sd(eval(parse(text = y_var)), na.rm = TRUE)),
           data = plotdata)
-    ), size = 1.3, linetype = 'dashed'
+    ), linewidth = 1.3, linetype = 'dashed'
   ) +
   geom_hline(
     aes(
@@ -94,7 +94,7 @@ ba_plot <- function(
             (1.96*stats::sd(eval(parse(text = y_var)), na.rm = TRUE)),
           data = plotdata
         )
-    ), size = 1.3, linetype = 'dashed'
+    ), linewidth = 1.3, linetype = 'dashed'
   ) +
   theme(
     axis.title = element_text(size = 14, face = 'bold'),
