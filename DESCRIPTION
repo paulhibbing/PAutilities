@@ -1,7 +1,7 @@
 Package: PAutilities
 Type: Package
 Title: Streamline Physical Activity Research
-Version: 1.2.1
+Version: 1.3.0
 Authors@R: c(
     person(
       c("Paul", "R."), "Hibbing", email = "paulhibbing@gmail.com",
@@ -21,11 +21,11 @@ Encoding: UTF-8
 LazyData: true
 URL: https://github.com/paulhibbing/PAutilities
 BugReports: https://github.com/paulhibbing/PAutilities/issues
-RoxygenNote: 7.2.3
+RoxygenNote: 7.3.3
 Imports:
     dplyr (>= 0.7),
     equivalence,
-    ggplot2 (>= 2.2),
+    ggplot2 (>= 4.0),
     graphics,
     lazyeval (>= 0.2),
     lubridate (>= 1.7.4),

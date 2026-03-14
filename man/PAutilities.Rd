@@ -2,6 +2,7 @@
 % Please edit documentation in R/PAutilities.R
 \docType{package}
 \name{PAutilities}
+\alias{PAutilities-package}
 \alias{PAutilities}
 \title{PAutilities: Streamline Physical Activity Research}
 \description{
@@ -16,4 +17,21 @@ functions in parentheses) are:
 * Demographic calculations (\code{\link{get_age}} and \code{\link{get_BMI_percentile}})
 * Metabolic calculations (\code{\link{get_bmr}}, \code{\link{weir_equation}}, and \code{\link{get_kcal_vo2_conversion}})
 * Analysis of bout detection algorithm performance (\code{\link{get_transition_info}} and associated methods, e.g. \code{summary} and \code{plot})
+}
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://github.com/paulhibbing/PAutilities}
+  \item Report bugs at \url{https://github.com/paulhibbing/PAutilities/issues}
+}
+
+}
+\author{
+\strong{Maintainer}: Paul R. Hibbing \email{paulhibbing@gmail.com}
+
+Other contributors:
+\itemize{
+  \item Centers for Disease Control and Prevention [contributor]
+}
+
 }

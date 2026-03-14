@@ -11,9 +11,8 @@
 #' * Metabolic calculations (\code{\link{get_bmr}}, \code{\link{weir_equation}}, and \code{\link{get_kcal_vo2_conversion}})
 #' * Analysis of bout detection algorithm performance (\code{\link{get_transition_info}} and associated methods, e.g. \code{summary} and \code{plot})
 #'
-#' @docType package
 #' @name PAutilities
-NULL
+"_PACKAGE"
 
 #' @import ggplot2 dplyr methods
 NULL

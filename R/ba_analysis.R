@@ -38,7 +38,7 @@ ba_analysis <- function(
     df[ ,.] %>%
     .[stats::complete.cases(.), ] %>%
     stats::setNames(c("X", "Y")) %>%
-    cbind(., XY_mean = rowMeans(.), bias = .$Y - .$X)
+    cbind(., XY_mean = rowMeans(.), bias = .$X - .$Y)
 
   model_results <-
     paste("bias", regress_against, sep = " ~ ") %>%
